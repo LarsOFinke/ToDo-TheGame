@@ -1,11 +1,7 @@
 <template>
-  <div class="flex flex-col min-h-screen">
+  <div class="flex flex-col min-h-screen bg-gray-200">
     <!-- Navbar -->
-    <nav class="bg-gray-800 text-white p-4">
-      <div class="container mx-auto">
-        <h1 class="text-xl">My App</h1>
-      </div>
-    </nav>
+    <navbar-item></navbar-item>
 
     <!-- Main content -->
     <main class="flex-1 container mx-auto p-4">
@@ -13,14 +9,12 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white p-4">
-      <div class="container mx-auto text-center">
-        © 2025 My App
-      </div>
-    </footer>
+    <footer-item></footer-item>
   </div>
 </template>
 
+
 <script setup>
-// no script logic needed for layout
+import NavbarItem from '@/components/shared/navbar/Navbar-Item.vue'
+import FooterItem from '@/components/shared/Footer-Item.vue'
 </script>
