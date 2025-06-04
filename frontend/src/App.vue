@@ -1,10 +1,10 @@
 <template>
-  <div class="flex flex-col min-h-screen bg-gray-200">
+  <div class="flex flex-col min-h-screen bg-gray-100">
     <!-- Navbar -->
     <navbar-item></navbar-item>
 
     <!-- Main content -->
-    <main class="flex-1 container mx-auto p-4">
+    <main class="flex-1 container mx-auto p-4 flex items-center justify-center min-h-screen">
       <router-view />
     </main>
 
