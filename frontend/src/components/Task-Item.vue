@@ -1,8 +1,46 @@
 <template>
-    <div class="w-full max-w-sm bg-gray-200 rounded-lg shadow-md p-6 mx-auto">
+    <div class="w-full max-w-sm bg-gray-200 rounded-lg shadow-md p-6 mx-auto relative">
+        <div class="mb-2">
+            <button type="button"
+                class="text-l absolute top-1 right-1 w-fit bg-red-700 text-white px-2 rounded-md hover:bg-red-800 transition">X</button>
+        </div>
+
+        <!-- Task header -->
         <div class="flex items-center justify-between w-full">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4">Task-Title</h3>
-            <h4 class="text-l font-semibold text-gray-800 mb-4">Category</h4>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Task-Title</h3>
+            <h4 class="text-l font-semibold text-gray-800 mb-2">Private / Team</h4>
+        </div>
+
+        <!-- Task info -->
+        <div class="flex text-xs mb-4">
+            <div class="w-full">
+                <label class="font-semibold">Deadline:</label>
+                <br>
+                <label id="deadlineDate" class="font-semibold">06.06.2025
+                    (<label id="remainingTime">2d 4h 24min 12s</label>)
+                </label>
+            </div>
+
+            <div class="float-right self-center">
+                <p class="font-semibold">Priority</p>
+            </div>
+        </div>
+
+        <!-- Task description -->
+        <div class="text-sm mb-4">
+            <h4 class="font-semibold">Description:</h4>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime suscipit, et fugiat
+                ipsam, tempora animi
+                laborum laboriosam natus asperiores aspernatur itaque cupiditate voluptatum accusamus iure officiis
+                quisquam obcaecati culpa error?
+            </p>
+        </div>
+
+        <div class="w-full flex justify-around">
+            <button type="button"
+                class="w-fit bg-indigo-600 text-white py-1 px-4 rounded-md hover:bg-indigo-800 transition">Edit</button>
+            <button type="button"
+                class="w-fit bg-indigo-600 text-white py-1 px-2 rounded-md hover:bg-indigo-800 transition">Done!</button>
         </div>
     </div>
 </template>
