@@ -5,8 +5,8 @@
         <!-- Utility-Buttons -->
         <div class="flex justify-center mb-4">
             <button type="button" @click.prevent="showTaskForm"
-                class="text-l w-fit bg-yellow-600 text-white px-2 rounded-md hover:bg-yellow-800 transition">
-                Add new task
+                class="text-l w-fit bg-yellow-600 text-white px-2 py-1 mb-1 rounded-md hover:bg-yellow-800 transition">
+                New task
             </button>
         </div>
 
@@ -33,7 +33,7 @@ const taskList = ref([
         id: 1,
         title: "Task-Title",
         mode: "Private / Team",
-        priority: "Priority",
+        priority: "high",
         deadlineDate: "06.06.2025",
         remainingTime: "2d 4h 24min 12s",   // Needs to get calculated in the Task-Item asynchronously?
         description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime suscipit, et fugiat
@@ -45,7 +45,7 @@ const taskList = ref([
         id: 2,
         title: "Task-Title",
         mode: "Private / Team",
-        priority: "Priority",
+        priority: "low",
         deadlineDate: "06.06.2025",
         remainingTime: "2d 4h 24min 12s",   // Needs to get calculated in the Task-Item asynchronously?
         description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime suscipit, et fugiat

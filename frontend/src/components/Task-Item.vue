@@ -18,8 +18,13 @@
                 </label>
             </div>
 
-            <div class="float-right self-center">
-                <p class="font-semibold">{{ task.priority }}</p>
+            <div class="flex float-right">
+                <div class="w-full">
+                    <label class="text-xs font-semibold">Priority:</label>
+                    <p :class="task.priority === 'high' ? 'text-red-600 text-xs font-semibold' : 'text-sm'">{{
+                        task.priority }}
+                    </p>
+                </div>
             </div>
         </div>
 
