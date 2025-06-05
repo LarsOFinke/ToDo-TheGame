@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col min-h-screen bg-gray-100">
+  <div class="flex flex-col min-h-screen bg-gray-300">
     <!-- Navbar -->
     <navbar-item></navbar-item>
 
