@@ -19,7 +19,7 @@
                             : 'ml-1 focus:outline-none focus:ring-2 focus:ring-indigo-500 border-gray-300 rounded-md shadow-sm'" required>
                         <option value="high">High</option>
                         <option value="medium" class="text-gray-700">Medium</option>
-                        <option value="medium" class="text-gray-700">Low</option>
+                        <option value="low" class="text-gray-700">Low</option>
                     </select>
                 </label>
             </div>

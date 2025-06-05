@@ -1,0 +1,137 @@
+To-Do - The Game
+
+You Level a Character and unlock Minigames, IRL Cooking Recipes & more useful stuff.
+The Character resembles a single man / Woman that Needs to maintain life?
+
+#### START ####
+Vue3 JS + Own CSS + Flask Python
+Runs on localhost.
+Simple login- and task-System with SQLite DB.
+
+
+### STEP BY STEP ###
+x1. npm create vite@latest . -- --template vue
+x2. npm install
+x3. Create GIT repository
+x4. Create core Project layout
+x5. Create Navbar-Component
+x6. Create Footer-Component
+x7. Create Router
+x8. Create Login-System
+x9. Create Task-System
+10. Create Database with CRUD
+11. Create Flask-App
+12. Create API
+13. Connect Frontend with Backend
+14. Add mobile compatibility
+
+
+#### START DOCUMENTATION ####
+
+### FRONTEND ###
+
+## COMPONENTS ##
+- Navbar
+-- Desktop
+-- Mobil
+- Footer
+- Login-Form
+- Registration-Form
+- Task-Item
+- Task-List
+- Task-Form
+
+## VIEWS ##
+- Home-Page (Login) --> Combine with Registration bc components?
+- Registration-Page
+- Tasks-Page
+
+## SERVICES ##
+- Auth-Service
+- Tasks-Service
+
+
+
+### BACKEND ###
+
+## DATABASE ##
+
+
+
+## API ##
+
+
+# AUTH #
+
+
+# TASKS #
+
+
+
+
+
+
+#### GOAL ####
+Vue3 JS + Tailwind CSS + Symfony PHP
+Runs on either localhost or local IP for outside accessibility Option.
+Complete user Login with profile page and Friends list, team pages.
+Has different categories / Teams (synced with Server - HOW best to?) / … for task Management.
+SQLite DB and a central Server for Teams / sync.
+Shopping list with expense planner? (save last recorded Prices / compare with web/ …)
+Cooking recipe planner via API and DB? (Unlocking recipes as a reward!? Lootbox style with preferences?)
+MINIGAMES!!!
+Level-System
+Highscores?
+Timed Tasks (real time / date)
+Recurring Tasks (Dailies / Weeklies / …)
+
+
+### STEP BY STEP ###
+1. Switch CSS to Tailwind
+2. Switch Backend to Symfony PHP
+3. Add toggle for localhost / local IP
+4. Add login-system
+5. Add profile page
+6. Add category-system
+7. Add team-System
+8. Add team pages
+
+
+#### GOAL DOCUMENTATION ####
+
+### FRONTEND ###
+
+## COMPONENTS ##
+- Navbar
+-- Desktop
+-- Mobil
+- Footer
+- Login-Form
+- Registration-Form
+- Task-Item
+- Task-List
+- Task-Form
+- Profile-Item
+- Profile-Form
+
+## VIEWS ##
+- Home (Login)
+- Registration
+- Tasks-Page
+- Profile-Page
+- Teams-Page
+- Impressum-Page
+
+## SERVICES ##
+- Auth-Service
+- Task-Service
+
+
+
+### BACKEND ###
+
+## DATABASE ##
+
+
+## API ##
+
