@@ -9,7 +9,6 @@
         <li class="mr-2"><a href="/">Home</a></li>
         <li class="mr-2"><a href="/registration">Registration</a></li>
         <li class="mr-2"><a href="/tasks">Tasks</a></li>
-        <li class="mr-2"><a href="/task-form">Task-Form</a></li>
       </ul>
     </div>
   </nav>
