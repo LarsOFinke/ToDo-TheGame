@@ -64,7 +64,8 @@
                 </label>
             </div>
 
-            <div :class="interval === 'weekly' & category === 'recurring' | interval === 'monthly' & category === 'recurring' ? 'mb-4' : 'hidden'">
+            <div
+                :class="interval === 'weekly' & category === 'recurring' | interval === 'monthly' & category === 'recurring' ? 'mb-4' : 'hidden'">
                 <label class="text-sm font-medium text-gray-700">Start Date
                     <input v-model.trim="startDate" type="date" required
                         class="mt-1 w-fit px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
@@ -86,8 +87,12 @@
             </div>
 
             <div class="w-full flex justify-between">
+                <button type="button" @click.prevent="showTaskList"
+                    class="w-fit bg-red-700 text-white py-1 px-4 rounded-md hover:bg-red-800 transition">Back</button>
+
                 <button type="reset"
                     class="w-fit bg-indigo-600 text-white py-1 px-4 rounded-md hover:bg-indigo-800 transition">Reset</button>
+
                 <button type="submit"
                     class="w-fit bg-indigo-600 text-white py-1 px-2 rounded-md hover:bg-indigo-800 transition">Submit</button>
             </div>
@@ -97,6 +102,8 @@
 
 <script setup>
 import { ref } from 'vue';
+
+const emit = defineEmits(['hideTaskList'])
 
 let id = 0  // Replace with ref() later!
 const mode = ref('')
@@ -124,5 +131,9 @@ const addNewTask = () => {
     }
 
     console.log('Adding new task: ', newTask);
+}
+
+const showTaskList = () => {
+    emit('hideTaskList', false)
 }
 </script>

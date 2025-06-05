@@ -28,11 +28,6 @@ const router = createRouter({
       name: "impressum",
       component: ImpressumPage,
     },
-    {
-      path: "/task-form",
-      name: "task-form",
-      component: TaskForm,
-    },
   ],
 });
 
