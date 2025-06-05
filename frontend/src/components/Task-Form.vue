@@ -45,14 +45,14 @@
                 </label>
             </div>
 
-            <div :class="category === 'timed' ? 'mb-4' : 'hidden mb-4'">
+            <div :class="category === 'timed' ? 'mb-4' : 'hidden'">
                 <label class="text-sm font-medium text-gray-700">Deadline
                     <input v-model.trim="deadlineDate" type="date" required
                         class="mt-1 w-fit px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
                 </label>
             </div>
 
-            <div :class="category === 'recurring' ? 'mb-4' : 'hidden mb-4'">
+            <div :class="category === 'recurring' ? 'mb-4' : 'hidden'">
                 <label class="text-sm font-medium text-gray-700">Interval
                     <select v-model.trim="interval"
                         class="ml-1 focus:outline-none focus:ring-2 focus:ring-indigo-500 border-gray-300 rounded-md shadow-sm"
@@ -64,7 +64,7 @@
                 </label>
             </div>
 
-            <div :class="interval === 'weekly' | interval === 'monthly' ? 'mb-4' : 'hidden mb-4'">
+            <div :class="interval === 'weekly' & category === 'recurring' | interval === 'monthly' & category === 'recurring' ? 'mb-4' : 'hidden'">
                 <label class="text-sm font-medium text-gray-700">Start Date
                     <input v-model.trim="startDate" type="date" required
                         class="mt-1 w-fit px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
@@ -99,11 +99,10 @@
 import { ref } from 'vue';
 
 let id = 0  // Replace with ref() later!
-
 const mode = ref('')
 const priority = ref('')
-const category = ref('')
 const topic = ref('')
+const category = ref('')
 const deadlineDate = ref('')
 const interval = ref('')
 const startDate = ref('')
