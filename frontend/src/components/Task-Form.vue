@@ -22,10 +22,22 @@
                         <option value="medium" class="text-gray-700">Low</option>
                     </select>
                 </label>
+            </div>
+
+            <div class="flex mb-4 justify-between">
+                <label class="text-sm font-medium text-gray-700">Topic
+                    <select v-model.trim="topic"
+                        class="ml-1 focus:outline-none focus:ring-2 focus:ring-indigo-500 border-gray-300 rounded-md shadow-sm"
+                        required>
+                        <option value="shopping">Shopping</option>
+                        <option value="housework">Housework</option>
+                    </select>
+                </label>
 
                 <label class="text-sm font-medium text-gray-700">Category
                     <select v-model.trim="category"
-                        class="ml-1 focus:outline-none focus:ring-2 focus:ring-indigo-500 border-gray-300 rounded-md shadow-sm" required>
+                        class="ml-1 focus:outline-none focus:ring-2 focus:ring-indigo-500 border-gray-300 rounded-md shadow-sm"
+                        required>
                         <option value="default">Default</option>
                         <option value="timed">Timed</option>
                         <option value="recurring">Recurring</option>
@@ -33,13 +45,28 @@
                 </label>
             </div>
 
-            <div class="mb-4">
-                
-            </div>
-
             <div :class="category === 'timed' ? 'mb-4' : 'hidden mb-4'">
                 <label class="text-sm font-medium text-gray-700">Deadline
                     <input v-model.trim="deadlineDate" type="date" required
+                        class="mt-1 w-fit px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                </label>
+            </div>
+
+            <div :class="category === 'recurring' ? 'mb-4' : 'hidden mb-4'">
+                <label class="text-sm font-medium text-gray-700">Interval
+                    <select v-model.trim="interval"
+                        class="ml-1 focus:outline-none focus:ring-2 focus:ring-indigo-500 border-gray-300 rounded-md shadow-sm"
+                        required>
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                    </select>
+                </label>
+            </div>
+
+            <div :class="interval === 'weekly' | interval === 'monthly' ? 'mb-4' : 'hidden mb-4'">
+                <label class="text-sm font-medium text-gray-700">Start Date
+                    <input v-model.trim="startDate" type="date" required
                         class="mt-1 w-fit px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
                 </label>
             </div>
@@ -76,7 +103,10 @@ let id = 0  // Replace with ref() later!
 const mode = ref('')
 const priority = ref('')
 const category = ref('')
+const topic = ref('')
 const deadlineDate = ref('')
+const interval = ref('')
+const startDate = ref('')
 const title = ref('')
 const description = ref('')
 
