@@ -4,7 +4,7 @@
     <navbar-item></navbar-item>
 
     <!-- Main content -->
-    <main class="flex-1 container mx-auto p-4 flex items-center justify-center min-h-screen">
+    <main class="flex-1 container mx-auto p-4 flex items-center justify-center min-h-[calc(100vh-10%)])">
       <router-view />
     </main>
 
