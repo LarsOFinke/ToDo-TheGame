@@ -2,8 +2,8 @@
     <div class="w-full max-w-sm bg-gray-200 rounded-lg shadow-md p-6 mx-auto relative">
         <!-- Task header -->
         <div class="flex items-center justify-between w-full">
-            <h3 class="text-xl font-bold text-gray-800 mb-2">{{ taskTitle }}</h3>
-            <h4 class="text-l font-semibold text-gray-800 mb-2">{{ taskMode }}</h4>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">{{ task.title }}</h3>
+            <h4 class="text-l font-semibold text-gray-800 mb-2">{{ task.mode }}</h4>
         </div>
 
         <!-- Task info -->
@@ -11,20 +11,20 @@
             <div class="w-full">
                 <label class="font-semibold">Deadline:</label>
                 <br>
-                <label>{{ taskDeadlineDate }}
-                    (<label>{{ taskRemainingTime }}</label>)
+                <label>{{ task.deadlineDate }}
+                    (<label>{{ task.remainingTime }}</label>)
                 </label>
             </div>
 
             <div class="float-right self-center">
-                <p class="font-semibold">{{ taskPriority }}</p>
+                <p class="font-semibold">{{ task.priority }}</p>
             </div>
         </div>
 
         <!-- Task description -->
         <div class="text-sm mb-4">
             <h4 class="font-semibold">Description:</h4>
-            <p>{{ taskDescription }}</p>
+            <p>{{ task.description }}</p>
         </div>
 
         <!-- Utility-Buttons -->
@@ -42,13 +42,8 @@
 </template>
 
 <script setup>
-const taskTitle = "Task-Title"
-const taskMode = "Private / Team"
-const taskPriority = "Priority"
-const taskDeadlineDate = "06.06.2025"
-const taskRemainingTime = "2d 4h 24min 12s"
-const taskDescription = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime suscipit, et fugiat
-                        ipsam, tempora animi
-                        laborum laboriosam natus asperiores aspernatur itaque cupiditate voluptatum accusamus iure officiis
-                        quisquam obcaecati culpa error?`
+defineProps({
+  task: Object
+})
+
 </script>
