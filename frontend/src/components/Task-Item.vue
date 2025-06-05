@@ -24,9 +24,9 @@
         </div>
 
         <!-- Task description -->
-        <div class="text-sm mb-4">
+        <div class="text-sm mb-4 overflow-x-auto h-40">
             <h4 class="font-semibold">Description:</h4>
-            <p>{{ task.description }}</p>
+            <p class="overflow-y-hidden scrollbar-hide">{{ task.description }}</p>
         </div>
 
         <!-- Utility-Buttons -->
