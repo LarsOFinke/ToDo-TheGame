@@ -18,7 +18,7 @@ const taskList = ref([
         mode: "Private / Team",
         priority: "Priority",
         deadlineDate: "06.06.2025",
-        remainingTime: "2d 4h 24min 12s",
+        remainingTime: "2d 4h 24min 12s",   // Needs to get calculated in the Task-Item asynchronously?
         description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime suscipit, et fugiat
                     ipsam, tempora animi
                     laborum laboriosam natus asperiores aspernatur itaque cupiditate voluptatum accusamus iure officiis
