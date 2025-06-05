@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomePage from "@/views/Home-Page.vue";
 import RegistrationPage from "@/views/Registration-Page.vue";
 import TasksPage from "@/views/Tasks-Page.vue";
+import ImpressumPage from "@/views/Impressum-Page.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,6 +21,11 @@ const router = createRouter({
       path: "/tasks",
       name: "tasks",
       component: TasksPage,
+    },
+    {
+      path: "/impressum",
+      name: "impressum",
+      component: ImpressumPage,
     },
   ],
 });
