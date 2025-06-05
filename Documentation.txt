@@ -31,20 +31,21 @@ x9. Create Task-System
 ### FRONTEND ###
 
 ## COMPONENTS ##
-- Navbar
+x- Navbar
 -- Desktop
 -- Mobil
-- Footer
-- Login-Form
-- Registration-Form
-- Task-Item
-- Task-List
-- Task-Form
+x- Footer
+x- Login-Form
+x- Registration-Form
+x- Task-Item
+x- Task-List
+x- Task-Form
 
 ## VIEWS ##
-- Home-Page (Login) --> Combine with Registration bc components?
-- Registration-Page
-- Tasks-Page
+x- Home-Page (Login) --> Combine with Registration bc components?
+x- Registration-Page
+x- Tasks-Page
+- Impressum
 
 ## SERVICES ##
 - Auth-Service
