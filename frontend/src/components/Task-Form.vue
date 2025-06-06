@@ -47,7 +47,7 @@
 
             <div :class="category === 'timed' ? 'mb-4' : 'hidden'">
                 <label class="text-sm font-medium text-gray-700">Deadline
-                    <input v-model.trim="deadlineDate" type="date" required
+                    <input v-model.trim="deadlineDate" type="date"
                         class="mt-1 w-fit px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
                 </label>
             </div>
@@ -55,8 +55,7 @@
             <div :class="category === 'recurring' ? 'mb-4' : 'hidden'">
                 <label class="text-sm font-medium text-gray-700">Interval
                     <select v-model.trim="interval"
-                        class="ml-1 focus:outline-none focus:ring-2 focus:ring-indigo-500 border-gray-300 rounded-md shadow-sm"
-                        required>
+                        class="ml-1 focus:outline-none focus:ring-2 focus:ring-indigo-500 border-gray-300 rounded-md shadow-sm">
                         <option value="daily">Daily</option>
                         <option value="weekly">Weekly</option>
                         <option value="monthly">Monthly</option>
@@ -67,7 +66,7 @@
             <div
                 :class="interval === 'weekly' & category === 'recurring' | interval === 'monthly' & category === 'recurring' ? 'mb-4' : 'hidden'">
                 <label class="text-sm font-medium text-gray-700">Start Date
-                    <input v-model.trim="startDate" type="date" required
+                    <input v-model.trim="startDate" type="date"
                         class="mt-1 w-fit px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
                 </label>
             </div>
@@ -103,7 +102,7 @@
 <script setup>
 import { ref } from 'vue';
 
-const emit = defineEmits(['hideTaskList'])
+const emit = defineEmits(['hideTaskList', 'addTask'])
 
 let id = 0  // Replace with ref() later!
 const mode = ref('')
@@ -125,12 +124,12 @@ const addNewTask = () => {
         mode: mode.value,
         category: category.value,
         priority: priority.value,
-        deadlineDate: deadlineDate.value,
-        remainingTime: remainingTime.value,
+        deadlineDate: deadlineDate.value | null,
+        remainingTime: 'NOT IMPLEMENTED YET',
         description: description.value
     }
 
-    console.log('Adding new task: ', newTask);
+    emit('addTask', newTask)
 }
 
 const showTaskList = () => {

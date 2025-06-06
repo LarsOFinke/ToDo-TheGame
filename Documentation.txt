@@ -20,7 +20,9 @@ x7. Create Router
 x8. Create Login-System
 x9. Create Task-System
 10. Create Database with CRUD
-11. Create Flask-App
+x-- Login
+-- Tasks
+x11. Create Flask-App
 12. Create API
 13. Connect Frontend with Backend
 14. Add mobile compatibility

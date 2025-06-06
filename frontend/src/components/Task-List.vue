@@ -23,51 +23,13 @@
 
 
 <script setup>
-import { ref } from 'vue';
 import TaskItem from './Task-Item.vue';
 
 const emit = defineEmits(['hideTaskList'])
 
-const taskList = ref([
-    {
-        id: 1,
-        title: "Task-Title",
-        mode: "Private / Team",
-        priority: "high",
-        deadlineDate: "06.06.2025",
-        remainingTime: "2d 4h 24min 12s",   // Needs to get calculated in the Task-Item asynchronously?
-        description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime suscipit, et fugiat
-                    ipsam, tempora animi
-                    laborum.`
-    },
-    {
-        id: 2,
-        title: "Task-Title",
-        mode: "Private / Team",
-        priority: "low",
-        deadlineDate: "06.06.2025",
-        remainingTime: "2d 4h 24min 12s",   // Needs to get calculated in the Task-Item asynchronously?
-        description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime suscipit, et fugiat
-                    ipsam, tempora animi
-                    laborum laboriosam natus asperiores aspernatur itaque cupiditate voluptatum accusamus iure officiis
-                    quisquam obcaecati culpa error?`
-    },
-    {
-        id: 3,
-        title: "Task-Title",
-        mode: "Private / Team",
-        priority: "low",
-        deadlineDate: "06.06.2025",
-        remainingTime: "2d 4h 24min 12s",   // Needs to get calculated in the Task-Item asynchronously?
-        description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime suscipit, et fugiat
-                    ipsam, tempora animi
-                    laborum laboriosam natus asperiores aspernatur itaque cupiditate voluptatum accusamus iure officiis
-                    quisquam obcaecati culpa error?Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime suscipit, et fugiat
-                    ipsam, tempora animi
-                    laborum laboriosam natus asperiores aspernatur itaque cupiditate voluptatum accusamus iure officiis
-                    quisquam obcaecati culpa error?`
-    },
-])
+defineProps({
+    taskList: Array
+})
 
 const showTaskForm = () => {
     emit('hideTaskList', true)

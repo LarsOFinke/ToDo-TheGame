@@ -62,7 +62,6 @@ DB_DIRECTORY = os.path.join(os.path.dirname(__file__), "db")
 if not os.path.exists(DB_DIRECTORY):
     os.mkdir(DB_DIRECTORY)
 CONNECTIONSTRING_LOGIN = os.path.join(os.path.dirname(DB_DIRECTORY), "db", "LoginDB.db")
-CONNECTIONSTRING_GAME = os.path.join(os.path.dirname(DB_DIRECTORY), "db", "GameDB.db")
 
 
 def create_login_table() -> bool:
