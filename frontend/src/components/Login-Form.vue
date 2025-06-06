@@ -30,13 +30,14 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useAuthService } from '@/services/AuthService'
 
 const username = ref('')
 const password = ref('')
 const showPassword = ref(false)
+const { login, error, loading, isAuthenticated } = useAuthService()
 
-const handleLogin = () => {
-    console.log('Logging in with:', username.value, password.value)
-    // Add login logic here
+const handleLogin = async () => {
+    await login(username.value, password.value)
 }
 </script>
