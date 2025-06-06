@@ -1,24 +1,37 @@
 <template>
     <div class="w-full max-w-sm bg-white rounded-lg shadow-md p-6 mx-auto">
         <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">Register</h2>
-        <form @submit.prevent="register" class="flex flex-col">
+
+        <!-- Message-Box -->
+        <div v-if="msg !== ''"
+            :class="msg === 'Passwords don\'t match!' ? 'w-fit max-w-sm bg-gray-100 text-red-600 font-semibold rounded-lg shadow-md p-1 mx-auto' : 'w-fit max-w-sm bg-gray-100 text-gray-800 font-semibold rounded-lg shadow-md p-1 mx-auto'">
+            <p>{{ msg }}</p>
+        </div>
+
+        <form @submit.prevent="signUp" class="flex flex-col">
             <div class="mb-4">
-                <input v-model.trim="username" type="text" placeholder="Username"
-                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <label class="block text-sm font-medium text-gray-700">Username
+                    <input v-model.trim="username" type="text" placeholder="Username"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </label>
             </div>
 
-            <div class="mb-6">
-                <input v-model.trim="password" :type="showPassword ? 'text' : 'password'" placeholder="Password"
-                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Password
+                    <input v-model.trim="password" :type="showPassword ? 'text' : 'password'" placeholder="Password"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </label>
             </div>
 
-            <div class="mb-6">
-                <input v-model.trim="passwordConfirm" :type="showPassword ? 'text' : 'password'"
-                    placeholder="Password confirm"
-                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Password confirm
+                    <input v-model.trim="passwordConfirm" :type="showPassword ? 'text' : 'password'"
+                        placeholder="Password confirm"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </label>
             </div>
 
-            <div class="mb-6">
+            <div class="mb-4">
                 <label class="float-right">
                     Show password
                     <input v-model="showPassword" type="checkbox">
@@ -37,22 +50,43 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { useRouter } from 'vue-router';
+import { useAuthService } from '@/services/AuthService'
+
+const router = useRouter();
+const { register, loading } = useAuthService()
 
 const username = ref('')
 const password = ref('')
 const passwordConfirm = ref('')
 const showPassword = ref(false)
+const msg = ref('')
 
-const register = () => {
+watch(loading, (newVal) => {
+    if (newVal) {
+        msg.value = "Registering..."
+    } else {
+        msg.value = ""
+    }
+})
+
+const signUp = async () => {
     console.log(username.value, password.value);
 
-    checkPasswordRequirements()
+    if (checkPasswordRequirements()) {
+        if (await register(username.value, password.value)) {
+            router.replace("/")
+        }
+    }
 }
 
 const checkPasswordRequirements = () => {
     if (password.value === passwordConfirm.value) {
-        console.log('test');
+        return true
+    } else {
+        msg.value = "Passwords don't match!"
+        return false
     }
 }
 </script>
