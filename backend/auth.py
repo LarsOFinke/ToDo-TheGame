@@ -30,8 +30,8 @@ def register():
         return jsonify({"success": False}), 401
 
 
-@auth.route('/logout', methods=['GET'])
-def logout():
+@auth.route('/clear-session', methods=['GET'])
+def clear_session():
     session.clear()  # Clear the session
     
     return jsonify({"success": True}), 200

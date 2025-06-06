@@ -17,7 +17,9 @@ export function useAuthService() {
       user.value = response.data.user;
       isAuthenticated.value = true;
     } catch (err) {
-      error.value = err.response?.data?.message || "Login failed failed for unknown reasons.";
+      error.value =
+        err.response?.data?.message ||
+        "Login failed failed for unknown reasons.";
       isAuthenticated.value = false;
     } finally {
       loading.value = false;
@@ -32,19 +34,19 @@ export function useAuthService() {
       user.value = response.data.user;
       return true;
     } catch (err) {
-      error.value = err.response?.data?.message || "Registration failed for unknown reasons.";
+      error.value =
+        err.response?.data?.message ||
+        "Registration failed for unknown reasons.";
       return false;
     } finally {
       loading.value = false;
     }
   };
 
-  const logout = () => {
-    api.get("auth/logout").then((response) => {
-      if (response.success) {
-        user.value = null;
-        isAuthenticated.value = false;
-      }
+  const clearSession = () => {
+    api.get("auth/clear-session").then(() => {
+      user.value = null;
+      isAuthenticated.value = false;
     });
   };
 
@@ -55,6 +57,6 @@ export function useAuthService() {
     error,
     register,
     login,
-    logout,
+    clearSession,
   };
 }

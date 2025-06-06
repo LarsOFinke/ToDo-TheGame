@@ -6,10 +6,22 @@
 
     <div class="flex float-right">
       <ul class="flex">
-        <li :class="isAuthenticated ? 'hidden' : 'mr-4 font-medium dark:text-yellow-300 hover:text-yellow-400 hover:underline'"><a href="/">Home</a></li>
-        <li :class="isAuthenticated ? 'hidden' : 'mr-4 font-medium dark:text-yellow-300 hover:text-yellow-400 hover:underline'"><a href="/registration">Registration</a></li>
-        <li :class="isAuthenticated ? 'mr-4 font-medium dark:text-yellow-300 hover:text-yellow-400 hover:underline' : 'hidden'"><a href="/tasks">Tasks</a></li>
-        <li :class="isAuthenticated ? 'mr-4 font-medium dark:text-yellow-300 hover:text-yellow-400 hover:underline' : 'hidden'"><a href="/">Logout</a></li>
+        <li
+          :class="isAuthenticated ? 'hidden' : 'mr-4 font-medium dark:text-yellow-300 hover:text-yellow-400 hover:underline cursor-pointer'">
+          <a @click.prevent="home">Home</a>
+        </li>
+        <li
+          :class="isAuthenticated ? 'hidden' : 'mr-4 font-medium dark:text-yellow-300 hover:text-yellow-400 hover:underline cursor-pointer'">
+          <a @click.prevent="registration">Registration</a>
+        </li>
+        <li
+          :class="isAuthenticated ? 'mr-4 font-medium dark:text-yellow-300 hover:text-yellow-400 hover:underline cursor-pointer' : 'hidden'">
+          <a @click.prevent="tasks">Tasks</a>
+        </li>
+        <li
+          :class="isAuthenticated ? 'mr-4 font-medium dark:text-yellow-300 hover:text-yellow-400 hover:underline cursor-pointer' : 'hidden'">
+          <a @click.prevent="logout">Logout</a>
+        </li>
       </ul>
     </div>
   </nav>
@@ -20,7 +32,23 @@ import { useRouter } from 'vue-router';
 import { useAuthService } from "@/services/AuthService"
 
 const router = useRouter();
-const { isAuthenticated } = useAuthService()
+const { isAuthenticated, clearSession } = useAuthService()
 
+const home = () => {
+  router.replace("/")
+}
 
+const registration = () => {
+  router.replace("/registration")
+}
+
+const tasks = () => {
+  clearSession()
+  router.replace("/tasks")
+}
+
+const logout = () => {
+  clearSession()
+  router.replace("/")
+}
 </script>
