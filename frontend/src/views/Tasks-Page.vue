@@ -11,8 +11,8 @@ import { useRouter } from 'vue-router';
 import { useAuthService } from "@/services/AuthService"
 
 const router = useRouter();
-
 const { isAuthenticated } = useAuthService()
+
 onMounted(() => {
     if (!isAuthenticated.value) {
         router.replace('/');
