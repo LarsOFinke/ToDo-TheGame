@@ -12,11 +12,9 @@
 
         <!-- Scrollable Task List -->
         <div class="overflow-x-auto max-h-95">
-            <scrollbar-hide>
-                <ul v-for="task in taskList" :key="task.id" class="mb-8">
-                    <task-item :task="task"></task-item>
-                </ul>
-            </scrollbar-hide>
+            <ul v-for="task in taskList" :key="task.id" class="mb-8">
+                <task-item :task="task"></task-item>
+            </ul>
         </div>
     </div>
 </template>

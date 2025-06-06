@@ -1,7 +1,7 @@
 // Created by ChatGPT --> subject to change
 
 import { ref } from "vue";
-import api from "@/environments/tesing-environment";
+import api from "@/environments/testing-environment";
 
 const user = ref(null);
 const isAuthenticated = ref(false);
@@ -16,11 +16,9 @@ export function useAuthService() {
       const response = await api.post("auth/login", { username, password });
       user.value = response.data.user;
       isAuthenticated.value = true;
-      console.log("SUCCESS");
     } catch (err) {
       error.value = err.response?.data?.message || "Login failed";
       isAuthenticated.value = false;
-      console.log("FAILED LOGIN");
     } finally {
       loading.value = false;
     }

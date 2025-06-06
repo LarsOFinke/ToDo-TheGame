@@ -4,9 +4,20 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import TaskList from '@/components/Task-List.vue'
 import TaskForm from '@/components/Task-Form.vue';
+import { useRouter } from 'vue-router';
+import { useAuthService } from "@/services/AuthService"
+
+const router = useRouter();
+
+const { isAuthenticated } = useAuthService()
+onMounted(() => {
+    if (!isAuthenticated.value) {
+        router.replace('/');
+    }
+});
 
 const showTaskList = ref(true)
 
@@ -62,4 +73,5 @@ const toggleViews = (hideTaskList) => {
 const addNewTask = (newTask) => {
     taskList.value.push(newTask)
 }
+
 </script>

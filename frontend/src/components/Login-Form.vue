@@ -30,14 +30,22 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router';
 import { useAuthService } from '@/services/AuthService'
+
+const router = useRouter();
 
 const username = ref('')
 const password = ref('')
 const showPassword = ref(false)
-const { login, error, loading, isAuthenticated } = useAuthService()
+const { login, isAuthenticated } = useAuthService()
 
 const handleLogin = async () => {
     await login(username.value, password.value)
+    if (isAuthenticated) {
+        router.replace('/tasks');
+    } else {
+        console.log("Login denied");
+    }
 }
 </script>

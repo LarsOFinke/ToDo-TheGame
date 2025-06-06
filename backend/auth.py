@@ -8,7 +8,6 @@ auth = Blueprint("auth", __name__)
 @auth.route("/login", methods=["POST"])
 def login():
     data = request.get_json()
-    print(data)
     username = data.get('username')
     
     if validate_login(username, data.get('password')):
