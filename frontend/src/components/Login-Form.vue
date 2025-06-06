@@ -1,6 +1,11 @@
 <template>
     <div class="w-full max-w-sm bg-white rounded-lg shadow-md p-6 mx-auto">
         <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">Login</h2>
+
+        <div v-if="msg !== ''" class="w-fit max-w-sm bg-gray-100 text-red-600 font-semibold rounded-lg shadow-md p-1 mx-auto">
+            <p>{{ msg }}</p>
+        </div>
+        
         <form @submit.prevent="handleLogin">
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">Username
@@ -39,13 +44,15 @@ const username = ref('')
 const password = ref('')
 const showPassword = ref(false)
 const { login, isAuthenticated } = useAuthService()
+const msg = ref('')
 
 const handleLogin = async () => {
     await login(username.value, password.value)
-    if (isAuthenticated) {
+
+    if (isAuthenticated.value) {
         router.replace('/tasks');
     } else {
-        console.log("Login denied");
+        msg.value = "Incorrect credentials!"
     }
 }
 </script>
