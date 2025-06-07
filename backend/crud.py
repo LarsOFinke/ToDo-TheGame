@@ -220,12 +220,12 @@ def edit_task(edited_task: dict) -> bool:
     """
     sql: str = "UPDATE tblTasks " \
                 "SET TaskMode = ?, TaskCategory = ?, TaskPriority = ?, TaskDeadlineDate = ?, TaskStartDate = ?, TaskRemainingTime = ?, TaskTitle = ?, TaskDescription = ? " \
-                "WHERE TaskID = 1"
+                "WHERE TaskID = ?"
                 
     return execute_query(
                             sql, 
                             (edited_task["mode"], edited_task["category"], edited_task["priority"], 
                             str(edited_task["deadlineDate"]), edited_task["startDate"], edited_task["remainingTime"], 
-                            edited_task["title"], edited_task["description"]), 
+                            edited_task["title"], edited_task["description"], edited_task["id"]), 
                             CONNECTIONSTRING
                         )

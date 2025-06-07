@@ -133,6 +133,7 @@ const showItemEdit = () => {
 
 const submitEditedTask = () => {
     const editedTask = {
+        id: task.id,
         title: title.value,
         mode: mode.value,
         category: category.value,
@@ -145,6 +146,7 @@ const submitEditedTask = () => {
 
     if (editTask(editedTask)) {
         emit('editTask', editedTask)
+        msg.value = 'Task successfully updated.'
     } else {
         msg.value = 'Something went wrong!'
     }

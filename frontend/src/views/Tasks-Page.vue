@@ -1,6 +1,6 @@
 <template>
     <task-list v-if="viewTaskList" @hideTaskList="showTaskList" :taskList="taskList"></task-list>
-    <task-form v-else @hideTaskList="showTaskList" @addTask="addNewTask"></task-form>
+    <task-form v-else @hideTaskList="showTaskList"></task-form>
 </template>
 
 <script setup>
@@ -22,24 +22,21 @@ onMounted(async () => {
         router.replace('/');
     } else {
         await fetchTasks()
-        console.log(tasks);
-        taskList.value = tasks.value
-
     }
 });
 
-const fetchTasks = async () => { await getAllTasks() }
+const fetchTasks = async () => {
+    await getAllTasks()
+    taskList.value = tasks.value
+}
 
-const showTaskList = (hideTaskList) => {
+const showTaskList = async (hideTaskList) => {
     if (hideTaskList) {
+        await fetchTasks()
         viewTaskList.value = false
     } else {
+        await fetchTasks()
         viewTaskList.value = true
     }
 }
-
-const addNewTask = (newTask) => {
-    taskList.value.push(newTask)
-}
-
 </script>

@@ -113,7 +113,7 @@ import { useTasksService } from '@/services/TasksService'
 const msg = ref('')
 
 const { loading, error, addNewTask } = useTasksService()
-const emit = defineEmits(['hideTaskList', 'addTask'])
+const emit = defineEmits(['hideTaskList'])
 
 const mode = ref('')
 const priority = ref('')
@@ -139,7 +139,7 @@ const submitNewTask = () => {
     console.log(newTask);
 
     if (addNewTask(newTask)) {
-        emit('addTask', newTask)
+        msg.value = 'Task successfully added.'
     } else {
         msg.value = 'Something went wrong!'
     }
