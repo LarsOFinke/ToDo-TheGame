@@ -96,7 +96,8 @@ def create_tasks_table():
                     "TaskStartDate DATE, " \
                     "TaskRemainingTime TEXT, " \
                     "TaskTitle TEXT NOT NULL, " \
-                    "TaskDescription TEXT NOT NULL)"
+                    "TaskDescription TEXT NOT NULL, " \
+                    "TaskIsOpen BOOLEAN NOT NULL)"
         execute_query(sql, (), CONNECTIONSTRING)
         return True
     
@@ -175,8 +176,8 @@ def add_new_task(new_task: dict) -> bool:
         True: if successfully added
         False: if error happened
     """
-    sql: str = "INSERT INTO tblTasks(TaskMode, TaskCategory, TaskPriority, TaskDeadlineDate, TaskStartDate, TaskRemainingTime, TaskTitle, TaskDescription)" \
-                "VALUES (?,?,?,?,?,?,?,?)"
+    sql: str = "INSERT INTO tblTasks(TaskMode, TaskCategory, TaskPriority, TaskDeadlineDate, TaskStartDate, TaskRemainingTime, TaskTitle, TaskDescription, TaskIsOpen)" \
+                "VALUES (?,?,?,?,?,?,?,?,TRUE)"
                 
     return execute_query(
                             sql, 
@@ -186,9 +187,9 @@ def add_new_task(new_task: dict) -> bool:
                             CONNECTIONSTRING
                         )
 
-def get_all_tasks() -> list:
+def get_all_open_tasks() -> list:
     """Returns a list containing all tasks in the database"""
-    sql: str = "SELECT TaskID, TaskMode, TaskCategory, TaskPriority, TaskDeadlineDate, TaskStartDate, TaskRemainingTime, TaskTitle, TaskDescription FROM tblTasks"
+    sql: str = "SELECT TaskID, TaskMode, TaskCategory, TaskPriority, TaskDeadlineDate, TaskStartDate, TaskRemainingTime, TaskTitle, TaskDescription, TaskID FROM tblTasks"
     
     with sqlite3.connect(CONNECTIONSTRING) as con:
         cursor = con.cursor()
@@ -208,6 +209,7 @@ def get_all_tasks() -> list:
                                 "description": task[8]
                             }
                             for task in results
+                            if task[9]
                        ]
         
     return tasks

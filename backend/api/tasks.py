@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from ..crud import add_new_task, get_all_tasks, edit_task
+from ..crud import add_new_task, get_all_open_tasks, edit_task
 
 
 tasks = Blueprint("tasks", __name__)
@@ -14,9 +14,9 @@ def add():
     else:
         return jsonify({"success": False}), 401
 
-@tasks.route('/get-all', methods=['GET'])
-def get_all():
-    tasks: list[dict] = get_all_tasks()
+@tasks.route('/get-all-open', methods=['GET'])
+def get_all_open():
+    tasks: list[dict] = get_all_open_tasks()
     
     return jsonify({"success": True, "tasks": tasks}), 200
 

@@ -23,7 +23,7 @@ export function useTasksService() {
 
   const getAllTasks = async () => {
     await api
-      .get("tasks/get-all")
+      .get("tasks/get-all-open")
       .then((data) => {
         tasks.value = data.data.tasks;
         console.log(tasks.value);
