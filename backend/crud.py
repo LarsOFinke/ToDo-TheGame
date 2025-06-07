@@ -4,10 +4,7 @@ from . import logging  # GET .ENV CONSTANTS AND LOGGING
 from werkzeug.security import generate_password_hash, check_password_hash # User-SYSTEM SECURITY
 
 
-
-### CREATE QUERY FUNCTIONS FOR SQLite ###
-
-# EXECUTE SQL WITH PARAMS
+# EXECUTE SQL
 def execute_query(sql: str, params: Tuple[Any, ...], connectionstring: str, fetch: bool = False) -> Optional[List[Tuple]]:
     """Executes a SQL command with the provided parameters.
 
@@ -52,7 +49,6 @@ def execute_query(sql: str, params: Tuple[Any, ...], connectionstring: str, fetc
     except sqlite3.Error as e:
         logging.error(f"An error occurred: {e}")
         return None  # Return None in case of error
-
 
 
 ### SET UP DATABASES ###
@@ -181,6 +177,7 @@ def add_new_task(new_task: dict) -> bool:
     """
     sql: str = "INSERT INTO tblTasks(TaskMode, TaskCategory, TaskPriority, TaskDeadlineDate, TaskStartDate, TaskRemainingTime, TaskTitle, TaskDescription)" \
                 "VALUES (?,?,?,?,?,?,?,?)"
+                
     return execute_query(
                             sql, 
                             (new_task["mode"], new_task["category"], new_task["priority"], 
@@ -188,6 +185,32 @@ def add_new_task(new_task: dict) -> bool:
                             new_task["title"], new_task["description"]), 
                             CONNECTIONSTRING
                         )
+
+def get_all_tasks() -> list:
+    """Returns a list containing all tasks in the database"""
+    sql: str = "SELECT TaskID, TaskMode, TaskCategory, TaskPriority, TaskDeadlineDate, TaskStartDate, TaskRemainingTime, TaskTitle, TaskDescription FROM tblTasks"
+    
+    with sqlite3.connect(CONNECTIONSTRING) as con:
+        cursor = con.cursor()
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        
+        tasks: list = [
+                            {
+                                "id": task[0],
+                                "mode": task[1],
+                                "category": task[2],
+                                "priority": task[3],
+                                "deadlineDate": task[4],
+                                "startDate": task[5],
+                                "remainingTime": task[6],
+                                "title": task[7],
+                                "description": task[8]
+                            }
+                            for task in results
+                       ]
+        
+    return tasks
 
 def edit_task(edited_task: dict) -> bool:
     """
@@ -198,6 +221,7 @@ def edit_task(edited_task: dict) -> bool:
     sql: str = "UPDATE tblTasks " \
                 "SET TaskMode = ?, TaskCategory = ?, TaskPriority = ?, TaskDeadlineDate = ?, TaskStartDate = ?, TaskRemainingTime = ?, TaskTitle = ?, TaskDescription = ? " \
                 "WHERE TaskID = 1"
+                
     return execute_query(
                             sql, 
                             (edited_task["mode"], edited_task["category"], edited_task["priority"], 

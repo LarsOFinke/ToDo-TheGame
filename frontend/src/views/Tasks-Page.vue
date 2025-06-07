@@ -1,6 +1,6 @@
 <template>
-    <task-list :class="viewTaskList ? '' : 'hidden'" @hideTaskList="showTaskList" :taskList="taskList"></task-list>
-    <task-form :class="viewTaskList ? 'hidden' : ''" @hideTaskList="showTaskList" @addTask="addNewTask"></task-form>
+    <task-list v-if="viewTaskList" @hideTaskList="showTaskList" :taskList="taskList"></task-list>
+    <task-form v-else @hideTaskList="showTaskList" @addTask="addNewTask"></task-form>
 </template>
 
 <script setup>
@@ -9,56 +9,26 @@ import TaskList from '@/components/Task-List.vue'
 import TaskForm from '@/components/Task-Form.vue';
 import { useRouter } from 'vue-router';
 import { useAuthService } from "@/services/AuthService"
+import { useTasksService } from '@/services/TasksService';
 
 const router = useRouter();
 const { isAuthenticated } = useAuthService()
+const { getAllTasks, tasks } = useTasksService()
 const viewTaskList = ref(true)
-const taskList = ref([
-    {
-        id: 1,
-        title: "Task-Title",
-        mode: "Private / Team",
-        priority: "high",
-        deadlineDate: "06.06.2025",
-        remainingTime: "2d 4h 24min 12s",   // Needs to get calculated in the Task-Item asynchronously?
-        description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime suscipit, et fugiat
-                    ipsam, tempora animi
-                    laborum.`
-    },
-    {
-        id: 2,
-        title: "Task-Title",
-        mode: "Private / Team",
-        priority: "low",
-        deadlineDate: "06.06.2025",
-        remainingTime: "2d 4h 24min 12s",   // Needs to get calculated in the Task-Item asynchronously?
-        description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime suscipit, et fugiat
-                    ipsam, tempora animi
-                    laborum laboriosam natus asperiores aspernatur itaque cupiditate voluptatum accusamus iure officiis
-                    quisquam obcaecati culpa error?`
-    },
-    {
-        id: 3,
-        title: "Task-Title",
-        mode: "Private / Team",
-        priority: "low",
-        deadlineDate: "06.06.2025",
-        remainingTime: "2d 4h 24min 12s",   // Needs to get calculated in the Task-Item asynchronously?
-        description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime suscipit, et fugiat
-                    ipsam, tempora animi
-                    laborum laboriosam natus asperiores aspernatur itaque cupiditate voluptatum accusamus iure officiis
-                    quisquam obcaecati culpa error?Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime suscipit, et fugiat
-                    ipsam, tempora animi
-                    laborum laboriosam natus asperiores aspernatur itaque cupiditate voluptatum accusamus iure officiis
-                    quisquam obcaecati culpa error?`
-    },
-])
+const taskList = ref([])
 
-onMounted(() => {
+onMounted(async () => {
     if (!isAuthenticated.value) {
         router.replace('/');
+    } else {
+        await fetchTasks()
+        console.log(tasks);
+        taskList.value = tasks.value
+
     }
 });
+
+const fetchTasks = async () => { await getAllTasks() }
 
 const showTaskList = (hideTaskList) => {
     if (hideTaskList) {
