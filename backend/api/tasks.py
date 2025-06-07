@@ -15,6 +15,18 @@ def add():
         return jsonify({"success": False}), 401
 
 
+
+@tasks.route("/edit", methods=["POST"])
+def edit():
+    data = request.get_json()
+    print(data)
+    return jsonify({"success": True}), 200
+    if add_new_task(data):
+        return jsonify({"success": True}), 200
+    else:
+        return jsonify({"success": False}), 401
+
+
 # @tasks.route('/clear-session', methods=['GET'])
 # def clear_session():
 #     session.clear()  # Clear the session
