@@ -1,2 +1,4 @@
 .env
 loginDB.db
+__pycache__/
+sessions/
