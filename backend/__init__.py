@@ -33,8 +33,12 @@ def create_app():
     ## Import Blueprints (routing) ##
 
     # Login-System API #
-    from .auth import auth    
+    from .api.auth import auth    
     app.register_blueprint(auth, url_prefix='/api/auth')
+    
+    # Tasks-System API #
+    from .api.tasks import tasks    
+    app.register_blueprint(tasks, url_prefix='/api/tasks')
     
     ## Set up Configuration ##
     load_dotenv()

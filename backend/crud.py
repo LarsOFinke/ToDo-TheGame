@@ -57,11 +57,12 @@ def execute_query(sql: str, params: Tuple[Any, ...], connectionstring: str, fetc
 
 ### SET UP DATABASES ###
 
-## SET DB-Connection Strings ##
 DB_DIRECTORY = os.path.join(os.path.dirname(__file__), "db")
 if not os.path.exists(DB_DIRECTORY):
     os.mkdir(DB_DIRECTORY)
+    
 CONNECTIONSTRING_LOGIN = os.path.join(os.path.dirname(DB_DIRECTORY), "db", "LoginDB.db")
+CONNECTIONSTRING_TASKS = os.path.join(os.path.dirname(DB_DIRECTORY), "db", "TasksDB.db")
 
 
 def create_login_table() -> bool:
@@ -96,11 +97,44 @@ if not os.path.exists(CONNECTIONSTRING_LOGIN):
     if not create_admins():
         logging.error("Could not create admins! Something went wrong...")
         sys.exit()
-            
+          
 
+# id,
+# title: title.value,
+# mode: mode.value,
+# Category: category.value,
+# Priority: priority.value,
+# DeadlineDate: deadlineDate.value | null,
+# RemainingTime: 'NOT IMPLEMENTED YET',
+# Description: description.value
+def create_tasks_table():
+    try:
+        sql: str = "CREATE TABLE tblTasks(" \
+                    "TaskID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " \
+                    "TaskMode TEXT NOT NULL UNIQUE, " \
+                    "TaskCategory TEXT NOT NULL, " \
+                    "TaskPriority TEXT NOT NULL, " \
+                    "TaskDeadlineDate TEXT NOT NULL, " \
+                    "TaskRemainingTime TEXT NOT NULL, " \
+                    "TaskTitle TEXT NOT NULL, " \
+                    "TaskDescription TEXT NOT NULL)"
+        execute_query(sql, (), CONNECTIONSTRING_TASKS)
+        return True
+    
+    except sqlite3.Error as e:
+        logging.error(e)
+        return False
+
+  
+if not os.path.exists(CONNECTIONSTRING_TASKS):
+    if not create_tasks_table():
+        logging.error("Could not create tasks-table! Something went wrong...")
+        sys.exit()
+ 
+ 
 ### SET UP CRUD-FUNCTIONALITY ###
 
-#-- CRUD FUNCTIONALITY LOGIN --#
+#-- LOGIN --#
 
 def create_login(username: str, password: str) -> bool:
     """
@@ -111,7 +145,6 @@ def create_login(username: str, password: str) -> bool:
     hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
     sql: str = "INSERT INTO tblLogin(LoginUsername, LoginPassword, LoginType) VALUES (?, ?, 'user')"
     return execute_query(sql, (username, hashed_password), CONNECTIONSTRING_LOGIN)
-    
 
 def validate_login(username: str, password: str) -> bool:
     """Validates whether a Login is successfull or not
@@ -137,7 +170,6 @@ def validate_login(username: str, password: str) -> bool:
     
     return False    # Password doesn't match with database
 
-
 def get_all_usernames() -> list:
     """Returns a list containing all usernames in the database"""
     sql: str = "SELECT LoginUsername FROM tblLogin"
@@ -149,3 +181,31 @@ def get_all_usernames() -> list:
         usernames: list = [user[0] for user in results]
         
     return usernames
+
+
+#-- TASKS --#
+
+# 'title'
+# 'mode' 
+# 'category' 
+# 'priority'
+# 'deadlineDate'
+# 'remainingTime'
+# 'description'
+
+def add_new_task(new_task: dict) -> bool:
+    """
+    Returns:
+        True: if successfully added
+        False: if error happened
+    """
+    sql: str = "INSERT INTO tblTasks(TaskMode, TaskCategory, TaskPriority, TaskDeadlineDate, TaskRemainingTime, TaskTitle, TaskDescription) VALUES (?,?,?,?,?,?,?)"
+    return execute_query(sql, (new_task["mode"], new_task["category"], new_task["priority"], str(new_task["deadlineDate"]), new_task["remainingTime"], new_task["title"], new_task["description"]), CONNECTIONSTRING_TASKS)
+
+"TaskID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " \
+"TaskMode TEXT NOT NULL UNIQUE, " \
+"TaskCategory TEXT NOT NULL, " \
+"TaskPriority TEXT NOT NULL, " \
+"TaskDeadlineDate TEXT NOT NULL, " \
+"TaskRemainingTime TEXT NOT NULL, " \
+"TaskDescription TEXT NOT NULL)"

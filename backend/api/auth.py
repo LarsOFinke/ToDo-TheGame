@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, session, redirect, url_for
-from .crud import validate_login, create_login
+from ..crud import validate_login, create_login
 
 
 auth = Blueprint("auth", __name__)

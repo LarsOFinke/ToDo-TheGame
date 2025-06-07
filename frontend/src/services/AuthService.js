@@ -19,7 +19,7 @@ export function useAuthService() {
     } catch (err) {
       error.value =
         err.response?.data?.message ||
-        "Login failed failed for unknown reasons.";
+        "Login failed.";
       isAuthenticated.value = false;
     } finally {
       loading.value = false;
@@ -36,7 +36,7 @@ export function useAuthService() {
     } catch (err) {
       error.value =
         err.response?.data?.message ||
-        "Registration failed for unknown reasons.";
+        "Registration failed.";
       return false;
     } finally {
       loading.value = false;

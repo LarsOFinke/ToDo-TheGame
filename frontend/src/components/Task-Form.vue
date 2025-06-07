@@ -1,7 +1,14 @@
 <template>
     <div class="w-full flex flex-col max-w-sm bg-gray-100 rounded-lg shadow-md p-6 mx-auto">
         <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Add a new Task!</h2>
-        <form @submit.prevent="addNewTask">
+
+        <!-- Message-Box -->
+        <div v-if="msg !== ''"
+            :class="msg === 'Something went wrong!' ? 'w-fit max-w-sm bg-gray-100 text-red-600 font-semibold rounded-lg shadow-md p-1 mx-auto' : 'w-fit max-w-sm bg-gray-100 text-gray-800 font-semibold rounded-lg shadow-md p-1 mx-auto'">
+            <p>{{ msg }}</p>
+        </div>
+
+        <form @submit.prevent="submitNewTask">
             <div class="flex mb-4 justify-between">
                 <label class="text-sm font-medium text-gray-700">Mode
                     <select v-model.trim="mode"
@@ -101,10 +108,13 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useTasksService } from '@/services/TasksService'
 
+const msg = ref('')
+
+const { loading, error, addNewTask } = useTasksService()
 const emit = defineEmits(['hideTaskList', 'addTask'])
 
-let id = 0  // Replace with ref() later!
 const mode = ref('')
 const priority = ref('')
 const topic = ref('')
@@ -115,11 +125,8 @@ const startDate = ref('')
 const title = ref('')
 const description = ref('')
 
-const addNewTask = () => {
-    id = id + 1
-
+const submitNewTask = () => {
     const newTask = {
-        id,
         title: title.value,
         mode: mode.value,
         category: category.value,
@@ -129,7 +136,12 @@ const addNewTask = () => {
         description: description.value
     }
 
-    emit('addTask', newTask)
+    if (addNewTask(newTask)) {
+        emit('addTask', newTask)
+    } else {
+        msg.value = 'Something went wrong!'
+    }
+
 }
 
 const showTaskList = () => {
