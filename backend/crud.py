@@ -111,7 +111,7 @@ def create_tasks_table():
     try:
         sql: str = "CREATE TABLE tblTasks(" \
                     "TaskID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " \
-                    "TaskMode TEXT NOT NULL UNIQUE, " \
+                    "TaskMode TEXT NOT NULL, " \
                     "TaskCategory TEXT NOT NULL, " \
                     "TaskPriority TEXT NOT NULL, " \
                     "TaskDeadlineDate TEXT NOT NULL, " \
@@ -185,27 +185,18 @@ def get_all_usernames() -> list:
 
 #-- TASKS --#
 
-# 'title'
-# 'mode' 
-# 'category' 
-# 'priority'
-# 'deadlineDate'
-# 'remainingTime'
-# 'description'
-
 def add_new_task(new_task: dict) -> bool:
     """
     Returns:
         True: if successfully added
         False: if error happened
     """
-    sql: str = "INSERT INTO tblTasks(TaskMode, TaskCategory, TaskPriority, TaskDeadlineDate, TaskRemainingTime, TaskTitle, TaskDescription) VALUES (?,?,?,?,?,?,?)"
-    return execute_query(sql, (new_task["mode"], new_task["category"], new_task["priority"], str(new_task["deadlineDate"]), new_task["remainingTime"], new_task["title"], new_task["description"]), CONNECTIONSTRING_TASKS)
-
-"TaskID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " \
-"TaskMode TEXT NOT NULL UNIQUE, " \
-"TaskCategory TEXT NOT NULL, " \
-"TaskPriority TEXT NOT NULL, " \
-"TaskDeadlineDate TEXT NOT NULL, " \
-"TaskRemainingTime TEXT NOT NULL, " \
-"TaskDescription TEXT NOT NULL)"
+    sql: str = "INSERT INTO tblTasks(TaskMode, TaskCategory, TaskPriority, TaskDeadlineDate, TaskRemainingTime, TaskTitle, TaskDescription)" \
+                "VALUES (?,?,?,?,?,?,?)"
+    return execute_query(
+                            sql, 
+                            (new_task["mode"], new_task["category"], new_task["priority"], 
+                            str(new_task["deadlineDate"]), new_task["remainingTime"], 
+                            new_task["title"], new_task["description"]), 
+                            CONNECTIONSTRING_TASKS
+                        )
