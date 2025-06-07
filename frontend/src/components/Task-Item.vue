@@ -46,7 +46,7 @@
         <div class="w-full flex justify-around">
             <button type="button" @click.prevent="showItemEdit"
                 class="w-fit bg-indigo-600 text-white py-1 px-4 rounded-md hover:bg-indigo-800 transition">Edit</button>
-            <button type="button"
+            <button type="button" @click.prevent="closeItem"
                 class="w-fit bg-green-600 text-white py-1 px-2 rounded-md hover:bg-green-800 transition">Done!</button>
         </div>
     </div>
@@ -56,7 +56,7 @@
 import { useTasksService } from '@/services/TasksService'
 
 const emit = defineEmits(['hideItemEdit', 'updateTaskList'])
-const { deleteTask } = useTasksService()
+const { deleteTask, closeTask } = useTasksService()
 
 const { task } = defineProps({
     task: Object
@@ -66,8 +66,16 @@ const showItemEdit = () => {
     emit('hideItemEdit', [false, task])
 }
 
+const updateList = () => { emit('updateTaskList', true) }
+
 const deleteItem = async () => {
     await deleteTask(task.id)
-    emit('updateTaskList', true)
+    updateList()
 }
+
+const closeItem = async () => {
+    await closeTask(task.id)
+    updateList()
+}
+
 </script>

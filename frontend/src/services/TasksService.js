@@ -67,6 +67,21 @@ export function useTasksService() {
     }
   };
 
+  const closeTask = async (taskId) => {
+    loading.value = true;
+    error.value = null;
+    try {
+      console.log("Attempting to close Task...");
+      await api.post("tasks/close", { taskId });
+      return true;
+    } catch (err) {
+      error.value = err.response?.data?.message || "Closing task failed.";
+      return false;
+    } finally {
+      loading.value = false;
+    }
+  };
+
   return {
     loading,
     error,
@@ -75,5 +90,6 @@ export function useTasksService() {
     getAllTasks,
     editTask,
     deleteTask,
+    closeTask,
   };
 }

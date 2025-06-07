@@ -187,9 +187,9 @@ def add_new_task(new_task: dict) -> bool:
                             CONNECTIONSTRING
                         )
 
-def get_all_open_tasks() -> list:
+def get_all_open_tasks() -> list[dict]:
     """Returns a list containing all tasks in the database"""
-    sql: str = "SELECT TaskID, TaskMode, TaskCategory, TaskPriority, TaskDeadlineDate, TaskStartDate, TaskRemainingTime, TaskTitle, TaskDescription, TaskID FROM tblTasks"
+    sql: str = "SELECT TaskID, TaskMode, TaskCategory, TaskPriority, TaskDeadlineDate, TaskStartDate, TaskRemainingTime, TaskTitle, TaskDescription, TaskIsOpen FROM tblTasks"
     
     with sqlite3.connect(CONNECTIONSTRING) as con:
         cursor = con.cursor()
@@ -209,7 +209,7 @@ def get_all_open_tasks() -> list:
                                 "description": task[8]
                             }
                             for task in results
-                            if task[9]
+                            if task[9] == 1
                        ]
         
     return tasks
@@ -241,3 +241,14 @@ def delete_task(task_id: int) -> bool:
     sql: str = "DELETE FROM tblTasks WHERE TaskID = ?"
                 
     return execute_query(sql, (task_id,), CONNECTIONSTRING)
+
+def close_task(task_id: dict) -> bool:
+    """
+    Returns:
+        True: if successfully added
+        False: if error happened
+    """
+    sql: str = "UPDATE tblTasks SET TaskIsOpen=FALSE WHERE TaskID = ?"
+                
+    return execute_query(sql, (task_id,), CONNECTIONSTRING)
+    

@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from ..crud import add_new_task, get_all_open_tasks, edit_task, delete_task
+from ..crud import add_new_task, get_all_open_tasks, edit_task, delete_task, close_task
 
 
 tasks = Blueprint("tasks", __name__)
@@ -38,3 +38,11 @@ def delete():
     else:
         return jsonify({"success": False}), 401
 
+@tasks.route("/close", methods=["POST"])
+def close():
+    data = request.get_json()
+
+    if close_task(int(data["taskId"])):
+        return jsonify({"success": True}), 200
+    else:
+        return jsonify({"success": False}), 401
