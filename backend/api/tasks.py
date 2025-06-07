@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from ..crud import add_new_task
+from ..crud import add_new_task, edit_task
 
 
 tasks = Blueprint("tasks", __name__)
@@ -19,9 +19,8 @@ def add():
 @tasks.route("/edit", methods=["POST"])
 def edit():
     data = request.get_json()
-    print(data)
-    return jsonify({"success": True}), 200
-    if add_new_task(data):
+
+    if edit_task(data):
         return jsonify({"success": True}), 200
     else:
         return jsonify({"success": False}), 401
