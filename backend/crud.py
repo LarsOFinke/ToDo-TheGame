@@ -96,8 +96,9 @@ def create_tasks_table():
                     "TaskMode TEXT NOT NULL, " \
                     "TaskCategory TEXT NOT NULL, " \
                     "TaskPriority TEXT NOT NULL, " \
-                    "TaskDeadlineDate TEXT NOT NULL, " \
-                    "TaskRemainingTime TEXT NOT NULL, " \
+                    "TaskDeadlineDate DATE, " \
+                    "TaskStartDate DATE, " \
+                    "TaskRemainingTime TEXT, " \
                     "TaskTitle TEXT NOT NULL, " \
                     "TaskDescription TEXT NOT NULL)"
         execute_query(sql, (), CONNECTIONSTRING)
@@ -178,12 +179,12 @@ def add_new_task(new_task: dict) -> bool:
         True: if successfully added
         False: if error happened
     """
-    sql: str = "INSERT INTO tblTasks(TaskMode, TaskCategory, TaskPriority, TaskDeadlineDate, TaskRemainingTime, TaskTitle, TaskDescription)" \
-                "VALUES (?,?,?,?,?,?,?)"
+    sql: str = "INSERT INTO tblTasks(TaskMode, TaskCategory, TaskPriority, TaskDeadlineDate, TaskStartDate, TaskRemainingTime, TaskTitle, TaskDescription)" \
+                "VALUES (?,?,?,?,?,?,?,?)"
     return execute_query(
                             sql, 
                             (new_task["mode"], new_task["category"], new_task["priority"], 
-                            str(new_task["deadlineDate"]), new_task["remainingTime"], 
+                            new_task["deadlineDate"], new_task["startDate"], new_task["remainingTime"], 
                             new_task["title"], new_task["description"]), 
                             CONNECTIONSTRING
                         )
@@ -194,14 +195,13 @@ def edit_task(edited_task: dict) -> bool:
         True: if successfully added
         False: if error happened
     """
-    sql: str = "UPDATE tblTasks" \
-                "SET TaskMode = ?, TaskCategory = ?, TaskPriority = ?, TaskDeadlineDate = ?, TaskRemainingTime = ?, TaskTitle = ?, TaskDescription = ? " \
-                "WHERE TaskID = ?" \
-                "VALUES (?,?,?,?,?,?,?)"
+    sql: str = "UPDATE tblTasks " \
+                "SET TaskMode = ?, TaskCategory = ?, TaskPriority = ?, TaskDeadlineDate = ?, TaskStartDate = ?, TaskRemainingTime = ?, TaskTitle = ?, TaskDescription = ? " \
+                "WHERE TaskID = 1"
     return execute_query(
                             sql, 
                             (edited_task["mode"], edited_task["category"], edited_task["priority"], 
-                            str(edited_task["deadlineDate"]), edited_task["remainingTime"], 
-                            edited_task["title"], edited_task["description"],edited_task["id"]), 
+                            str(edited_task["deadlineDate"]), edited_task["startDate"], edited_task["remainingTime"], 
+                            edited_task["title"], edited_task["description"]), 
                             CONNECTIONSTRING
                         )

@@ -54,7 +54,7 @@
 
             <div :class="category === 'timed' ? 'mb-4' : 'hidden'">
                 <label class="text-sm font-medium text-gray-700">Deadline
-                    <input v-model.trim="deadlineDate" type="date"
+                    <input v-model="deadlineDate" type="date"
                         class="mt-1 w-fit px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
                 </label>
             </div>
@@ -73,7 +73,7 @@
             <div
                 :class="interval === 'weekly' & category === 'recurring' | interval === 'monthly' & category === 'recurring' ? 'mb-4' : 'hidden'">
                 <label class="text-sm font-medium text-gray-700">Start Date
-                    <input v-model.trim="startDate" type="date"
+                    <input v-model="startDate" type="date"
                         class="mt-1 w-fit px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
                 </label>
             </div>
@@ -137,7 +137,8 @@ const submitEditedTask = () => {
         mode: mode.value,
         category: category.value,
         priority: priority.value,
-        deadlineDate: deadlineDate.value | null,
+        deadlineDate: deadlineDate.value || null,
+        startDate: startDate.value || null,
         remainingTime: 'NOT IMPLEMENTED YET',
         description: description.value
     }
