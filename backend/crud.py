@@ -1,7 +1,7 @@
 import sqlite3, os, sys # FOR DB
 from typing import Any, List, Tuple, Optional   # FOR "execute_query" FUNCTIONS
 from . import logging  # GET .ENV CONSTANTS AND LOGGING
-from werkzeug.security import generate_password_hash, check_password_hash # LOGIN-SYSTEM SECURITY
+from werkzeug.security import generate_password_hash, check_password_hash # User-SYSTEM SECURITY
 
 
 
@@ -61,18 +61,17 @@ DB_DIRECTORY = os.path.join(os.path.dirname(__file__), "db")
 if not os.path.exists(DB_DIRECTORY):
     os.mkdir(DB_DIRECTORY)
     
-CONNECTIONSTRING_LOGIN = os.path.join(os.path.dirname(DB_DIRECTORY), "db", "LoginDB.db")
-CONNECTIONSTRING_TASKS = os.path.join(os.path.dirname(DB_DIRECTORY), "db", "TasksDB.db")
+CONNECTIONSTRING = os.path.join(os.path.dirname(DB_DIRECTORY), "db", "ToDo-TheGame.db")
 
 
-def create_login_table() -> bool:
+def create_user_table() -> bool:
     try:
-        sql: str = "CREATE TABLE tblLogin(" \
-                    "LoginID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " \
-                    "LoginUsername TEXT NOT NULL UNIQUE, " \
-                    "LoginPassword TEXT NOT NULL, " \
-                    "LoginType TEXT NOT NULL)"
-        execute_query(sql, (), CONNECTIONSTRING_LOGIN)
+        sql: str = "CREATE TABLE tblUser(" \
+                    "UserID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " \
+                    "UserUsername TEXT NOT NULL UNIQUE, " \
+                    "UserPassword TEXT NOT NULL, " \
+                    "UserType TEXT NOT NULL)"
+        execute_query(sql, (), CONNECTIONSTRING)
         return True
     
     except sqlite3.Error as e:
@@ -82,31 +81,14 @@ def create_login_table() -> bool:
 def create_admins() -> bool:
     try:
         hashed_password = generate_password_hash("admin", method='pbkdf2:sha256')
-        sql: str = "INSERT INTO tblLogin(LoginUsername, LoginPassword, LoginType) VALUES ('admin', ?, 'admin')"
-        execute_query(sql, (hashed_password,), CONNECTIONSTRING_LOGIN)
+        sql: str = "INSERT INTO tblUser(UserUsername, UserPassword, UserType) VALUES ('admin', ?, 'admin')"
+        execute_query(sql, (hashed_password,), CONNECTIONSTRING)
         return True
 
     except sqlite3.Error as e:
         logging.error(e)
         return False   
 
-if not os.path.exists(CONNECTIONSTRING_LOGIN):
-    if not create_login_table():
-        logging.error("Could not create login-table! Something went wrong...")
-        sys.exit()
-    if not create_admins():
-        logging.error("Could not create admins! Something went wrong...")
-        sys.exit()
-          
-
-# id,
-# title: title.value,
-# mode: mode.value,
-# Category: category.value,
-# Priority: priority.value,
-# DeadlineDate: deadlineDate.value | null,
-# RemainingTime: 'NOT IMPLEMENTED YET',
-# Description: description.value
 def create_tasks_table():
     try:
         sql: str = "CREATE TABLE tblTasks(" \
@@ -118,36 +100,41 @@ def create_tasks_table():
                     "TaskRemainingTime TEXT NOT NULL, " \
                     "TaskTitle TEXT NOT NULL, " \
                     "TaskDescription TEXT NOT NULL)"
-        execute_query(sql, (), CONNECTIONSTRING_TASKS)
+        execute_query(sql, (), CONNECTIONSTRING)
         return True
     
     except sqlite3.Error as e:
         logging.error(e)
         return False
-
-  
-if not os.path.exists(CONNECTIONSTRING_TASKS):
+    
+if not os.path.exists(CONNECTIONSTRING):
+    if not create_user_table():
+        logging.error("Could not create User-table! Something went wrong...")
+        sys.exit()
+    if not create_admins():
+        logging.error("Could not create admins! Something went wrong...")
+        sys.exit()
     if not create_tasks_table():
         logging.error("Could not create tasks-table! Something went wrong...")
         sys.exit()
- 
+          
  
 ### SET UP CRUD-FUNCTIONALITY ###
 
-#-- LOGIN --#
+#-- User --#
 
-def create_login(username: str, password: str) -> bool:
+def create_user(username: str, password: str) -> bool:
     """
     Returns:
         True: if successfully added
         False: if error happened
     """
     hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
-    sql: str = "INSERT INTO tblLogin(LoginUsername, LoginPassword, LoginType) VALUES (?, ?, 'user')"
-    return execute_query(sql, (username, hashed_password), CONNECTIONSTRING_LOGIN)
+    sql: str = "INSERT INTO tblUser(UserUsername, UserPassword, UserType) VALUES (?, ?, 'user')"
+    return execute_query(sql, (username, hashed_password), CONNECTIONSTRING)
 
-def validate_login(username: str, password: str) -> bool:
-    """Validates whether a Login is successfull or not
+def validate_user(username: str, password: str) -> bool:
+    """Validates whether a User is successfull or not
 
     Args:
         username (str): Username from Frontend
@@ -157,8 +144,8 @@ def validate_login(username: str, password: str) -> bool:
         True: if Password matches that from the database for the called user
         False: if user not found in the Database OR password does NOT match that from the database for the called user 
     """
-    sql: str = "SELECT LoginPassword FROM tblLogin WHERE LoginUsername = ?"
-    result = execute_query(sql, (username,), CONNECTIONSTRING_LOGIN, fetch=True)
+    sql: str = "SELECT UserPassword FROM tblUser WHERE UserUsername = ?"
+    result = execute_query(sql, (username,), CONNECTIONSTRING, fetch=True)
     
     if not result:
         return False    # No matches for the username
@@ -172,9 +159,9 @@ def validate_login(username: str, password: str) -> bool:
 
 def get_all_usernames() -> list:
     """Returns a list containing all usernames in the database"""
-    sql: str = "SELECT LoginUsername FROM tblLogin"
+    sql: str = "SELECT UserUsername FROM tblUser"
     
-    with sqlite3.connect(CONNECTIONSTRING_LOGIN) as con:
+    with sqlite3.connect(CONNECTIONSTRING) as con:
         cursor = con.cursor()
         cursor.execute(sql)
         results = cursor.fetchall()
@@ -198,5 +185,5 @@ def add_new_task(new_task: dict) -> bool:
                             (new_task["mode"], new_task["category"], new_task["priority"], 
                             str(new_task["deadlineDate"]), new_task["remainingTime"], 
                             new_task["title"], new_task["description"]), 
-                            CONNECTIONSTRING_TASKS
+                            CONNECTIONSTRING
                         )
