@@ -14,12 +14,12 @@
             <!-- Scrollable Task List -->
             <div class="overflow-x-auto max-h-95">
                 <ul v-for="task in taskList" :key="task.id" class="mb-8">
-                    <task-item :task="task" @hideItemEdit="showItemEdit"></task-item>
+                    <task-item :task="task" @hideItemEdit="showItemEdit" @updateTaskList="updateList"></task-item>
                 </ul>
             </div>
         </div>
 
-        <task-item-edit v-else @hideItemEdit="showItemEdit" :task="selectedTask"></task-item-edit>
+        <task-item-edit v-else :task="selectedTask" @hideItemEdit="showItemEdit"></task-item-edit>
     </div>
 </template>
 
@@ -29,7 +29,7 @@ import TaskItem from './Task-Item.vue';
 import TaskItemEdit from './Task-Item-Edit.vue';
 import { ref } from 'vue'
 
-const emit = defineEmits(['hideTaskList'])
+const emit = defineEmits(['hideTaskList', 'updateTaskList'])
 const viewItemEdit = ref(false);
 const selectedTask = ref('')
 
@@ -39,6 +39,10 @@ defineProps({
 
 const showTaskForm = () => {
     emit('hideTaskList', true)
+}
+
+const updateList = () => {
+    emit('updateTaskList', true)
 }
 
 const showItemEdit = (hideItemEdit) => {

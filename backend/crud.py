@@ -231,3 +231,13 @@ def edit_task(edited_task: dict) -> bool:
                             edited_task["title"], edited_task["description"], edited_task["id"]), 
                             CONNECTIONSTRING
                         )
+
+def delete_task(task_id: int) -> bool:
+    """
+    Returns:
+        True: if successfully added
+        False: if error happened
+    """
+    sql: str = "DELETE FROM tblTasks WHERE TaskID = ?"
+                
+    return execute_query(sql, (task_id,), CONNECTIONSTRING)

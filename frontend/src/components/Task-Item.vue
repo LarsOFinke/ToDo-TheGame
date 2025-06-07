@@ -39,7 +39,7 @@
 
         <!-- Utility-Buttons -->
         <div class="mb-2 absolute top-2 right-2">
-            <button type="button"
+            <button type="button" @click.prevent="deleteItem"
                 class="text-l w-fit bg-red-700 text-white px-2 rounded-md hover:bg-red-800 transition">Delete</button>
         </div>
 
@@ -53,15 +53,21 @@
 </template>
 
 <script setup>
+import { useTasksService } from '@/services/TasksService'
 
-const emit = defineEmits(['hideItemEdit'])
+const emit = defineEmits(['hideItemEdit', 'updateTaskList'])
+const { deleteTask } = useTasksService()
 
 const { task } = defineProps({
-  task: Object
+    task: Object
 })
 
 const showItemEdit = () => {
     emit('hideItemEdit', [false, task])
 }
 
+const deleteItem = async () => {
+    await deleteTask(task.id)
+    emit('updateTaskList', true)
+}
 </script>

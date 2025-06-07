@@ -26,7 +26,6 @@ export function useTasksService() {
       .get("tasks/get-all-open")
       .then((data) => {
         tasks.value = data.data.tasks;
-        console.log(tasks.value);
         return true;
       })
       .catch((err) => {
@@ -53,6 +52,21 @@ export function useTasksService() {
     }
   };
 
+  const deleteTask = async (taskId) => {
+    loading.value = true;
+    error.value = null;
+    try {
+      console.log("Attempting to delete Task...");
+      await api.post("tasks/delete", { taskId });
+      return true;
+    } catch (err) {
+      error.value = err.response?.data?.message || "Deleting task failed.";
+      return false;
+    } finally {
+      loading.value = false;
+    }
+  };
+
   return {
     loading,
     error,
@@ -60,5 +74,6 @@ export function useTasksService() {
     addNewTask,
     getAllTasks,
     editTask,
+    deleteTask,
   };
 }

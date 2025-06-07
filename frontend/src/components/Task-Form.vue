@@ -139,11 +139,24 @@ const submitNewTask = () => {
     console.log(newTask);
 
     if (addNewTask(newTask)) {
+        resetForm()
         msg.value = 'Task successfully added.'
     } else {
         msg.value = 'Something went wrong!'
     }
 
+}
+
+const resetForm = () => {
+    mode.value = ''
+    priority.value = ''
+    topic.value = ''
+    category.value = ''
+    deadlineDate.value = ''
+    interval.value = ''
+    startDate.value = ''
+    title.value = ''
+    description.value = ''
 }
 
 const showTaskList = () => {
