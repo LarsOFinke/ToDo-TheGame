@@ -3,7 +3,7 @@ import HomePage from "@/views/Home-Page.vue";
 import RegistrationPage from "@/views/Registration-Page.vue";
 import TasksPage from "@/views/Tasks-Page.vue";
 import ImpressumPage from "@/views/Impressum-Page.vue";
-import TaskItemEdit from "@/components/Task-Item-Edit.vue";
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -28,11 +28,6 @@ const router = createRouter({
       name: "impressum",
       component: ImpressumPage,
     },
-    {
-      path: "/edit",
-      name: "edit",
-      component: TaskItemEdit,
-    }
   ],
 });
 
