@@ -110,21 +110,25 @@
 import { ref } from 'vue';
 import { useTasksService } from '@/services/TasksService'
 
+const { task } = defineProps({
+  task: Object
+})
+
 const msg = ref('')
 const { loading, error, editTask } = useTasksService()
 const emit = defineEmits(['hideItemEdit', 'editTask'])
-const mode = ref('')
-const priority = ref('')
-const topic = ref('')
-const category = ref('')
-const deadlineDate = ref('')
-const interval = ref('')
-const startDate = ref('')
-const title = ref('')
-const description = ref('')
+const mode = ref(task.mode)
+const priority = ref(task.priority)
+const topic = ref(task.topic)
+const category = ref(task.category)
+const deadlineDate = ref(task.deadlineDate)
+const interval = ref(task.interval)
+const startDate = ref(task.startDate)
+const title = ref(task.title)
+const description = ref(task.description)
 
 const showItemEdit = () => {
-    emit('hideItemEdit', true)
+    emit('hideItemEdit', [true,])
 }
 
 const submitEditedTask = () => {

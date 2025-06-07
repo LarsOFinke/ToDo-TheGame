@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div :class="viewItemEdit ? 'hidden' : 'w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-6 mx-auto relative'">
+        <div v-if="!viewItemEdit" class="w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-6 mx-auto relative">
             <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Task-List</h2>
 
             <!-- Utility-Buttons -->
@@ -19,7 +19,7 @@
             </div>
         </div>
 
-        <task-item-edit :class="viewItemEdit ? '' : 'hidden'" @hideItemEdit="showItemEdit"></task-item-edit>
+        <task-item-edit v-else @hideItemEdit="showItemEdit" :task="selectedTask"></task-item-edit>
     </div>
 </template>
 
@@ -31,6 +31,7 @@ import { ref } from 'vue'
 
 const emit = defineEmits(['hideTaskList'])
 const viewItemEdit = ref(false);
+const selectedTask = ref('')
 
 defineProps({
     taskList: Array
@@ -41,9 +42,10 @@ const showTaskForm = () => {
 }
 
 const showItemEdit = (hideItemEdit) => {
-    if (hideItemEdit) {
+    if (hideItemEdit[0]) {
         viewItemEdit.value = false
     } else {
+        selectedTask.value = hideItemEdit[1]
         viewItemEdit.value = true
     }
 }

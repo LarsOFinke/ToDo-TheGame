@@ -56,12 +56,12 @@
 
 const emit = defineEmits(['hideItemEdit'])
 
-defineProps({
-    task: Object
+const { task } = defineProps({
+  task: Object
 })
 
 const showItemEdit = () => {
-    emit('hideItemEdit', false)
+    emit('hideItemEdit', [false, task])
 }
 
 </script>
