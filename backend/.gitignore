@@ -1,4 +1,7 @@
-.env
-loginDB.db
-__pycache__/
-sessions/
+# FILES #
+*.env
+*loginDB.db
+
+# DIRECTORIES #
+*__pycache__/
+*sessions/
