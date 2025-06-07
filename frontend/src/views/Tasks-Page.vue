@@ -1,6 +1,6 @@
 <template>
-    <task-list :class="showTaskList ? '' : 'hidden'" @hideTaskList="toggleViews" :taskList="taskList"></task-list>
-    <task-form :class="showTaskList ? 'hidden' : ''" @hideTaskList="toggleViews" @addTask="addNewTask"></task-form>
+    <task-list :class="viewTaskList ? '' : 'hidden'" @hideTaskList="showTaskList" :taskList="taskList"></task-list>
+    <task-form :class="viewTaskList ? 'hidden' : ''" @hideTaskList="showTaskList" @addTask="addNewTask"></task-form>
 </template>
 
 <script setup>
@@ -12,15 +12,7 @@ import { useAuthService } from "@/services/AuthService"
 
 const router = useRouter();
 const { isAuthenticated } = useAuthService()
-
-onMounted(() => {
-    if (!isAuthenticated.value) {
-        router.replace('/');
-    }
-});
-
-const showTaskList = ref(true)
-
+const viewTaskList = ref(true)
 const taskList = ref([
     {
         id: 1,
@@ -62,11 +54,17 @@ const taskList = ref([
     },
 ])
 
-const toggleViews = (hideTaskList) => {
+onMounted(() => {
+    if (!isAuthenticated.value) {
+        router.replace('/');
+    }
+});
+
+const showTaskList = (hideTaskList) => {
     if (hideTaskList) {
-        showTaskList.value = false
+        viewTaskList.value = false
     } else {
-        showTaskList.value = true
+        viewTaskList.value = true
     }
 }
 

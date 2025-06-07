@@ -93,7 +93,7 @@
             </div>
 
             <div class="w-full flex justify-between">
-                <button type="button" @click.prevent="showTaskList"
+                <button type="button" @click.prevent="showItemEdit"
                     class="w-fit bg-red-700 text-white py-1 px-4 rounded-md hover:bg-red-800 transition">Back</button>
 
                 <button type="reset"
@@ -111,10 +111,8 @@ import { ref } from 'vue';
 import { useTasksService } from '@/services/TasksService'
 
 const msg = ref('')
-
 const { loading, error, editTask } = useTasksService()
-const emit = defineEmits(['hideTaskList', 'editTask'])
-
+const emit = defineEmits(['hideItemEdit', 'editTask'])
 const mode = ref('')
 const priority = ref('')
 const topic = ref('')
@@ -124,6 +122,10 @@ const interval = ref('')
 const startDate = ref('')
 const title = ref('')
 const description = ref('')
+
+const showItemEdit = () => {
+    emit('hideItemEdit', true)
+}
 
 const submitEditedTask = () => {
     const editedTask = {
@@ -144,7 +146,4 @@ const submitEditedTask = () => {
 
 }
 
-const showTaskList = () => {
-    emit('hideTaskList', false)
-}
 </script>

@@ -1,24 +1,26 @@
 <template>
-    <div class="w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-6 mx-auto relative" :class="viewItemEdit ? 'hidden' : ''">
-        <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Task-List</h2>
+    <div>
+        <div :class="viewItemEdit ? 'hidden' : 'w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-6 mx-auto relative'">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Task-List</h2>
 
-        <!-- Utility-Buttons -->
-        <div class="flex justify-center mb-4">
-            <button type="button" @click.prevent="showTaskForm"
-                class="text-l w-fit bg-yellow-600 text-white px-2 py-1 mb-1 rounded-md hover:bg-yellow-800 transition">
-                New task
-            </button>
+            <!-- Utility-Buttons -->
+            <div class="flex justify-center mb-4">
+                <button type="button" @click.prevent="showTaskForm"
+                    class="text-l w-fit bg-yellow-600 text-white px-2 py-1 mb-1 rounded-md hover:bg-yellow-800 transition">
+                    New task
+                </button>
+            </div>
+
+            <!-- Scrollable Task List -->
+            <div class="overflow-x-auto max-h-95">
+                <ul v-for="task in taskList" :key="task.id" class="mb-8">
+                    <task-item :task="task" @hideItemEdit="showItemEdit"></task-item>
+                </ul>
+            </div>
         </div>
 
-        <!-- Scrollable Task List -->
-        <div class="overflow-x-auto max-h-95">
-            <ul v-for="task in taskList" :key="task.id" class="mb-8">
-                <task-item :task="task"></task-item>
-            </ul>
-        </div>       
+        <task-item-edit :class="viewItemEdit ? '' : 'hidden'" @hideItemEdit="showItemEdit"></task-item-edit>
     </div>
-    <task-item-edit :class="viewItemEdit ? '' : 'hidden'"></task-item-edit>
-    <!-- @showItemEdit="toggleViews" @editedTask="editTask" -->
 </template>
 
 
@@ -38,6 +40,12 @@ const showTaskForm = () => {
     emit('hideTaskList', true)
 }
 
-
+const showItemEdit = (hideItemEdit) => {
+    if (hideItemEdit) {
+        viewItemEdit.value = false
+    } else {
+        viewItemEdit.value = true
+    }
+}
 
 </script>
