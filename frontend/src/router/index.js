@@ -4,6 +4,7 @@ import RegistrationPage from "@/views/Registration-Page.vue";
 import TasksPage from "@/views/Tasks-Page.vue";
 import ImpressumPage from "@/views/Impressum-Page.vue";
 
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [

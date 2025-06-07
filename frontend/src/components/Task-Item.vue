@@ -44,7 +44,7 @@
         </div>
 
         <div class="w-full flex justify-around">
-            <button type="button"
+            <button type="button" @click.prevent="edit"
                 class="w-fit bg-indigo-600 text-white py-1 px-4 rounded-md hover:bg-indigo-800 transition">Edit</button>
             <button type="button"
                 class="w-fit bg-green-600 text-white py-1 px-2 rounded-md hover:bg-green-800 transition">Done!</button>
@@ -53,8 +53,15 @@
 </template>
 
 <script setup>
+
+const emit = defineEmits(['showItemEdit'])
+
 defineProps({
     task: Object
 })
+
+const edit = () => {
+    emit('showItemEdit', true)
+}
 
 </script>

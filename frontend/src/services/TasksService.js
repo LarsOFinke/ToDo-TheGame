@@ -22,9 +22,29 @@ export function useTasksService() {
     }
   };
 
+
+  const editTask = async (editedTask) => {
+    loading.value = true;
+    error.value = null;
+    try {
+      console.log("Attempting to edit Task:", editedTask);
+      await api.post("tasks/edit", editedTask);
+      return true;
+    } catch (err) {
+      error.value =
+        err.response?.data?.message ||
+        "Editing task failed.";
+      return false;
+    } finally {
+      loading.value = false;
+    } 
+  }
+
   return {
     loading,
     error,
     addNewTask,
+    editTask,
   };
+  
 }
