@@ -104,7 +104,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import MessageBox from './shared/Message-Box.vue';
 import { useTasksService } from '@/services/TasksService'
 
@@ -125,6 +125,14 @@ const interval = ref(task.interval)
 const startDate = ref(task.startDate)
 const title = ref(task.title)
 const description = ref(task.description)
+
+watch(loading, (newVal) => {
+    if (newVal) {
+        msg.value = "Editing task..."
+    } else {
+        msg.value = ""
+    }
+})
 
 const showItemEdit = () => {
     emit('hideItemEdit', [true,])

@@ -74,7 +74,7 @@ const showTeamForm = (hideTeamForm) => {
         viewTeamForm.value = true
         viewTeamList.value = false
     } else {
-        viewTeamForm.value = true
+        viewTeamForm.value = false
         viewTeamList.value = true
     }
 }

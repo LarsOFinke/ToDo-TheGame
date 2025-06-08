@@ -89,6 +89,7 @@
                 </label>
             </div>
 
+            <!-- Utility-Buttons -->
             <div class="w-full flex justify-between">
                 <button type="button" @click.prevent="showTaskList"
                     class="w-fit bg-red-700 text-white py-1 px-4 rounded-md hover:bg-red-800 transition">Back</button>
@@ -104,7 +105,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import MessageBox from './shared/Message-Box.vue';
 import { useTasksService } from '@/services/TasksService'
 
@@ -113,7 +114,6 @@ const errorPhrase = 'Something went wrong!'
 
 const { loading, error, addNewTask } = useTasksService()
 const emit = defineEmits(['hideTaskList'])
-
 const mode = ref('')
 const priority = ref('')
 const topic = ref('')
@@ -123,6 +123,14 @@ const interval = ref('')
 const startDate = ref('')
 const title = ref('')
 const description = ref('')
+
+watch(loading, (newVal) => {
+    if (newVal) {
+        msg.value = "Submitting new task..."
+    } else {
+        msg.value = ""
+    }
+})
 
 const submitNewTask = () => {
     const newTask = {
