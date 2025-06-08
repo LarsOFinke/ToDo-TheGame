@@ -128,6 +128,7 @@ const submitNewTask = () => {
     const newTask = {
         title: title.value,
         mode: mode.value,
+        topic: topic.value,
         category: category.value,
         priority: priority.value,
         deadlineDate: deadlineDate.value || null,

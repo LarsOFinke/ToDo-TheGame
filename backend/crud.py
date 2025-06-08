@@ -90,6 +90,7 @@ def create_tasks_table():
         sql: str = "CREATE TABLE tblTasks(" \
                     "TaskID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " \
                     "TaskMode TEXT NOT NULL, " \
+                    "TaskTopic TEXT NOT NULL, " \
                     "TaskCategory TEXT NOT NULL, " \
                     "TaskPriority TEXT NOT NULL, " \
                     "TaskDeadlineDate DATE, " \
@@ -176,12 +177,12 @@ def add_new_task(new_task: dict) -> bool:
         True: if successfully added
         False: if error happened
     """
-    sql: str = "INSERT INTO tblTasks(TaskMode, TaskCategory, TaskPriority, TaskDeadlineDate, TaskStartDate, TaskRemainingTime, TaskTitle, TaskDescription, TaskIsOpen)" \
-                "VALUES (?,?,?,?,?,?,?,?,TRUE)"
+    sql: str = "INSERT INTO tblTasks(TaskMode, TaskTopic, TaskCategory, TaskPriority, TaskDeadlineDate, TaskStartDate, TaskRemainingTime, TaskTitle, TaskDescription, TaskIsOpen)" \
+                "VALUES (?,?,?,?,?,?,?,?,?,TRUE)"
                 
     return execute_query(
                             sql, 
-                            (new_task["mode"], new_task["category"], new_task["priority"], 
+                            (new_task["mode"], new_task["topic"], new_task["category"], new_task["priority"], 
                             new_task["deadlineDate"], new_task["startDate"], new_task["remainingTime"], 
                             new_task["title"], new_task["description"]), 
                             CONNECTIONSTRING
@@ -189,7 +190,7 @@ def add_new_task(new_task: dict) -> bool:
 
 def get_all_open_tasks() -> list[dict]:
     """Returns a list containing all tasks in the database"""
-    sql: str = "SELECT TaskID, TaskMode, TaskCategory, TaskPriority, TaskDeadlineDate, TaskStartDate, TaskRemainingTime, TaskTitle, TaskDescription, TaskIsOpen FROM tblTasks"
+    sql: str = "SELECT TaskID, TaskMode, TaskTopic, TaskCategory, TaskPriority, TaskDeadlineDate, TaskStartDate, TaskRemainingTime, TaskTitle, TaskDescription, TaskIsOpen FROM tblTasks"
     
     with sqlite3.connect(CONNECTIONSTRING) as con:
         cursor = con.cursor()
@@ -200,16 +201,17 @@ def get_all_open_tasks() -> list[dict]:
                             {
                                 "id": task[0],
                                 "mode": task[1],
-                                "category": task[2],
-                                "priority": task[3],
-                                "deadlineDate": task[4],
-                                "startDate": task[5],
-                                "remainingTime": task[6],
-                                "title": task[7],
-                                "description": task[8]
+                                "topic": task[2],
+                                "category": task[3],
+                                "priority": task[4],
+                                "deadlineDate": task[5],
+                                "startDate": task[6],
+                                "remainingTime": task[7],
+                                "title": task[8],
+                                "description": task[9]
                             }
                             for task in results
-                            if task[9] == 1
+                            if task[10] == 1
                        ]
         
     return tasks
@@ -221,12 +223,12 @@ def edit_task(edited_task: dict) -> bool:
         False: if error happened
     """
     sql: str = "UPDATE tblTasks " \
-                "SET TaskMode = ?, TaskCategory = ?, TaskPriority = ?, TaskDeadlineDate = ?, TaskStartDate = ?, TaskRemainingTime = ?, TaskTitle = ?, TaskDescription = ? " \
+                "SET TaskMode = ?, TaskTopic = ?, TaskCategory = ?, TaskPriority = ?, TaskDeadlineDate = ?, TaskStartDate = ?, TaskRemainingTime = ?, TaskTitle = ?, TaskDescription = ? " \
                 "WHERE TaskID = ?"
                 
     return execute_query(
                             sql, 
-                            (edited_task["mode"], edited_task["category"], edited_task["priority"], 
+                            (edited_task["mode"], edited_task["topic"], edited_task["category"], edited_task["priority"], 
                             str(edited_task["deadlineDate"]), edited_task["startDate"], edited_task["remainingTime"], 
                             edited_task["title"], edited_task["description"], edited_task["id"]), 
                             CONNECTIONSTRING

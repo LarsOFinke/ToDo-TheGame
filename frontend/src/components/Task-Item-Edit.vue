@@ -109,7 +109,7 @@ import MessageBox from './shared/Message-Box.vue';
 import { useTasksService } from '@/services/TasksService'
 
 const { task } = defineProps({
-  task: Object
+    task: Object
 })
 
 const msg = ref('')
@@ -136,6 +136,7 @@ const submitEditedTask = () => {
         title: title.value,
         mode: mode.value,
         category: category.value,
+        topic: topic.value,
         priority: priority.value,
         deadlineDate: deadlineDate.value || null,
         startDate: startDate.value || null,

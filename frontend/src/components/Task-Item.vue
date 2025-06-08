@@ -5,7 +5,10 @@
         <!-- Task header -->
         <div class="flex items-center justify-between w-full">
             <h3 class="text-xl font-bold text-gray-800 mb-2">{{ task.title }}</h3>
-            <h4 class="text-l font-semibold text-gray-800 mb-2">{{ task.mode }}</h4>
+            <div class="text-sm font-semibold text-gray-800 mb-2 rounded-lg shadow-md p-1">
+                <h4>{{ task.mode }}</h4>
+                <h4>{{ task.topic }}</h4>
+            </div>
         </div>
 
         <!-- Task info -->
