@@ -12,12 +12,9 @@ const login = async (username, password) => {
   error.value = null;
   try {
     const response = await api.post("auth/login", { username, password });
-    console.log(response.data);
     if (response.data.success) {
       user.value = response.data.username;
-      console.log(user.value);
       userId.value = response.data.userId;
-      console.log(userId.value);
       isAuthenticated.value = true;
     } else {
       isAuthenticated.value = false;

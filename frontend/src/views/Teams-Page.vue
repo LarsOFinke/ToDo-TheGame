@@ -1,5 +1,5 @@
 <template>
-    <teams-list v-if="showTeamsList"></teams-list>
+    <teams-list v-if="showTeamsList" :teamList="teamList"></teams-list>
 </template>
 
 <script setup>
@@ -17,5 +17,7 @@ const showTeamsList = ref(true)
 //         router.replace('/');
 //     }
 // });
+
+const teamList = ref([])
 
 </script>
