@@ -3,7 +3,7 @@
         <br>
 
         <!-- Task header -->
-        <div class="flex items-center justify-between w-full">
+        <div class="flex items-center justify-between w-full mb-2">
             <h3 class="text-xl font-bold text-gray-800 mb-2">{{ task.title }}</h3>
             <div class="text-sm font-semibold text-gray-800 mb-2 rounded-lg shadow-md p-1">
                 <h4>{{ task.mode }}</h4>
@@ -16,7 +16,8 @@
             <div class="w-full">
                 <label class="font-semibold">Deadline:</label>
                 <br>
-                <label>{{ task.deadlineDate }}
+                <label class="mb-2">{{ task.deadlineDate }}
+                    <br>
                     (<label>{{ task.remainingTime }}</label>)
                 </label>
             </div>
@@ -34,7 +35,7 @@
         <!-- Task description -->
         <div>
             <h4 class="font-semibold">Description:</h4>
-            <div class="text-sm mb-4 overflow-x-auto h-40">
+            <div class="text-sm mb-4 overflow-x-auto h-26">
                 <p class="overflow-y-hidden scrollbar-hide">{{ task.description }}</p>
             </div>
         </div>
