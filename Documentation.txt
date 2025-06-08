@@ -19,12 +19,12 @@ x6. Create Footer-Component
 x7. Create Router
 x8. Create Login-System
 x9. Create Task-System
-10. Create Database with CRUD
+x10. Create Database with CRUD
 x-- Login
--- Tasks
+x-- Tasks
 x11. Create Flask-App
-12. Create API
-13. Connect Frontend with Backend
+x12. Create API
+x13. Connect Frontend with Backend
 14. Add mobile compatibility
 
 
@@ -50,8 +50,8 @@ x- Tasks-Page
 - Impressum
 
 ## SERVICES ##
-- Auth-Service
-- Tasks-Service
+x- Auth-Service
+x- Tasks-Service
 
 
 
@@ -59,15 +59,42 @@ x- Tasks-Page
 
 ## DATABASE ##
 
+# User #
+tblUser
+UserID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE
+UserUsername TEXT NOT NULL UNIQUE
+UserPassword TEXT NOT NULL
+UserType TEXT NOT NULL
+
+# Tasks #
+tblTasks
+TaskID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE
+TaskMode TEXT NOT NULL
+TaskTopic TEXT NOT NULL
+TaskCategory TEXT NOT NULL
+TaskPriority TEXT NOT NULL
+TaskDeadlineDate DATE
+TaskStartDate DATE
+TaskRemainingTime TEXT
+TaskTitle TEXT NOT NULL
+TaskDescription TEXT NOT NULL
+TaskIsOpen BOOLEAN NOT NULL
 
 
 ## API ##
 
 
-# AUTH #
+# AUTH (api/auth/) #
+- login
+- register
+- clear-session
 
-
-# TASKS #
+# TASKS (api/tasks/) #
+- add
+- get-all-open
+- edit
+- delete
+- close
 
 
 
