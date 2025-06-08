@@ -55,12 +55,10 @@ const profile = () => {
 }
 
 const teams = () => {
-  clearSession()
   router.replace("/teams")
 }
 
 const tasks = () => {
-  clearSession()
   router.replace("/tasks")
 }
 

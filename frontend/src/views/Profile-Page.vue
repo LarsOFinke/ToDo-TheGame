@@ -19,7 +19,7 @@ import { useRouter } from 'vue-router';
 import { useAuthService } from '@/services/AuthService'
 
 const router = useRouter();
-const { user, isAuthenticated } = useAuthService()
+const { isAuthenticated } = useAuthService()
 const msg = ref('')
 const errorPhrase = 'Something went wrong!'
 const editMode = ref(false)

@@ -9,14 +9,14 @@ import { useRouter } from 'vue-router';
 import { useAuthService } from '@/services/AuthService'
 
 const router = useRouter();
-const { user, isAuthenticated } = useAuthService()
+const { isAuthenticated } = useAuthService()
 const showTeamsList = ref(true)
 
-// onMounted(async () => {
-//     if (!isAuthenticated.value) {
-//         router.replace('/');
-//     }
-// });
+onMounted(async () => {
+    if (!isAuthenticated.value) {
+        router.replace('/');
+    }
+});
 
 const teamList = ref([{id: 1}, {id: 2}])
 

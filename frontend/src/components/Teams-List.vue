@@ -48,8 +48,6 @@ import TeamsItemEdit from '@/components/Teams-Item-Edit.vue';
 const emit = defineEmits(['hideTeamList', 'updateTeamList'])
 const msg = ref('')
 const errorPhrase = 'Something went wrong!'
-const teamName = ref('')
-const selectedTeam = ref('')
 const viewTeamList = ref(false)
 const viewTeamForm = ref(false)
 
