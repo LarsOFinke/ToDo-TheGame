@@ -18,6 +18,6 @@ const showTeamsList = ref(true)
 //     }
 // });
 
-const teamList = ref([])
+const teamList = ref([{id: 1}, {id: 2}])
 
 </script>

@@ -23,25 +23,26 @@
 
             <!-- Scrollable Team List -->
             <div class="overflow-x-auto max-h-95">
-                <ul v-for="team in teamList" :key="task.id" class="mb-8">
-                    <teams-item :task="task" @hideTeamList="showTeamList"></teams-item>
+                <ul v-for="team in teamList" :key="team.id" class="mb-8">
+                    <teams-item :team="team" @hideTeamList="showTeamList"></teams-item>
                 </ul>
             </div>
         </div>
     </div>
 
-    <teams-item-edit v-else-if="viewTeamList && !viewTeamForm" :team="selectedTeam" @hideTeamList="showTeamList"></teams-item-edit>
-    <teams-form v-else :team="selectedTeam" @hideTeamForm="showTeamList"></teams-form>
+    <teams-item-edit v-else-if="viewTeamList && !viewTeamForm" :team="selectedTeam"
+        @hideTeamList="showTeamList"></teams-item-edit>
+    <teams-form v-else :team="selectedTeam" @hideTeamForm="showTeamList" @updateTeamList="updateList"></teams-form>
 
 </template>
 
 
 <script setup>
 import { ref } from 'vue'
+import MessageBox from '@/components/shared/Message-Box.vue';
 import TeamsForm from '@/components/Teams-Form.vue'
 import TeamsItem from '@/components/Teams-Item.vue';
 import TeamsItemEdit from '@/components/Teams-Item-Edit.vue';
-import MessageBox from '@/components/shared/Message-Box.vue';
 
 const emit = defineEmits(['hideTeamList', 'updateTeamList'])
 const msg = ref('')
