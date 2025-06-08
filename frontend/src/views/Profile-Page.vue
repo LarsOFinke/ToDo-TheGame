@@ -11,24 +11,24 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
 import MessageBox from '@/components/shared/Message-Box.vue'
 import ProfileForm from '@/components/Profile-Form.vue'
 import ProfileItem from '@/components/Profile-Item.vue'
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthService } from '@/services/AuthService'
 
 const router = useRouter();
 const { user, isAuthenticated } = useAuthService()
 const msg = ref('')
-const errorPhrase = 'Incorrect credentials!'
+const errorPhrase = 'Something went wrong!'
 const editMode = ref(false)
 
-// onMounted(async () => {
-//     if (!isAuthenticated.value) {
-//         router.replace('/');
-//     }
-// });
+onMounted(async () => {
+    if (!isAuthenticated.value) {
+        router.replace('/');
+    }
+});
 
 const toggleEditMode = (activateEditMode) => {
     if (activateEditMode) {

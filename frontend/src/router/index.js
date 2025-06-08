@@ -4,6 +4,7 @@ import RegistrationPage from "@/views/Registration-Page.vue";
 import TasksPage from "@/views/Tasks-Page.vue";
 import ImpressumPage from "@/views/Impressum-Page.vue";
 import ProfilePage from "@/views/Profile-Page.vue";
+import TeamsPage from "@/views/Teams-Page.vue";
 
 
 const router = createRouter({
@@ -23,6 +24,11 @@ const router = createRouter({
       path: "/profile",
       name: "profile",
       component: ProfilePage,
+    },
+    {
+      path: "/teams",
+      name: "teams",
+      component: TeamsPage,
     },
     {
       path: "/tasks",

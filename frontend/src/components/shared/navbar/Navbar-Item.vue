@@ -20,6 +20,10 @@
         </li>
         <li
           :class="isAuthenticated ? 'mr-4 font-medium dark:text-yellow-300 hover:text-yellow-400 hover:underline cursor-pointer' : 'hidden'">
+          <a @click.prevent="teams">Teams</a>
+        </li>
+        <li
+          :class="isAuthenticated ? 'mr-4 font-medium dark:text-yellow-300 hover:text-yellow-400 hover:underline cursor-pointer' : 'hidden'">
           <a @click.prevent="tasks">Tasks</a>
         </li>
         <li
@@ -48,6 +52,11 @@ const registration = () => {
 
 const profile = () => {
   router.replace("/profile")
+}
+
+const teams = () => {
+  clearSession()
+  router.replace("/teams")
 }
 
 const tasks = () => {
