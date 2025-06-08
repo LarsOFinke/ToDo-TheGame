@@ -55,7 +55,7 @@
 <script setup>
 import { useTasksService } from '@/services/TasksService'
 
-const emit = defineEmits(['hideItemEdit', 'updateTaskList'])
+const emit = defineEmits(['hideItemEdit', 'updateTaskList', 'closeItem'])
 const { deleteTask, closeTask } = useTasksService()
 
 const { task } = defineProps({
@@ -71,11 +71,13 @@ const updateList = () => { emit('updateTaskList', true) }
 const deleteItem = async () => {
     await deleteTask(task.id)
     updateList()
+    emit('closeItem', 'Item successfully deleted.')
 }
 
 const closeItem = async () => {
     await closeTask(task.id)
     updateList()
+    emit('closeItem', 'Item successfully closed.')
 }
 
 </script>

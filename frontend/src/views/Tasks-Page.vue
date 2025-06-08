@@ -1,10 +1,11 @@
 <template>
-    <task-list v-if="viewTaskList" :key="taskListKey" @hideTaskList="showTaskList" @updateTaskList="updateTasks" :taskList="taskList"></task-list>
+    <task-list v-if="viewTaskList" @hideTaskList="showTaskList" @updateTaskList="updateTasks"
+        :taskList="taskList"></task-list>
     <task-form v-else @hideTaskList="showTaskList"></task-form>
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick } from 'vue';
+import { ref, onMounted } from 'vue';
 import TaskList from '@/components/Task-List.vue'
 import TaskForm from '@/components/Task-Form.vue';
 import { useRouter } from 'vue-router';
@@ -16,7 +17,6 @@ const { isAuthenticated } = useAuthService()
 const { getAllTasks, tasks } = useTasksService()
 const viewTaskList = ref(true)
 const taskList = ref([])
-const taskListKey = ref(0)
 
 onMounted(async () => {
     if (!isAuthenticated.value) {
@@ -34,8 +34,6 @@ const fetchTasks = async () => {
 const updateTasks = async () => {
     await getAllTasks()
     taskList.value = tasks.value
-    await nextTick()
-    taskListKey.value++
 }
 
 const showTaskList = async (hideTaskList) => {
