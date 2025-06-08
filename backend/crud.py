@@ -168,6 +168,14 @@ def get_all_usernames() -> list:
         
     return usernames
 
+def get_user_id(username) -> int:
+    """Returns the user id from the database"""
+    sql: str = "SELECT UserID FROM tblUser WHERE UserUsername = ?"
+    result = execute_query(sql, (username,), CONNECTIONSTRING, fetch=True)
+    user_id = result[0][0]
+        
+    return user_id
+
 
 #-- TASKS --#
 

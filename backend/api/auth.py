@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, session, redirect, url_for
-from ..crud import validate_user, create_user
+from ..crud import validate_user, create_user, get_user_id
 
 
 auth = Blueprint("auth", __name__)
@@ -9,13 +9,11 @@ auth = Blueprint("auth", __name__)
 def login():
     data = request.get_json()
     username = data.get('username')
-    
-    if validate_user(username, data.get('password')):
+    password = data.get('password')
+    if validate_user(username, password):
         session["username"] = username
-        if username == "admin":
-            session["is_admin"] = True
-            
-        return jsonify({"success": True}), 200
+        user_id = get_user_id(username)
+        return jsonify({"success": True, "username": username, "userId": user_id}), 200
     else:
         return jsonify({"success": False}), 401
     

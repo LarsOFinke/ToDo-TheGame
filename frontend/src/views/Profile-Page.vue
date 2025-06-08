@@ -25,10 +25,10 @@ import { useRouter } from 'vue-router';
 import { useAuthService } from '@/services/AuthService'
 
 const router = useRouter();
-const { isAuthenticated } = useAuthService()
+const { user, isAuthenticated } = useAuthService()
 const msg = ref('')
 const errorPhrase = 'Incorrect credentials!'
-const username = ref('')
+const username = ref(user)
 
 // onMounted(async () => {
 //     if (!isAuthenticated.value) {

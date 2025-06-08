@@ -1,21 +1,27 @@
-// services/AuthService.js
 import { ref } from "vue";
 import api from "@/environments/testing-environment";
 
-// ✅ Declare shared reactive state at module level
 const user = ref(null);
+const userId = ref(0);
 const isAuthenticated = ref(false);
 const loading = ref(false);
 const error = ref(null);
 
-// ✅ Use regular functions that act on shared state
 const login = async (username, password) => {
   loading.value = true;
   error.value = null;
   try {
     const response = await api.post("auth/login", { username, password });
-    user.value = response.data.user;
-    isAuthenticated.value = true;
+    console.log(response.data);
+    if (response.data.success) {
+      user.value = response.data.username;
+      console.log(user.value);
+      userId.value = response.data.userId;
+      console.log(userId.value);
+      isAuthenticated.value = true;
+    } else {
+      isAuthenticated.value = false;
+    }
   } catch (err) {
     error.value = err.response?.data?.message || "Login failed.";
     isAuthenticated.value = false;
@@ -46,7 +52,6 @@ const clearSession = () => {
   });
 };
 
-// ✅ Export shared state and actions directly
 export function useAuthService() {
   return {
     user,
