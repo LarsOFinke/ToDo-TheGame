@@ -117,10 +117,10 @@ Recurring Tasks (Dailies / Weeklies / …)
 
 
 ### STEP BY STEP ###
-1. Switch CSS to Tailwind
+x1. Switch CSS to Tailwind
 2. Switch Backend to Symfony PHP
 3. Add toggle for localhost / local IP
-4. Add login-system
+x4. Add login-system
 5. Add profile page
 6. Add category-system
 7. Add team-System
