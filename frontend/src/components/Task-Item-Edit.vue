@@ -3,10 +3,7 @@
         <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Edit</h2>
 
         <!-- Message-Box -->
-        <div v-if="msg !== ''"
-            :class="msg === 'Something went wrong!' ? 'w-fit max-w-sm bg-gray-100 text-red-600 font-semibold rounded-lg shadow-md p-1 mx-auto' : 'w-fit max-w-sm bg-gray-100 text-gray-800 font-semibold rounded-lg shadow-md p-1 mx-auto'">
-            <p>{{ msg }}</p>
-        </div>
+        <message-box :msg="msg" :errorPhrase="errorPhrase"></message-box>
 
         <form @submit.prevent="submitEditedTask">
             <div class="flex mb-4 justify-between">
@@ -108,6 +105,7 @@
 
 <script setup>
 import { ref } from 'vue';
+import MessageBox from './shared/Message-Box.vue';
 import { useTasksService } from '@/services/TasksService'
 
 const { task } = defineProps({
@@ -115,6 +113,7 @@ const { task } = defineProps({
 })
 
 const msg = ref('')
+const errorPhrase = 'Something went wrong!'
 const { loading, error, editTask } = useTasksService()
 const emit = defineEmits(['hideItemEdit', 'editTask'])
 const mode = ref(task.mode)

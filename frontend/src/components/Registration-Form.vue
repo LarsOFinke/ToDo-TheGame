@@ -3,10 +3,7 @@
         <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">Register</h2>
 
         <!-- Message-Box -->
-        <div v-if="msg !== ''"
-            :class="msg === 'Passwords don\'t match!' ? 'w-fit max-w-sm bg-gray-100 text-red-600 font-semibold rounded-lg shadow-md p-1 mx-auto' : 'w-fit max-w-sm bg-gray-100 text-gray-800 font-semibold rounded-lg shadow-md p-1 mx-auto'">
-            <p>{{ msg }}</p>
-        </div>
+        <message-box :msg="msg" :errorPhrase="errorPhrase"></message-box>
 
         <form @submit.prevent="signUp" class="flex flex-col">
             <div class="mb-4">
@@ -52,16 +49,18 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router';
+import MessageBox from './shared/Message-Box.vue';
 import { useAuthService } from '@/services/AuthService'
 
 const router = useRouter();
 const { register, loading } = useAuthService()
 
+const msg = ref('')
+const errorPhrase = 'Passwords don\'t match!'
 const username = ref('')
 const password = ref('')
 const passwordConfirm = ref('')
 const showPassword = ref(false)
-const msg = ref('')
 
 watch(loading, (newVal) => {
     if (newVal) {

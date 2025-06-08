@@ -4,10 +4,7 @@
             <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Task-List</h2>
 
             <!-- Message-Box -->
-            <div v-if="msg !== ''"
-                :class="msg === 'Something went wrong!' ? 'w-fit max-w-sm bg-gray-100 text-red-600 font-semibold rounded-lg shadow-md p-1 mx-auto' : 'w-fit max-w-sm bg-gray-100 text-gray-800 font-semibold rounded-lg shadow-md p-1 mx-auto'">
-                <p>{{ msg }}</p>
-            </div>
+            <message-box :msg="msg" :error-phrase="errorPhrase"></message-box>
 
             <!-- Utility-Buttons -->
             <div class="flex justify-center mb-4">
@@ -35,8 +32,10 @@
 import { ref } from 'vue'
 import TaskItem from './Task-Item.vue';
 import TaskItemEdit from './Task-Item-Edit.vue';
+import MessageBox from './shared/Message-Box.vue';
 
 const msg = ref('')
+const errorPhrase = 'Something went wrong!'
 const emit = defineEmits(['hideTaskList', 'updateTaskList'])
 const viewItemEdit = ref(false);
 const selectedTask = ref('')

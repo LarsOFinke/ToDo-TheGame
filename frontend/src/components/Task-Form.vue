@@ -3,10 +3,7 @@
         <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Add a new Task!</h2>
 
         <!-- Message-Box -->
-        <div v-if="msg !== ''"
-            :class="msg === 'Something went wrong!' ? 'w-fit max-w-sm bg-gray-100 text-red-600 font-semibold rounded-lg shadow-md p-1 mx-auto' : 'w-fit max-w-sm bg-gray-100 text-gray-800 font-semibold rounded-lg shadow-md p-1 mx-auto'">
-            <p>{{ msg }}</p>
-        </div>
+        <message-box :msg="msg" :errorPhrase="errorPhrase"></message-box>
 
         <form @submit.prevent="submitNewTask">
             <div class="flex mb-4 justify-between">
@@ -108,9 +105,11 @@
 
 <script setup>
 import { ref } from 'vue';
+import MessageBox from './shared/Message-Box.vue';
 import { useTasksService } from '@/services/TasksService'
 
 const msg = ref('')
+const errorPhrase = 'Something went wrong!'
 
 const { loading, error, addNewTask } = useTasksService()
 const emit = defineEmits(['hideTaskList'])
