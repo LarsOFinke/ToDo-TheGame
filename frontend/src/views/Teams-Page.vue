@@ -2,21 +2,7 @@
     <div class="w-full max-w-sm bg-white rounded-lg shadow-md p-6 mx-auto">
         <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">Teams</h2>
 
-        <div class="flex mb-4">
-            <button type="button"
-                class="bg-yellow-600 text-white py-2 px-4 rounded-md hover:bg-yellow-800 transition h-fit mb-4 mx-auto"
-                @click.prevent="foundNewTeam">
-                Found a new team
-            </button>
-        </div>
-
-        <!-- Message-Box -->
-        <message-box :msg="msg" :errorPhrase="errorPhrase"></message-box>
-
-        <div>
-            <h3 class="text-xl font-semibold text-gray-800 mb-2">My Teams</h3>
-            <teams-list></teams-list>
-        </div>
+        <teams-list v-if="showTeamsList"></teams-list>
     </div>
 </template>
 
@@ -28,6 +14,7 @@ import { useAuthService } from '@/services/AuthService'
 
 const router = useRouter();
 const { user, isAuthenticated } = useAuthService()
+const showTeamsList = ref(true)
 
 // onMounted(async () => {
 //     if (!isAuthenticated.value) {
@@ -35,15 +22,4 @@ const { user, isAuthenticated } = useAuthService()
 //     }
 // });
 
-const msg = ref('')
-const errorPhrase = 'Something went wrong!'
-const teamName = ref('')
-
-const foundNewTeam = () => {
-    console.log('Attempting to found new team...');
-}
-
-const editTeamName = () => {
-    console.log('Attempting to change team name...');
-}
 </script>

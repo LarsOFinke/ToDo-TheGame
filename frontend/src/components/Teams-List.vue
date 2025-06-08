@@ -1,16 +1,31 @@
 <template>
     <div>
         <div v-if="!viewTeamEdit" class="w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-6 mx-auto relative">
+
+            <div class="flex mb-4">
+                <button type="button"
+                    class="bg-yellow-600 text-white py-2 px-4 rounded-md hover:bg-yellow-800 transition h-fit mb-4 mx-auto"
+                    @click.prevent="foundNewTeam">
+                    Found a new team
+                </button>
+            </div>
+
+            <!-- Message-Box -->
+            <message-box :msg="msg" :errorPhrase="errorPhrase"></message-box>
+
+            <!-- List Header -->
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">My Teams</h3>
+
             <!-- Scrollable Team List -->
             <div class="overflow-x-auto max-h-95">
                 <ul v-for="team in teamList" :key="task.id" class="mb-8">
-                    <team-item :task="task" @hideTeamEdit="showTeamEdit" @updateTeamList="updateList"
-                        @closeItem="showMessage"></team-item>
+                    <teams-item :task="task" @hideTeamEdit="showTeamEdit" @updateTeamList="updateList"
+                        @closeItem="showMessage"></teams-item>
                 </ul>
             </div>
         </div>
 
-        <!-- <teams-item-edit v-else :team="selectedTeam" @hideItemEdit="showTeamEdit"></teams-item-edit> -->
+        <teams-item-edit v-else :team="selectedTeam" @hideItemEdit="showTeamEdit"></teams-item-edit>
     </div>
 </template>
 
@@ -24,12 +39,17 @@ import MessageBox from './shared/Message-Box.vue';
 const msg = ref('')
 const errorPhrase = 'Something went wrong!'
 const emit = defineEmits(['hideTeamList', 'updateTeamList'])
+const teamName = ref('')
 const viewTeamEdit = ref(false);
 const selectedTeam = ref('')
 
 defineProps({
     teamList: Array
 })
+
+const foundNewTeam = () => {
+    console.log('Attempting to found new team...');
+}
 
 const updateList = () => {
     emit('updateTeamList', true)
