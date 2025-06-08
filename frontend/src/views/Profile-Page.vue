@@ -6,7 +6,7 @@
         <message-box :msg="msg" :errorPhrase="errorPhrase"></message-box>
 
         <div class="flex flex-col mb-4 justify-between">
-            <label class="flex text-sm font-medium text-gray-700 justify-between">Username
+            <label class="flex text-sm font-medium text-gray-700 justify-between mb-4">Username
                 <input v-model.trim="username" type="text" placeholder="Username" required
                     class="mt-1 block w-50 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
             </label>
@@ -18,15 +18,15 @@
             </button>
         </div>
 
-        <hr><br>
+        <hr>
 
-        <div class="flex flex-col mb-4 justify-between">
+        <div class="flex flex-col mt-4 justify-between">
             <label class="flex text-sm font-medium text-gray-700 mb-2 justify-between">New password
                 <input v-model.trim="newPassword1" :type="showPassword ? 'text' : 'password'" placeholder="New password" required
                     class="mt-1 block w-50 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
             </label>
 
-            <label class="flex text-sm font-medium text-gray-700 mb-4 justify-between">Confirmation
+            <label class="flex text-sm font-medium text-gray-700 mb-2 justify-between">Confirmation
                 <input v-model.trim="newPassword2" :type="showPassword ? 'text' : 'password'" placeholder="Confirm new password" required
                     class="mt-1 block w-50 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
             </label>
