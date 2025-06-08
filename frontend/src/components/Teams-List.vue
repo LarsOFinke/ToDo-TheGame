@@ -1,8 +1,9 @@
 <template>
-    <div>
-        <div v-if="!viewTeamEdit" class="w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-6 mx-auto relative">
+    <div class="w-full max-w-sm bg-white rounded-lg shadow-md p-6 mx-auto">
+        <!-- List Header -->
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">My Teams</h2>
 
-            <div class="flex mb-4">
+        <div class="flex mb-4">
                 <button type="button"
                     class="bg-yellow-600 text-white py-2 px-4 rounded-md hover:bg-yellow-800 transition h-fit mb-4 mx-auto"
                     @click.prevent="foundNewTeam">
@@ -10,11 +11,9 @@
                 </button>
             </div>
 
+        <div v-if="!viewTeamEdit" class="w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-6 mx-auto relative">
             <!-- Message-Box -->
             <message-box :msg="msg" :errorPhrase="errorPhrase"></message-box>
-
-            <!-- List Header -->
-            <h3 class="text-xl font-semibold text-gray-800 mb-2">My Teams</h3>
 
             <!-- Scrollable Team List -->
             <div class="overflow-x-auto max-h-95">
