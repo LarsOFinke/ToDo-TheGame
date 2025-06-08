@@ -33,7 +33,7 @@
 
     <teams-item-edit v-else-if="!viewTeamList && !viewTeamForm" :team="selectedTeam"
         @hideTeamList="showTeamList"></teams-item-edit>
-    <teams-form v-else @hideTeamForm="showTeamForm" @updateTeamList="updateList"></teams-form>
+    <teams-form v-else @hideTeamForm="showTeamForm"></teams-form>
 
 </template>
 
@@ -65,15 +65,12 @@ const joinTeam = () => {
     console.log('Attempting to join team...');
 }
 
-const updateList = () => {
-    emit('updateTeamList', true)
-}
-
 const showTeamForm = (hideTeamForm) => {
     if (hideTeamForm) {
         viewTeamForm.value = true
         viewTeamList.value = false
     } else {
+        emit('updateTeamList', true)
         viewTeamForm.value = false
         viewTeamList.value = true
     }

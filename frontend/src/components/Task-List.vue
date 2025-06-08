@@ -23,7 +23,7 @@
             </div>
         </div>
 
-        <task-item-edit v-else :task="selectedTask" @hideItemEdit="showItemEdit"></task-item-edit>
+        <task-item-edit v-else :task="selectedTask" @hideItemEdit="showItemEdit" @updateTaskList="updateList"></task-item-edit>
     </div>
 </template>
 

@@ -114,8 +114,8 @@ const { task } = defineProps({
 
 const msg = ref('')
 const errorPhrase = 'Something went wrong!'
-const { loading, error, editTask } = useTasksService()
-const emit = defineEmits(['hideItemEdit', 'editTask'])
+const { loading, editTask } = useTasksService()
+const emit = defineEmits(['hideItemEdit', 'updateTaskList'])
 const mode = ref(task.mode)
 const priority = ref(task.priority)
 const topic = ref(task.topic)
@@ -138,7 +138,7 @@ const showItemEdit = () => {
     emit('hideItemEdit', [true,])
 }
 
-const submitEditedTask = () => {
+const submitEditedTask = async () => {
     const editedTask = {
         id: task.id,
         title: title.value,
@@ -152,8 +152,8 @@ const submitEditedTask = () => {
         description: description.value
     }
 
-    if (editTask(editedTask)) {
-        emit('editTask', editedTask)
+    if (await editTask(editedTask)) {
+        emit('updateTaskList', true)
         msg.value = 'Task successfully updated.'
     } else {
         msg.value = 'Something went wrong!'
