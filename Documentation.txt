@@ -141,8 +141,8 @@ x4. Add login-system
 - Task-Item
 - Task-List
 - Task-Form
-- Profile-Item
-- Profile-Form
+x- Profile-Item
+x- Profile-Form
 
 ## VIEWS ##
 - Home (Login)
