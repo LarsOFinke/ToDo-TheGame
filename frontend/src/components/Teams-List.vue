@@ -31,9 +31,9 @@
         </div>
     </div>
 
-    <teams-item-edit v-else-if="!viewTeamList && viewTeamForm" :team="selectedTeam"
+    <teams-item-edit v-else-if="!viewTeamList && !viewTeamForm" :team="selectedTeam"
         @hideTeamList="showTeamList"></teams-item-edit>
-    <teams-form v-else :team="selectedTeam" @hideTeamForm="showTeamList" @updateTeamList="updateList"></teams-form>
+    <teams-form v-else @hideTeamForm="showTeamForm" @updateTeamList="updateList"></teams-form>
 
 </template>
 

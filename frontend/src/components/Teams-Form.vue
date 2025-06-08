@@ -15,18 +15,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
-import { useAuthService } from '@/services/AuthService'
-
-const router = useRouter();
-const { user, isAuthenticated } = useAuthService()
-
-// onMounted(async () => {
-//     if (!isAuthenticated.value) {
-//         router.replace('/');
-//     }
-// });
+import { ref } from 'vue';
 
 const msg = ref('')
 const errorPhrase = 'Something went wrong!'
