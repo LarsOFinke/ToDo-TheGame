@@ -40,13 +40,17 @@ x- Task-List
 x- Task-Form
 x- Profile-Item
 x- Profile-Form
+- Teams-Form
+- Teams-Item-Edit
+- Teams-Item
+x- Teams-List
 
 ## VIEWS ##
 x- Home (Login)
 x- Registration
 x- Tasks-Page
 x- Profile-Page
-- Teams-Page
+x- Teams-Page
 - Impressum-Page
 
 ## SERVICES ##

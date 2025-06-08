@@ -3,6 +3,7 @@
         <!-- List Header -->
         <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">My Teams</h2>
 
+        <!-- Utility-Buttons -->
         <div class="flex w-full justify-between mb-4">
             <button type="button"
                 class="bg-yellow-600 text-white py-2 px-4 rounded-md hover:bg-yellow-800 transition h-fit mb-4"
