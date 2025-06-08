@@ -8,7 +8,7 @@
     </div>
 
     <div class="flex flex-col mb-4 justify-between">
-        <label class="flex text-sm font-medium text-gray-700 justify-between mb-4">User
+        <label class="flex text-sm font-medium text-gray-700 justify-between mb-2">User
             <input v-model.trim="username" type="text" placeholder="Username" required
                 class="mt-1 block w-50 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
         </label>
