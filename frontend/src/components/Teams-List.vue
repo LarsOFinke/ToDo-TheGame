@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!viewTeamList" class="w-full max-w-sm bg-white rounded-lg shadow-md p-6 mx-auto">
+    <div v-if="viewTeamList" class="w-full max-w-sm bg-white rounded-lg shadow-md p-6 mx-auto">
         <!-- List Header -->
         <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">My Teams</h2>
 
@@ -31,7 +31,7 @@
         </div>
     </div>
 
-    <teams-item-edit v-else-if="viewTeamList && !viewTeamForm" :team="selectedTeam"
+    <teams-item-edit v-else-if="!viewTeamList && viewTeamForm" :team="selectedTeam"
         @hideTeamList="showTeamList"></teams-item-edit>
     <teams-form v-else :team="selectedTeam" @hideTeamForm="showTeamList" @updateTeamList="updateList"></teams-form>
 
@@ -48,7 +48,8 @@ import TeamsItemEdit from '@/components/Teams-Item-Edit.vue';
 const emit = defineEmits(['hideTeamList', 'updateTeamList'])
 const msg = ref('')
 const errorPhrase = 'Something went wrong!'
-const viewTeamList = ref(false)
+const selectedTeam = ref(Object)
+const viewTeamList = ref(true)
 const viewTeamForm = ref(false)
 
 defineProps({
@@ -69,11 +70,10 @@ const updateList = () => {
 }
 
 const showTeamForm = (hideTeamForm) => {
-    if (hideTeamForm[0]) {
-        viewTeamForm.value = false
+    if (hideTeamForm) {
+        viewTeamForm.value = true
         viewTeamList.value = false
     } else {
-        selectedTeam.value = hideTeamForm[1]
         viewTeamForm.value = true
         viewTeamList.value = true
     }

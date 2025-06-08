@@ -24,22 +24,26 @@
 </template>
 
 <script setup>
+import MessageBox from './shared/Message-Box.vue';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthService } from '@/services/AuthService'
 
 const router = useRouter();
-const { user, isAuthenticated } = useAuthService()
-
-// onMounted(async () => {
-//     if (!isAuthenticated.value) {
-//         router.replace('/');
-//     }
-// });
-
+const { isAuthenticated } = useAuthService()
 const msg = ref('')
 const errorPhrase = 'Something went wrong!'
 const teamName = ref('')
+
+onMounted(async () => {
+    if (!isAuthenticated.value) {
+        router.replace('/');
+    }
+});
+
+defineProps({
+    selectedTeam: Object
+})
 
 const editTeamName = () => {
     console.log('Attempting to change team name...');
