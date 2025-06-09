@@ -115,8 +115,7 @@ def create_todos_table():
                     "TodoID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " \
                     "TodoText TEXT NOT NULL, " \
                     "TodoIsOpen BOOLEAN NOT NULL, " \
-                    "TaskIDRef INTEGER, " \
-                    "FOREIGN KEY(TaskIDRef) REFERENCES tblTasks(TaskID))"
+                    "TaskIDRef INTEGER)"
         execute_query(sql, (), CONNECTIONSTRING)
         return True
     
