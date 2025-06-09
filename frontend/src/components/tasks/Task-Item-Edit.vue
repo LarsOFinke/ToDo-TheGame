@@ -95,9 +95,13 @@
 
                 <div class="w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-2 mx-auto relative mb-2 p-2">
                     <div class="text-sm mb-4 overflow-x-auto  max-h-18">
-                        <ul v-for="(todo, index) in task.todos" :key="todo.id" class="list-disc pl-6">
+                        <ul v-for="todo in task.todos" :key="todo.id" class="list-disc pl-6">
                             <li>
-                                <input type="text" v-model="task.todos[index].text">
+                                <div class="flex mb-2">
+                                    <input type="text" v-model="todo.text">
+                                    <button type="button" @click.prevent="deleteTodo(todo)"
+                                        class="w-fit bg-red-700 text-white py-1 px-2 rounded-md hover:bg-red-800 transition">Delete</button>
+                                </div>
                             </li>
                         </ul>
                     </div>
@@ -141,6 +145,7 @@ const interval = ref(task.interval)
 const startDate = ref(task.startDate)
 const title = ref(task.title)
 const description = ref(task.description)
+const deletedTodos = ref([])
 
 watch(loading, (newVal) => {
     if (newVal) {
@@ -152,6 +157,14 @@ watch(loading, (newVal) => {
 
 const showItemEdit = () => {
     emit('hideItemEdit', [true,])
+}
+
+const deleteTodo = (todoItem) => {
+    deletedTodos.value.push(todoItem)
+    const index = task.todos.findIndex(todo => todo.id === todoItem.id);
+    if (index !== -1) {
+        task.todos.splice(index, 1);
+    }
 }
 
 const submitEditedTask = async () => {
@@ -166,7 +179,8 @@ const submitEditedTask = async () => {
         startDate: startDate.value || null,
         remainingTime: 'NOT IMPLEMENTED YET',
         description: description.value,
-        todos: task.todos
+        todos: task.todos,
+        deletedTodos: deletedTodos.value
     }
 
     if (await editTask(editedTask)) {

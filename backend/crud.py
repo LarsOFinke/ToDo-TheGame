@@ -274,6 +274,10 @@ def edit_task(edited_task: dict) -> bool:
                             CONNECTIONSTRING
                         ):
         if update_todos_for_task(edited_task["todos"]):
+            if len(edited_task["deletedTodos"]) > 0:
+                for todo in edited_task["deletedTodos"]:
+                    if not delete_todo(todo["id"]):
+                        return False
             return True
     return False
 
@@ -335,3 +339,11 @@ def close_todos_for_task(task_id: int) -> bool:
     sql: str = "UPDATE tblTodos SET TodoIsOpen=FALSE WHERE TaskIDRef = ?"
     return execute_query(sql, (task_id,), CONNECTIONSTRING)
 
+def delete_todo(todo_id: int) -> bool:
+    """
+    Returns:
+        True: if successfully added
+        False: if error happened
+    """
+    sql: str = "DELETE FROM tblTodos WHERE TodoID = ?"      
+    return execute_query(sql, (todo_id,), CONNECTIONSTRING)
