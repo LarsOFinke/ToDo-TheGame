@@ -40,6 +40,10 @@ def create_app():
     from .api.tasks import tasks    
     app.register_blueprint(tasks, url_prefix='/api/tasks')
     
+    # Teams-System API #
+    from .api.teams import teams    
+    app.register_blueprint(teams, url_prefix='/api/teams')
+    
     ## Set up Configuration ##
     load_dotenv()
     app.config["SECRET_KEY"] = getenv("SECRET_KEY")
