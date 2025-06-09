@@ -89,6 +89,20 @@
                 </label>
             </div>
 
+            <!-- Task-To-Do's -->
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">To-Do's</label>
+
+                <div class="w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-2 mx-auto relative mb-2 p-6">
+                    <div class="text-sm mb-4 overflow-x-auto  max-h-18">
+                        <ul v-for="todo in task.todos" :key="todo.id" class="list-disc">
+                            <li :value="todo.id" class="m-2">{{ todo.text }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
             <div class="w-full flex justify-between">
                 <button type="button" @click.prevent="showItemEdit"
                     class="w-fit bg-red-700 text-white py-1 px-4 rounded-md hover:bg-red-800 transition">Back</button>
@@ -149,7 +163,8 @@ const submitEditedTask = async () => {
         deadlineDate: deadlineDate.value || null,
         startDate: startDate.value || null,
         remainingTime: 'NOT IMPLEMENTED YET',
-        description: description.value
+        description: description.value,
+        todos: task.todos.value
     }
 
     if (await editTask(editedTask)) {
