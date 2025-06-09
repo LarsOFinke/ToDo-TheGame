@@ -105,7 +105,7 @@
                 <label class="text-sm font-medium text-gray-700">To-do's</label>
 
                 <div class="w-full flex justify-between">
-                    <input v-model.trim="newTodo" type="text" placeholder="New to-do" required
+                    <input v-model.trim="newTodo" type="text" placeholder="New to-do"
                         class="mt-1 block w-fill px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
                     <button type="button" @click.prevent="addToDo"
                         class="w-fill h-fit my-auto bg-indigo-600 text-white py-2 px-2 rounded-md hover:bg-indigo-800 transition">Add</button>
@@ -155,7 +155,7 @@ const title = ref('')
 const description = ref('')
 const newTodo = ref('')
 const todoList = ref([])
-const id = ref(0) // ONLY FOR TESTING - REMOVE LATER
+const id = ref(0)
 
 watch(loading, (newVal) => {
     if (newVal) {
@@ -165,10 +165,9 @@ watch(loading, (newVal) => {
     }
 })
 
-const addToDo = ()=>{
-    console.log('Attempting to add to-do to the container...');
-    id.value ++
-    todoList.value.push({id, text: newTodo})
+const addToDo = () => {
+    id.value++
+    todoList.value.push({ id, text: newTodo })
 }
 
 const submitNewTask = () => {
@@ -181,7 +180,8 @@ const submitNewTask = () => {
         deadlineDate: deadlineDate.value || null,
         startDate: startDate.value || null,
         remainingTime: 'NOT IMPLEMENTED YET',
-        description: description.value
+        description: description.value,
+        todos: todoList.value,
     }
     console.log(newTask);
 
@@ -204,6 +204,8 @@ const resetForm = () => {
     startDate.value = ''
     title.value = ''
     description.value = ''
+    newTodo.value = ''
+    todoList.value = []
 }
 
 const showTaskList = () => {

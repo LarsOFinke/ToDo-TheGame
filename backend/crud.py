@@ -210,14 +210,24 @@ def add_new_task(new_task: dict) -> bool:
     """
     sql: str = "INSERT INTO tblTasks(TaskMode, TaskTopic, TaskCategory, TaskPriority, TaskDeadlineDate, TaskStartDate, TaskRemainingTime, TaskTitle, TaskDescription, TaskIsOpen)" \
                 "VALUES (?,?,?,?,?,?,?,?,?,TRUE)"
-                
-    return execute_query(
-                            sql, 
-                            (new_task["mode"], new_task["topic"], new_task["category"], new_task["priority"], 
-                            new_task["deadlineDate"], new_task["startDate"], new_task["remainingTime"], 
-                            new_task["title"], new_task["description"]), 
-                            CONNECTIONSTRING
-                        )
+    if not execute_query(
+                    sql, 
+                    (new_task["mode"], new_task["topic"], new_task["category"], new_task["priority"], 
+                    new_task["deadlineDate"], new_task["startDate"], new_task["remainingTime"], 
+                    new_task["title"], new_task["description"]), 
+                    CONNECTIONSTRING
+                ):
+        return False
+    
+    # REPLACE WHERE-STATEMENT WITH E.G. DATE AS INDEX
+    task_id = execute_query("SELECT TaskID FROM tblTasks WHERE TaskTitle = ?", (new_task["title"],), CONNECTIONSTRING, fetch=True)[0][0]  
+    
+    if len(new_task["todos"]) > 0:
+        for todo in new_task["todos"]:
+            sql: str = "INSERT INTO tblTodos(TodoText, TodoIsOpen, TaskIDRef) VALUES (?,TRUE,?)"
+            execute_query(sql, (todo["text"], task_id), CONNECTIONSTRING)
+        
+    return True
 
 def get_all_open_tasks() -> list[dict]:
     """Returns a list containing all tasks in the database"""
