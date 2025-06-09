@@ -51,10 +51,10 @@
             </div>
 
             <!-- Task-To-Do's -->
-            <div v-else class="w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-2 mx-auto relative mb-2 p-6">
-                <div class="text-sm mb-4 overflow-x-auto  max-h-18">
+            <div v-else class="w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-1 mx-auto relative mb-2">
+                <div class="text-sm mb-4 overflow-x-auto pl-6 max-h-18">
                     <ul v-for="todo in task.todos" :key="todo.id" class="list-disc">
-                        <li :value="todo.id" class="m-2">{{ todo.text }}</li>
+                        <li :value="todo.id" class="m-1">{{ todo.text }}</li>
                     </ul>
                 </div>
             </div>
