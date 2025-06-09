@@ -115,7 +115,8 @@ def create_todos_table():
                     "TodoID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " \
                     "TodoText TEXT NOT NULL, " \
                     "TodoIsOpen BOOLEAN NOT NULL, " \
-                    "TaskIDRef INTEGER)"
+                    "TaskIDRef INTEGER, " \
+                    "FOREIGN KEY(TaskIDRef) REFERENCES tblTasks(TaskID))"
         execute_query(sql, (), CONNECTIONSTRING)
         return True
     
@@ -302,6 +303,9 @@ def delete_task(task_id: int) -> bool:
         True: if successfully added
         False: if error happened
     """
+    sql: str = "DELETE FROM tblTodos WHERE TaskIDRef = ?"
+    execute_query(sql, (task_id,), CONNECTIONSTRING)
+
     sql: str = "DELETE FROM tblTasks WHERE TaskID = ?"
                 
     return execute_query(sql, (task_id,), CONNECTIONSTRING)
