@@ -229,27 +229,6 @@ def add_new_task(new_task: dict) -> bool:
         
     return True
 
-def get_todos_for_task(task_id):
-    """Returns a list containing all todos for the task."""
-    sql: str = "SELECT TodoID, TodoText, TodoIsOpen, TaskIDRef FROM tblTodos WHERE TaskIDRef = ?"
-    
-    with sqlite3.connect(CONNECTIONSTRING) as con:
-        cursor = con.cursor()
-        cursor.execute(sql, (task_id,))
-        results = cursor.fetchall()
-        
-        todos: list = [
-            {
-                "id": todo[0],
-                "text": todo[1],
-                "isOpen": todo[2],
-                "taskIdRef": todo[3],
-            }
-            for todo in results
-        ]
-    
-    return todos
-
 def get_all_open_tasks() -> list[dict]:
     """Returns a list containing all tasks in the database"""
     sql: str = "SELECT TaskID, TaskMode, TaskTopic, TaskCategory, TaskPriority, TaskDeadlineDate, TaskStartDate, TaskRemainingTime, TaskTitle, TaskDescription, TaskIsOpen FROM tblTasks"
@@ -258,7 +237,6 @@ def get_all_open_tasks() -> list[dict]:
         cursor = con.cursor()
         cursor.execute(sql)
         results = cursor.fetchall()
-        
         tasks: list = [
                             {
                                 "id": task[0],
@@ -287,8 +265,7 @@ def edit_task(edited_task: dict) -> bool:
     """
     sql: str = "UPDATE tblTasks " \
                 "SET TaskMode = ?, TaskTopic = ?, TaskCategory = ?, TaskPriority = ?, TaskDeadlineDate = ?, TaskStartDate = ?, TaskRemainingTime = ?, TaskTitle = ?, TaskDescription = ? " \
-                "WHERE TaskID = ?"
-                
+                "WHERE TaskID = ?"      
     return execute_query(
                             sql, 
                             (edited_task["mode"], edited_task["topic"], edited_task["category"], edited_task["priority"], 
@@ -306,8 +283,7 @@ def delete_task(task_id: int) -> bool:
     sql: str = "DELETE FROM tblTodos WHERE TaskIDRef = ?"
     execute_query(sql, (task_id,), CONNECTIONSTRING)
 
-    sql: str = "DELETE FROM tblTasks WHERE TaskID = ?"
-                
+    sql: str = "DELETE FROM tblTasks WHERE TaskID = ?"          
     return execute_query(sql, (task_id,), CONNECTIONSTRING)
 
 def close_task(task_id: dict) -> bool:
@@ -316,7 +292,43 @@ def close_task(task_id: dict) -> bool:
         True: if successfully added
         False: if error happened
     """
-    sql: str = "UPDATE tblTasks SET TaskIsOpen=FALSE WHERE TaskID = ?"
-                
-    return execute_query(sql, (task_id,), CONNECTIONSTRING)
+    if close_todos_for_task(task_id):
+        sql: str = "UPDATE tblTasks SET TaskIsOpen=FALSE WHERE TaskID = ?"      
+        return execute_query(sql, (task_id,), CONNECTIONSTRING)
+
+#-- TODOS --#
+
+def get_todos_for_task(task_id: int) -> list[dict]:
+    """Returns a list containing all todos for the task."""
+    sql: str = "SELECT TodoID, TodoText, TodoIsOpen, TaskIDRef FROM tblTodos WHERE TaskIDRef = ?"
     
+    with sqlite3.connect(CONNECTIONSTRING) as con:
+        cursor = con.cursor()
+        cursor.execute(sql, (task_id,))
+        results = cursor.fetchall()
+        
+        todos: list = [
+            {
+                "id": todo[0],
+                "text": todo[1],
+                "isOpen": todo[2],
+                "taskIdRef": todo[3],
+            }
+            for todo in results
+        ]
+    
+    return todos
+
+def update_todos_for_task(todos: list[dict]) -> bool:
+    for todo in todos:
+        sql: str = "UPDATE tblTodos SET TodoText=?, TodoIsOpen=? WHERE TodoID=?"
+        if execute_query(sql, (todo.text, todo.isOpen, todo.id), CONNECTIONSTRING):
+            continue
+        else:
+            return False
+    return True
+
+def close_todos_for_task(task_id: int) -> bool:
+    sql: str = "UPDATE tblTodos SET TodoIsOpen=FALSE WHERE TaskIDRef = ?"
+    return execute_query(sql, (task_id,), CONNECTIONSTRING)
+
