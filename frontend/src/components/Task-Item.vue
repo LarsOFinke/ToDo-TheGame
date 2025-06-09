@@ -21,7 +21,6 @@
                     (<label>{{ task.remainingTime }}</label>)
                 </label>
             </div>
-
             <div class="flex float-right">
                 <div class="w-full">
                     <label class="text-xs font-semibold">Priority:</label>
@@ -33,28 +32,29 @@
         </div>
 
         <div class="flex flex-col">
-            <!-- Control-Buttons -->
+            <!-- ScrollContainer-Control-Buttons -->
             <div class="w-full flex justify-around">
                 <button type="button" @click.prevent="toggleShowDescription(true)"
-                    class="w-50 bg-indigo-600 text-white py-1 px-4 rounded-md hover:bg-indigo-800 transition">Description</button>
+                    :class="showDescription ? 'bg-gray-600 hover:bg-gray-600' : 'bg-gray-400 hover:bg-gray-800'"
+                    class="w-50 text-white py-1 px-4 transition">Description</button>
                 <button type="button" @click.prevent="toggleShowDescription(false)"
-                    class="w-50 bg-green-600 text-white py-1 px-2 rounded-md hover:bg-green-800 transition">To-Do's</button>
+                    :class="showDescription ? 'bg-gray-400 hover:bg-gray-800' : 'bg-gray-600 hover:bg-gray-600'"
+                    class="w-50 text-white py-1 px-4 transition">To-Do's</button>
             </div>
 
             <!-- Task-Description -->
-            <div v-if="showDescription">
-                <h4 class="font-semibold">Description:</h4>
-                <div class="text-sm mb-4 overflow-x-auto h-18">
+            <div v-if="showDescription"
+                class="w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-2 mx-auto relative mb-2">
+                <div class="text-sm mb-4 overflow-x-auto  max-h-18">
                     <p class="overflow-y-hidden scrollbar-hide">{{ task.description }}</p>
                 </div>
             </div>
 
-            <!-- To-Do-List -->
-            <div v-else>
-                <h4 class="font-semibold">To-Do's:</h4>
-                <div class="text-sm mb-4 overflow-x-auto h-18">
-                    <ul v-for="todo in todoList" :key="todo.id">
-                        <li :value="todo.id">{{ todo.text }}</li>
+            <!-- Task-To-Do's -->
+            <div v-else class="w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-2 mx-auto relative mb-2">
+                <div class="text-sm mb-4 overflow-x-auto  max-h-18">
+                    <ul v-for="todo in todoList" :key="todo.id" class="list-decimal">
+                        <li :value="todo.id" class="m-2">{{ todo.text }}</li>
                     </ul>
                 </div>
             </div>
@@ -65,7 +65,6 @@
             <button type="button" @click.prevent="deleteItem"
                 class="text-l w-fit bg-red-700 text-white px-2 rounded-md hover:bg-red-800 transition">Delete</button>
         </div>
-
         <div class="w-full flex justify-around">
             <button type="button" @click.prevent="showItemEdit"
                 class="w-fit bg-indigo-600 text-white py-1 px-4 rounded-md hover:bg-indigo-800 transition">Edit</button>
@@ -73,17 +72,28 @@
                 class="w-fit bg-green-600 text-white py-1 px-2 rounded-md hover:bg-green-800 transition">Done!</button>
         </div>
     </div>
+
+
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { useTasksService } from '@/services/TasksService'
 
-const emit = defineEmits(['hideItemEdit', 'updateTaskList', 'closeItem'])
-const { deleteTask, closeTask } = useTasksService()
 const { task } = defineProps({
     task: Object
 })
+const emit = defineEmits(['hideItemEdit', 'updateTaskList', 'closeItem'])
+const { deleteTask, closeTask } = useTasksService()
+const todoList = ref([{
+    id: 1,
+    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit."
+},
+{
+    id: 2,
+    text: "Delectus officiis, assumenda fugiat hic libero mollitia accusantium placeat consequuntur minima animi officia reprehenderit recusandae similique ratione ea quas labore accusamus illum!"
+}
+])
 const showDescription = ref(true)
 
 const toggleShowDescription = (toggleOn) => {
