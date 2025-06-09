@@ -266,13 +266,16 @@ def edit_task(edited_task: dict) -> bool:
     sql: str = "UPDATE tblTasks " \
                 "SET TaskMode = ?, TaskTopic = ?, TaskCategory = ?, TaskPriority = ?, TaskDeadlineDate = ?, TaskStartDate = ?, TaskRemainingTime = ?, TaskTitle = ?, TaskDescription = ? " \
                 "WHERE TaskID = ?"      
-    return execute_query(
+    if execute_query(
                             sql, 
                             (edited_task["mode"], edited_task["topic"], edited_task["category"], edited_task["priority"], 
                             str(edited_task["deadlineDate"]), edited_task["startDate"], edited_task["remainingTime"], 
                             edited_task["title"], edited_task["description"], edited_task["id"]), 
                             CONNECTIONSTRING
-                        )
+                        ):
+        if update_todos_for_task(edited_task["todos"]):
+            return True
+    return False
 
 def delete_task(task_id: int) -> bool:
     """
@@ -322,7 +325,7 @@ def get_todos_for_task(task_id: int) -> list[dict]:
 def update_todos_for_task(todos: list[dict]) -> bool:
     for todo in todos:
         sql: str = "UPDATE tblTodos SET TodoText=?, TodoIsOpen=? WHERE TodoID=?"
-        if execute_query(sql, (todo.text, todo.isOpen, todo.id), CONNECTIONSTRING):
+        if execute_query(sql, (todo["text"], todo["isOpen"], todo["id"]), CONNECTIONSTRING):
             continue
         else:
             return False

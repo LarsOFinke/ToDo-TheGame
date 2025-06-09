@@ -95,8 +95,9 @@
 
                 <div class="w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-2 mx-auto relative mb-2 p-6">
                     <div class="text-sm mb-4 overflow-x-auto  max-h-18">
-                        <ul v-for="todo in task.todos" :key="todo.id" class="list-disc">
+                        <ul v-for="(todo, index) in task.todos" :key="todo.id" class="list-disc">
                             <li :value="todo.id" class="m-2">{{ todo.text }}</li>
+                            <input type="text" v-model="task.todos[index].text">
                         </ul>
                     </div>
                 </div>
@@ -164,7 +165,7 @@ const submitEditedTask = async () => {
         startDate: startDate.value || null,
         remainingTime: 'NOT IMPLEMENTED YET',
         description: description.value,
-        todos: task.todos.value
+        todos: task.todos
     }
 
     if (await editTask(editedTask)) {
