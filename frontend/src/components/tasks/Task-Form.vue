@@ -1,11 +1,14 @@
 <template>
     <div class="w-full flex flex-col max-w-sm bg-gray-100 rounded-lg shadow-md p-6 mx-auto">
+        <!-- Task-Form-Header -->
         <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Add a new Task!</h2>
 
         <!-- Message-Box -->
         <message-box :msg="msg" :errorPhrase="errorPhrase"></message-box>
 
+        <!-- Task-Form -->
         <form @submit.prevent="submitNewTask">
+            <!-- Mode -->
             <div class="flex mb-4 justify-between">
                 <label class="text-sm font-medium text-gray-700">Mode
                     <select v-model.trim="mode"
@@ -16,6 +19,7 @@
                     </select>
                 </label>
 
+                <!-- Priority -->
                 <label class="text-sm font-medium text-gray-700">Priority
                     <select v-model.trim="priority"
                         :class="priority === 'high'
@@ -28,6 +32,7 @@
                 </label>
             </div>
 
+            <!-- Topic -->
             <div class="flex mb-4 justify-between">
                 <label class="text-sm font-medium text-gray-700">Topic
                     <select v-model.trim="topic"
@@ -38,6 +43,7 @@
                     </select>
                 </label>
 
+                <!-- Category -->
                 <label class="text-sm font-medium text-gray-700">Category
                     <select v-model.trim="category"
                         class="ml-1 focus:outline-none focus:ring-2 focus:ring-indigo-500 border-gray-300 rounded-md shadow-sm"
@@ -49,6 +55,7 @@
                 </label>
             </div>
 
+            <!-- Deadline -->
             <div :class="category === 'timed' ? 'mb-4' : 'hidden'">
                 <label class="text-sm font-medium text-gray-700">Deadline
                     <input v-model="deadlineDate" type="date"
@@ -56,6 +63,7 @@
                 </label>
             </div>
 
+            <!-- Interval -->
             <div :class="category === 'recurring' ? 'mb-4' : 'hidden'">
                 <label class="text-sm font-medium text-gray-700">Interval
                     <select v-model.trim="interval"
@@ -67,6 +75,7 @@
                 </label>
             </div>
 
+            <!-- Start Date -->
             <div
                 :class="interval === 'weekly' & category === 'recurring' | interval === 'monthly' & category === 'recurring' ? 'mb-4' : 'hidden'">
                 <label class="text-sm font-medium text-gray-700">Start Date
@@ -75,6 +84,7 @@
                 </label>
             </div>
 
+            <!-- Title -->
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">Title
                     <input v-model.trim="title" type="text" required
@@ -82,11 +92,31 @@
                 </label>
             </div>
 
+            <!-- Description -->
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">Description
                     <textarea v-model.trim="description" type="text" required
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
                 </label>
+            </div>
+
+            <!-- To-do's -->
+            <div class="flex flex-col justify-between mb-8">
+                <label class="text-sm font-medium text-gray-700">To-do's</label>
+
+                <div class="w-full flex justify-between">
+                    <input v-model.trim="title" type="text" placeholder="New to-do" required
+                        class="mt-1 block w-fill px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                    <button type="button" @click.prevent="addToDo"
+                        class="w-fill h-fit my-auto bg-indigo-600 text-white py-2 px-2 rounded-md hover:bg-indigo-800 transition">Add</button>
+                </div>
+
+                <!-- Scrollable To-Do-List -->
+                <div class="overflow-x-auto max-h-95 shadow-md p-6">
+                    <ul v-for="todo in todoList" :key="todo.id" class="list-disc">
+                        <li>This is a to-do-entry</li>
+                    </ul>
+                </div>
             </div>
 
             <!-- Utility-Buttons -->
@@ -112,7 +142,7 @@ import { ref, watch } from 'vue';
 const msg = ref('')
 const errorPhrase = 'Something went wrong!'
 
-const { loading, error, addNewTask } = useTasksService()
+const { loading, addNewTask } = useTasksService()
 const emit = defineEmits(['hideTaskList'])
 const mode = ref('')
 const priority = ref('')
@@ -123,6 +153,15 @@ const interval = ref('')
 const startDate = ref('')
 const title = ref('')
 const description = ref('')
+const todoList = ref([{
+    id: 1,
+    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit."
+},
+{
+    id: 2,
+    text: "Delectus officiis, assumenda fugiat hic libero mollitia accusantium placeat consequuntur minima animi officia reprehenderit recusandae similique ratione ea quas labore accusamus illum!"
+}
+])
 
 watch(loading, (newVal) => {
     if (newVal) {
@@ -131,6 +170,10 @@ watch(loading, (newVal) => {
         msg.value = ""
     }
 })
+
+const addToDo = ()=>{
+    console.log('Attempting to add to-do to the container...');
+}
 
 const submitNewTask = () => {
     const newTask = {
