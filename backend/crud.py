@@ -114,6 +114,7 @@ def create_todos_table():
         sql: str = "CREATE TABLE tblTodos(" \
                     "TodoID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " \
                     "TodoText TEXT NOT NULL, " \
+                    "TodoIsOpen BOOLEAN NOT NULL, " \
                     "TaskIDRef INTEGER, " \
                     "FOREIGN KEY(TaskIDRef) REFERENCES tblTasks(TaskID))"
         execute_query(sql, (), CONNECTIONSTRING)
