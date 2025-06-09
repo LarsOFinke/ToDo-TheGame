@@ -195,7 +195,6 @@ const deleteNewTodo = (todoItem) => {
 
 const addToDo = () => {
     id.value++
-    // task.todos.push({ id, text: newTodo.value, isOpen: true })
     newTodoList.value.push({ id, text: newTodo.value })
     newTodo.value = ''
 }
@@ -223,7 +222,6 @@ const submitEditedTask = async () => {
     } else {
         msg.value = 'Something went wrong!'
     }
-
 }
 
 </script>
