@@ -54,10 +54,10 @@
             <div v-else class="w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-1 mx-auto relative mb-2">
                 <div class="text-sm mb-4 overflow-x-auto pl-6 max-h-18">
                     <ul v-for="todo in task.todos" :key="todo.id" class="list-disc">
-                        <li :value="todo.id" class="mb-2">
+                        <li :value="todo.id" :class="{ 'line-through': !todo.isOpen }" class="mb-2">
                             <div class="flex justify-between items-center">
                                 <p>{{ todo.text }}</p>
-                                <button type="button" @click.prevent="closeTodo"
+                                <button type="button" @click.prevent="toggleTodoStatus(todo)"
                                     class="w-fit bg-green-600 text-white py-1 px-2 rounded-md hover:bg-green-800 transition">Done!</button>
                             </div>
                         </li>
@@ -107,10 +107,15 @@ const showItemEdit = () => {
 
 const updateList = () => { emit('updateTaskList', true) }
 
-const closeTodo = async () => {
-    // await closeTodo(todo.id)
-    // updateList()
-    // emit('closeItem', 'Item successfully closed.')
+const toggleTodoStatus = async (todo) => {
+    if (todo.isOpen) {
+        // await closeTodo(todo.id)
+        todo.isOpen = 0
+    } else {
+        // await openTodo(todo.id)
+        todo.isOpen = 1
+    }
+    
 }
 
 const deleteItem = async () => {
