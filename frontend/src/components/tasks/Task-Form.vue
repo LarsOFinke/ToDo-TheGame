@@ -167,7 +167,8 @@ watch(loading, (newVal) => {
 
 const addToDo = () => {
     id.value++
-    todoList.value.push({ id, text: newTodo })
+    todoList.value.push({ id, text: newTodo.value })
+    newTodo.value = ''
 }
 
 const submitNewTask = () => {

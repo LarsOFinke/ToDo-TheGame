@@ -53,7 +53,7 @@
             <!-- Task-To-Do's -->
             <div v-else class="w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-2 mx-auto relative mb-2 p-6">
                 <div class="text-sm mb-4 overflow-x-auto  max-h-18">
-                    <ul v-for="todo in todoList" :key="todo.id" class="list-disc">
+                    <ul v-for="todo in task.todos" :key="todo.id" class="list-disc">
                         <li :value="todo.id" class="m-2">{{ todo.text }}</li>
                     </ul>
                 </div>
@@ -85,15 +85,6 @@ const { task } = defineProps({
 })
 const emit = defineEmits(['hideItemEdit', 'updateTaskList', 'closeItem'])
 const { deleteTask, closeTask } = useTasksService()
-const todoList = ref([{
-    id: 1,
-    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit."
-},
-{
-    id: 2,
-    text: "Delectus officiis, assumenda fugiat hic libero mollitia accusantium placeat consequuntur minima animi officia reprehenderit recusandae similique ratione ea quas labore accusamus illum!"
-}
-])
 const showDescription = ref(true)
 
 const toggleShowDescription = (toggleOn) => {

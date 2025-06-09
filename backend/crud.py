@@ -229,6 +229,27 @@ def add_new_task(new_task: dict) -> bool:
         
     return True
 
+def get_todos_for_task(task_id):
+    """Returns a list containing all todos for the task."""
+    sql: str = "SELECT TodoID, TodoText, TodoIsOpen, TaskIDRef FROM tblTodos WHERE TaskIDRef = ?"
+    
+    with sqlite3.connect(CONNECTIONSTRING) as con:
+        cursor = con.cursor()
+        cursor.execute(sql, (task_id,))
+        results = cursor.fetchall()
+        
+        todos: list = [
+            {
+                "id": todo[0],
+                "text": todo[1],
+                "isOpen": todo[2],
+                "taskIdRef": todo[3],
+            }
+            for todo in results
+        ]
+    
+    return todos
+
 def get_all_open_tasks() -> list[dict]:
     """Returns a list containing all tasks in the database"""
     sql: str = "SELECT TaskID, TaskMode, TaskTopic, TaskCategory, TaskPriority, TaskDeadlineDate, TaskStartDate, TaskRemainingTime, TaskTitle, TaskDescription, TaskIsOpen FROM tblTasks"
@@ -249,12 +270,13 @@ def get_all_open_tasks() -> list[dict]:
                                 "startDate": task[6],
                                 "remainingTime": task[7],
                                 "title": task[8],
-                                "description": task[9]
+                                "description": task[9],
+                                "todos": get_todos_for_task(task[0])
                             }
                             for task in results
                             if task[10] == 1
                        ]
-        
+    
     return tasks
 
 def edit_task(edited_task: dict) -> bool:
