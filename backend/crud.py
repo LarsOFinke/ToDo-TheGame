@@ -375,7 +375,7 @@ def delete_todo(todo_id: int) -> bool:
 
 
 #-- TEAMS --#
-def add_new_team(team_name: str):
+def add_new_team(team_name: str) -> bool:
     """
     Returns:
         True: if successfully added

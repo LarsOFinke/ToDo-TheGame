@@ -108,7 +108,7 @@
                             <li>
                                 <div class="flex mb-2">
                                     <input type="text" v-model="todo.text">
-                                    <button type="button" @click.prevent="deleteTodo(todo)"
+                                    <button type="button" @click.prevent="deleteNewTodo(todo)"
                                         class="w-fit bg-red-700 text-white py-1 px-2 rounded-md hover:bg-red-800 transition">Delete</button>
                                 </div>
                             </li>
@@ -183,6 +183,13 @@ const deleteTodo = (todoItem) => {
     const index = task.todos.findIndex(todo => todo.id === todoItem.id);
     if (index !== -1) {
         task.todos.splice(index, 1);
+    }
+}
+
+const deleteNewTodo = (todoItem) => {
+    const index = newTodoList.value.findIndex(todo => todo.id === todoItem.id);
+    if (index !== -1) {
+        newTodoList.value.splice(index, 1);
     }
 }
 
