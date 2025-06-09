@@ -27,7 +27,6 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
 import { useAuthService } from '@/services/AuthService'
 
 const { user } = useAuthService()

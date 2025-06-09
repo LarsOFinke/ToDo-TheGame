@@ -39,11 +39,11 @@
 
 
 <script setup>
-import { ref } from 'vue'
 import MessageBox from '@/components/shared/Message-Box.vue';
-import TeamsForm from '@/components/Teams-Form.vue'
-import TeamsItem from '@/components/Teams-Item.vue';
-import TeamsItemEdit from '@/components/Teams-Item-Edit.vue';
+import TeamsForm from '@/components/teams/Teams-Form.vue'
+import TeamsItem from '@/components/teams/Teams-Item.vue';
+import TeamsItemEdit from '@/components/teams/Teams-Item-Edit.vue';
+import { ref } from 'vue'
 
 const emit = defineEmits(['hideTeamList', 'updateTeamList'])
 const msg = ref('')

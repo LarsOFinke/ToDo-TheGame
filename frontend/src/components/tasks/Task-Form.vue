@@ -105,9 +105,9 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
-import MessageBox from './shared/Message-Box.vue';
+import MessageBox from '@/components/shared/Message-Box.vue';
 import { useTasksService } from '@/services/TasksService'
+import { ref, watch } from 'vue';
 
 const msg = ref('')
 const errorPhrase = 'Something went wrong!'

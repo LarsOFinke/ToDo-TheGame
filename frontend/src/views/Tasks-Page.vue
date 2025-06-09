@@ -6,8 +6,8 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import TaskList from '@/components/Task-List.vue'
-import TaskForm from '@/components/Task-Form.vue';
+import TaskList from '@/components/tasks/Task-List.vue'
+import TaskForm from '@/components/tasks/Task-Form.vue';
 import { useRouter } from 'vue-router';
 import { useAuthService } from "@/services/AuthService"
 import { useTasksService } from '@/services/TasksService';

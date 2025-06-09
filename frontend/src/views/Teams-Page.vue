@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import TeamsList from '@/components/Teams-List.vue'
+import TeamsList from '@/components/teams/Teams-List.vue'
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthService } from '@/services/AuthService'

@@ -12,8 +12,8 @@
 
 <script setup>
 import MessageBox from '@/components/shared/Message-Box.vue'
-import ProfileForm from '@/components/Profile-Form.vue'
-import ProfileItem from '@/components/Profile-Item.vue'
+import ProfileForm from '@/components/profile/Profile-Form.vue'
+import ProfileItem from '@/components/profile/Profile-Item.vue'
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthService } from '@/services/AuthService'

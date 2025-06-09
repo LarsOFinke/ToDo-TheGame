@@ -23,16 +23,17 @@
             </div>
         </div>
 
-        <task-item-edit v-else :task="selectedTask" @hideItemEdit="showItemEdit" @updateTaskList="updateList"></task-item-edit>
+        <task-item-edit v-else :task="selectedTask" @hideItemEdit="showItemEdit"
+            @updateTaskList="updateList"></task-item-edit>
     </div>
 </template>
 
 
 <script setup>
+import MessageBox from '@/components/shared/Message-Box.vue';
+import TaskItem from '@/components/tasks/Task-Item.vue';
+import TaskItemEdit from '@/components/tasks/Task-Item-Edit.vue';
 import { ref } from 'vue'
-import TaskItem from './Task-Item.vue';
-import TaskItemEdit from './Task-Item-Edit.vue';
-import MessageBox from './shared/Message-Box.vue';
 
 const msg = ref('')
 const errorPhrase = 'Something went wrong!'

@@ -47,9 +47,9 @@
 </template>
 
 <script setup>
+import MessageBox from '@/components/shared/Message-Box.vue';
 import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router';
-import MessageBox from './shared/Message-Box.vue';
 import { useAuthService } from '@/services/AuthService'
 
 const router = useRouter();

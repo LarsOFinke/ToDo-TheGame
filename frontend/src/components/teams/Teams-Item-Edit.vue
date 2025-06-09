@@ -24,7 +24,7 @@
 </template>
 
 <script setup>
-import MessageBox from './shared/Message-Box.vue';
+import MessageBox from '@/components/shared/Message-Box.vue';
 import { ref } from 'vue';
 
 const msg = ref('')

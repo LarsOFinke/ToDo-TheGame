@@ -104,8 +104,8 @@
 </template>
 
 <script setup>
+import MessageBox from '@/components/shared/Message-Box.vue';
 import { ref, watch } from 'vue';
-import MessageBox from './shared/Message-Box.vue';
 import { useTasksService } from '@/services/TasksService'
 
 const { task } = defineProps({
