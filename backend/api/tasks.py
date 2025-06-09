@@ -23,7 +23,7 @@ def get_all_open():
 @tasks.route("/edit", methods=["POST"])
 def edit():
     data = request.get_json()
-
+    
     if edit_task(data):
         return jsonify({"success": True}), 200
     else:

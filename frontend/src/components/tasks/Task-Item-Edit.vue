@@ -104,7 +104,23 @@
                                 </div>
                             </li>
                         </ul>
+                        <ul v-for="todo in newTodoList" :key="todo.id" class="list-disc pl-6">
+                            <li>
+                                <div class="flex mb-2">
+                                    <input type="text" v-model="todo.text">
+                                    <button type="button" @click.prevent="deleteTodo(todo)"
+                                        class="w-fit bg-red-700 text-white py-1 px-2 rounded-md hover:bg-red-800 transition">Delete</button>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
+                </div>
+
+                <div class="w-full flex justify-between">
+                    <input v-model.trim="newTodo" type="text" placeholder="New to-do"
+                        class="mt-1 block w-fill px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                    <button type="button" @click.prevent="addToDo"
+                        class="w-fill h-fit my-auto bg-indigo-600 text-white py-2 px-2 rounded-md hover:bg-indigo-800 transition">Add</button>
                 </div>
             </div>
 
@@ -146,6 +162,9 @@ const startDate = ref(task.startDate)
 const title = ref(task.title)
 const description = ref(task.description)
 const deletedTodos = ref([])
+const id = ref(0)
+const newTodo = ref('')
+const newTodoList = ref([])
 
 watch(loading, (newVal) => {
     if (newVal) {
@@ -167,6 +186,13 @@ const deleteTodo = (todoItem) => {
     }
 }
 
+const addToDo = () => {
+    id.value++
+    // task.todos.push({ id, text: newTodo.value, isOpen: true })
+    newTodoList.value.push({ id, text: newTodo.value })
+    newTodo.value = ''
+}
+
 const submitEditedTask = async () => {
     const editedTask = {
         id: task.id,
@@ -180,7 +206,8 @@ const submitEditedTask = async () => {
         remainingTime: 'NOT IMPLEMENTED YET',
         description: description.value,
         todos: task.todos,
-        deletedTodos: deletedTodos.value
+        deletedTodos: deletedTodos.value,
+        newTodoList: newTodoList.value
     }
 
     if (await editTask(editedTask)) {

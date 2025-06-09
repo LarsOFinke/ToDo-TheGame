@@ -273,13 +273,19 @@ def edit_task(edited_task: dict) -> bool:
                             edited_task["title"], edited_task["description"], edited_task["id"]), 
                             CONNECTIONSTRING
                         ):
-        if update_todos_for_task(edited_task["todos"]):
-            if len(edited_task["deletedTodos"]) > 0:
-                for todo in edited_task["deletedTodos"]:
-                    if not delete_todo(todo["id"]):
-                        return False
-            return True
-    return False
+        if not update_todos_for_task(edited_task["todos"]):
+            return False
+    
+        if len(edited_task["deletedTodos"]) > 0:
+            for todo in edited_task["deletedTodos"]:
+                if not delete_todo(todo["id"]):
+                    return False
+                
+        if len(edited_task["newTodoList"]) > 0:
+            for todo in edited_task["newTodoList"]:
+                if not add_todo_to_task(todo["text"], edited_task["id"]):
+                    return False
+        return True
 
 def delete_task(task_id: int) -> bool:
     """
@@ -304,6 +310,14 @@ def close_task(task_id: dict) -> bool:
         return execute_query(sql, (task_id,), CONNECTIONSTRING)
 
 #-- TODOS --#
+def add_todo_to_task(todo: str, task_id: int) -> bool:
+    """
+    Returns:
+        True: if successfully added
+        False: if error happened
+    """
+    sql: str = "INSERT INTO tblTodos(TodoText, TodoIsOpen, TaskIDRef) VALUES (?,TRUE,?)"
+    return execute_query(sql, (todo, task_id), CONNECTIONSTRING)
 
 def get_todos_for_task(task_id: int) -> list[dict]:
     """Returns a list containing all todos for the task."""
