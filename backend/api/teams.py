@@ -5,8 +5,8 @@ from ..crud import add_new_team
 teams = Blueprint("teams", __name__)
 
     
-@teams.route("/add", methods=["POST"])
-def add():
+@teams.route("/create", methods=["POST"])
+def create():
     data = request.get_json()
     
     if add_new_team(data.get("teamName")):

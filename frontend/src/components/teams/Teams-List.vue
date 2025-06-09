@@ -57,7 +57,6 @@ defineProps({
 })
 
 const newTeam = () => {
-    console.log('Attempting to found new team...');
     showTeamForm(true)
 }
 

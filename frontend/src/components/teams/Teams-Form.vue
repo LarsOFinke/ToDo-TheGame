@@ -30,18 +30,38 @@
 
 <script setup>
 import MessageBox from '@/components/shared/Message-Box.vue';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+import { useTeamsService } from '@/services/TeamsService';
 
 const emit = defineEmits(['hideTeamForm'])
 const msg = ref('')
 const errorPhrase = 'Something went wrong!'
+const { loading, createNewTeam } = useTeamsService()
 const teamName = ref('')
+
+watch(loading, (newVal) => {
+    if (newVal) {
+        msg.value = "Creating team..."
+    } else {
+        msg.value = ""
+    }
+})
 
 const showTaskList = () => {
     emit('hideTeamForm', false)
 }
 
-const submitNewTeam = () => {
+const submitNewTeam = async () => {
     console.log('Attempting to submit new Team...');
+    const newTeam = {
+        teamName: teamName.value,
+    }
+
+    if (await createNewTeam(newTeam)) {
+        msg.value = 'Successfully created new team!'
+    } else {
+        msg.value = 'Something went wrong!'
+    }
+
 }
 </script>
