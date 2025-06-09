@@ -61,9 +61,9 @@
         </div>
 
         <!-- Utility-Buttons -->
-        <div class="mb-2 absolute top-2 right-2">
+        <div class="mb-2 absolute top-0 right-0">
             <button type="button" @click.prevent="deleteItem"
-                class="text-l w-fit bg-red-700 text-white px-2 rounded-md hover:bg-red-800 transition">Delete</button>
+                class="text-l w-fit bg-red-700 text-white px-2 rounded-md hover:bg-red-900 transition">Delete</button>
         </div>
         <div class="w-full flex justify-around">
             <button type="button" @click.prevent="showItemEdit"

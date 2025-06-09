@@ -60,9 +60,9 @@ if not os.path.exists(DB_DIRECTORY):
 CONNECTIONSTRING = os.path.join(os.path.dirname(DB_DIRECTORY), "db", "ToDo-TheGame.db")
 
 
-def create_user_table() -> bool:
+def create_users_table() -> bool:
     try:
-        sql: str = "CREATE TABLE tblUser(" \
+        sql: str = "CREATE TABLE tblUsers(" \
                     "UserID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " \
                     "UserUsername TEXT NOT NULL UNIQUE, " \
                     "UserPassword TEXT NOT NULL, " \
@@ -77,7 +77,7 @@ def create_user_table() -> bool:
 def create_admins() -> bool:
     try:
         hashed_password = generate_password_hash("admin", method='pbkdf2:sha256')
-        sql: str = "INSERT INTO tblUser(UserUsername, UserPassword, UserType) VALUES ('admin', ?, 'admin')"
+        sql: str = "INSERT INTO tblUsers(UserUsername, UserPassword, UserType) VALUES ('admin', ?, 'admin')"
         execute_query(sql, (hashed_password,), CONNECTIONSTRING)
         return True
 
@@ -98,16 +98,35 @@ def create_tasks_table():
                     "TaskRemainingTime TEXT, " \
                     "TaskTitle TEXT NOT NULL, " \
                     "TaskDescription TEXT NOT NULL, " \
-                    "TaskIsOpen BOOLEAN NOT NULL)"
+                    "TaskIsOpen BOOLEAN NOT NULL, " \
+                    "UserIDRef INTEGER, " \
+                    "FOREIGN KEY(UserIDRef) REFERENCES tblUsers(UserID))"
+                    
         execute_query(sql, (), CONNECTIONSTRING)
         return True
     
     except sqlite3.Error as e:
         logging.error(e)
         return False
+
+def create_todos_table():
+    try:
+        sql: str = "CREATE TABLE tblTodos(" \
+                    "TodoID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " \
+                    "TodoText TEXT NOT NULL, " \
+                    "TaskIDRef INTEGER, " \
+                    "FOREIGN KEY(TaskIDRef) REFERENCES tblTasks(TaskID))"
+        execute_query(sql, (), CONNECTIONSTRING)
+        return True
     
+    except sqlite3.Error as e:
+        logging.error(e)
+        return False
+
+
+
 if not os.path.exists(CONNECTIONSTRING):
-    if not create_user_table():
+    if not create_users_table():
         logging.error("Could not create User-table! Something went wrong...")
         sys.exit()
     if not create_admins():
@@ -115,6 +134,9 @@ if not os.path.exists(CONNECTIONSTRING):
         sys.exit()
     if not create_tasks_table():
         logging.error("Could not create tasks-table! Something went wrong...")
+        sys.exit()
+    if not create_todos_table():
+        logging.error("Could not create todos-table! Something went wrong...")
         sys.exit()
           
  
@@ -129,7 +151,7 @@ def create_user(username: str, password: str) -> bool:
         False: if error happened
     """
     hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
-    sql: str = "INSERT INTO tblUser(UserUsername, UserPassword, UserType) VALUES (?, ?, 'user')"
+    sql: str = "INSERT INTO tblUsers(UserUsername, UserPassword, UserType) VALUES (?, ?, 'user')"
     return execute_query(sql, (username, hashed_password), CONNECTIONSTRING)
 
 def validate_user(username: str, password: str) -> bool:
@@ -143,7 +165,7 @@ def validate_user(username: str, password: str) -> bool:
         True: if Password matches that from the database for the called user
         False: if user not found in the Database OR password does NOT match that from the database for the called user 
     """
-    sql: str = "SELECT UserPassword FROM tblUser WHERE UserUsername = ?"
+    sql: str = "SELECT UserPassword FROM tblUsers WHERE UserUsername = ?"
     result = execute_query(sql, (username,), CONNECTIONSTRING, fetch=True)
     
     if not result:
@@ -158,7 +180,7 @@ def validate_user(username: str, password: str) -> bool:
 
 def get_all_usernames() -> list:
     """Returns a list containing all usernames in the database"""
-    sql: str = "SELECT UserUsername FROM tblUser"
+    sql: str = "SELECT UserUsername FROM tblUsers"
     
     with sqlite3.connect(CONNECTIONSTRING) as con:
         cursor = con.cursor()
@@ -170,7 +192,7 @@ def get_all_usernames() -> list:
 
 def get_user_id(username) -> int:
     """Returns the user id from the database"""
-    sql: str = "SELECT UserID FROM tblUser WHERE UserUsername = ?"
+    sql: str = "SELECT UserID FROM tblUsers WHERE UserUsername = ?"
     result = execute_query(sql, (username,), CONNECTIONSTRING, fetch=True)
     user_id = result[0][0]
         
