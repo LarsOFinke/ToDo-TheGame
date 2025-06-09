@@ -90,7 +90,7 @@ const { task } = defineProps({
     task: Object
 })
 const emit = defineEmits(['hideItemEdit', 'updateTaskList', 'closeItem'])
-const { deleteTask, closeTask } = useTasksService()
+const { deleteTask, closeTask, closeTodo, openTodo } = useTasksService()
 const showDescription = ref(true)
 
 const toggleShowDescription = (toggleOn) => {
@@ -109,13 +109,15 @@ const updateList = () => { emit('updateTaskList', true) }
 
 const toggleTodoStatus = async (todo) => {
     if (todo.isOpen) {
-        // await closeTodo(todo.id)
-        todo.isOpen = 0
+        if (await closeTodo(todo.id)) {
+            todo.isOpen = 0
+        }
     } else {
-        // await openTodo(todo.id)
-        todo.isOpen = 1
+        if (await openTodo(todo.id)) {
+            todo.isOpen = 1
+        }
     }
-    
+
 }
 
 const deleteItem = async () => {

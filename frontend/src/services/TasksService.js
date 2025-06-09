@@ -10,7 +10,6 @@ export function useTasksService() {
     loading.value = true;
     error.value = null;
     try {
-      console.log("Attempting to add new Task: ", newTask);
       await api.post("tasks/add", newTask);
       return true;
     } catch (err) {
@@ -41,7 +40,6 @@ export function useTasksService() {
     loading.value = true;
     error.value = null;
     try {
-      console.log("Attempting to edit Task:", editedTask);
       await api.post("tasks/edit", editedTask);
       return true;
     } catch (err) {
@@ -56,7 +54,6 @@ export function useTasksService() {
     loading.value = true;
     error.value = null;
     try {
-      console.log("Attempting to delete Task...");
       await api.post("tasks/delete", { taskId });
       return true;
     } catch (err) {
@@ -71,11 +68,38 @@ export function useTasksService() {
     loading.value = true;
     error.value = null;
     try {
-      console.log("Attempting to close Task...");
       await api.post("tasks/close", { taskId });
       return true;
     } catch (err) {
       error.value = err.response?.data?.message || "Closing task failed.";
+      return false;
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  const closeTodo = async (todoId) => {
+    loading.value = true;
+    error.value = null;
+    try {
+      await api.post("todos/close", { todoId });
+      return true;
+    } catch (err) {
+      error.value = err.response?.data?.message || "Closing todo failed.";
+      return false;
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  const openTodo = async (todoId) => {
+    loading.value = true;
+    error.value = null;
+    try {
+      await api.post("todos/open", { todoId });
+      return true;
+    } catch (err) {
+      error.value = err.response?.data?.message || "Opening todo failed.";
       return false;
     } finally {
       loading.value = false;
@@ -91,5 +115,7 @@ export function useTasksService() {
     editTask,
     deleteTask,
     closeTask,
+    closeTodo,
+    openTodo
   };
 }

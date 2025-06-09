@@ -383,3 +383,24 @@ def add_new_team(team_name: str) -> bool:
     """
     sql: str = "INSERT INTO tblTeams(TeamName) VALUES (?)"
     return execute_query(sql, (team_name,), CONNECTIONSTRING)
+
+
+#-- TODOS --#
+def close_todo(todo_id):
+    """
+    Returns:
+        True: if successfully added
+        False: if error happened
+    """
+    sql: str = "UPDATE tblTodos SET TodoIsOpen=0 WHERE TodoID=?"
+    return execute_query(sql, (todo_id,), CONNECTIONSTRING)
+
+def open_todo(todo_id):
+    """
+    Returns:
+        True: if successfully added
+        False: if error happened
+    """
+    sql: str = "UPDATE tblTodos SET TodoIsOpen=1 WHERE TodoID=?"
+    return execute_query(sql, (todo_id,), CONNECTIONSTRING)
+

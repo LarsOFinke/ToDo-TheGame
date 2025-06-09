@@ -31,18 +31,18 @@ def create_app():
     log.setLevel(logging.ERROR)
     
     ## Import Blueprints (routing) ##
-
     # Login-System API #
     from .api.auth import auth    
     app.register_blueprint(auth, url_prefix='/api/auth')
-    
     # Tasks-System API #
     from .api.tasks import tasks    
     app.register_blueprint(tasks, url_prefix='/api/tasks')
-    
     # Teams-System API #
     from .api.teams import teams    
     app.register_blueprint(teams, url_prefix='/api/teams')
+    # ToDos-System API #
+    from .api.todos import todos    
+    app.register_blueprint(todos, url_prefix='/api/todos')
     
     ## Set up Configuration ##
     load_dotenv()
