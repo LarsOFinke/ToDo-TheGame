@@ -52,6 +52,7 @@ const clearSession = () => {
 export function useAuthService() {
   return {
     user,
+    userId,
     isAuthenticated,
     loading,
     error,

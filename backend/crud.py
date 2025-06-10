@@ -88,7 +88,9 @@ def create_teams_table():
     try:
         sql: str = "CREATE TABLE tblTeams(" \
                     "TeamID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " \
-                    "TeamName TEXT NOT NULL)"
+                    "TeamName TEXT NOT NULL, " \
+                    "UserIDRef INTEGER, " \
+                    "FOREIGN KEY(UserIDRef) REFERENCES tblUsers(UserID))"
         execute_query(sql, (), CONNECTIONSTRING)
         return True
     
@@ -377,14 +379,15 @@ def delete_todo(todo_id: int) -> bool:
 
 
 #-- TEAMS --#
-def add_new_team(team_name: str) -> bool:
+def add_new_team(new_team: dict) -> bool:
     """
     Returns:
         True: if successfully added
         False: if error happened
     """
-    sql: str = "INSERT INTO tblTeams(TeamName) VALUES (?)"
-    return execute_query(sql, (team_name,), CONNECTIONSTRING)
+    sql: str = "INSERT INTO tblTeams(TeamName, UserIDRef) VALUES (?,?)"
+    print(new_team.get("userId"))
+    return execute_query(sql, (new_team.get("teamName"), int(new_team.get("userId"))), CONNECTIONSTRING)
 
 
 #-- TODOS --#

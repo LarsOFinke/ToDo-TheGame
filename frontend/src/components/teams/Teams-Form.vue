@@ -31,11 +31,13 @@
 <script setup>
 import MessageBox from '@/components/shared/Message-Box.vue';
 import { ref, watch } from 'vue';
+import { useAuthService } from '@/services/AuthService';
 import { useTeamsService } from '@/services/TeamsService';
 
 const emit = defineEmits(['hideTeamForm'])
 const msg = ref('')
 const errorPhrase = 'Something went wrong!'
+const { userId } = useAuthService()
 const { loading, createNewTeam } = useTeamsService()
 const teamName = ref('')
 
@@ -54,6 +56,7 @@ const showTaskList = () => {
 const submitNewTeam = async () => {
     const newTeam = {
         teamName: teamName.value,
+        userId: userId.value
     }
 
     if (await createNewTeam(newTeam)) {

@@ -19,7 +19,6 @@ def get_all_open_user():
     data = request.get_json()
 
     tasks: list[dict] = get_all_open_tasks_user(data.get('id'))
-    
     return jsonify({"success": True, "tasks": tasks}), 200
 
 @tasks.route("/edit", methods=["POST"])

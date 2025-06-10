@@ -9,7 +9,7 @@ teams = Blueprint("teams", __name__)
 def create():
     data = request.get_json()
     
-    if add_new_team(data.get("teamName")):
+    if add_new_team(data):
         return jsonify({"success": True}), 200
     else:
         return jsonify({"success": False}), 401
