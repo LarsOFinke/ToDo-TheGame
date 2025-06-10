@@ -26,6 +26,7 @@ export function useTasksService() {
     try {
       const response = await api.post(`tasks/get-all-open-${type}`, { id });
       tasks.value = response.data.tasks
+      error.value = null
       return true;
     } catch (err) {
       error.value = err.response?.data?.message || "Fetching tasks failed.";

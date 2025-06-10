@@ -9,7 +9,7 @@ tasks = Blueprint("tasks", __name__)
 def add():
     data = request.get_json()
     
-    if add_new_task(data.get("type"), data):
+    if add_new_task(data.get("mode"), data):
         return jsonify({"success": True}), 200
     else:
         return jsonify({"success": False}), 401

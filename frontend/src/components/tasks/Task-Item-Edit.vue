@@ -11,7 +11,7 @@
                     <select v-model.trim="mode"
                         class="ml-1 focus:outline-none focus:ring-2 focus:ring-indigo-500 border-gray-300 rounded-md shadow-sm"
                         required>
-                        <option value="private">Private</option>
+                        <option value="user">User</option>
                         <option value="team">Team</option>
                     </select>
                 </label>

@@ -214,19 +214,19 @@ def get_user_id(username) -> int:
 
 
 #-- TASKS --#
-def add_new_task(type: str, new_task: dict) -> bool:
+def add_new_task(mode: str, new_task: dict) -> bool:
     """
     Returns:
         True: if successfully added
         False: if error happened
     """
-    sql: str = f"INSERT INTO tblTasks(TaskMode, TaskTopic, TaskCategory, TaskPriority, TaskDeadlineDate, TaskStartDate, TaskRemainingTime, TaskTitle, TaskDescription, TaskIsOpen, {type.upper()}IDRef)" \
+    sql: str = f"INSERT INTO tblTasks(TaskMode, TaskTopic, TaskCategory, TaskPriority, TaskDeadlineDate, TaskStartDate, TaskRemainingTime, TaskTitle, TaskDescription, TaskIsOpen, {mode.upper()}IDRef)" \
                 "VALUES (?,?,?,?,?,?,?,?,?,TRUE,?)"
     if not execute_query(
                     sql, 
                     (new_task["mode"], new_task["topic"], new_task["category"], new_task["priority"], 
                     new_task["deadlineDate"], new_task["startDate"], new_task["remainingTime"], 
-                    new_task["title"], new_task["description"], new_task["typeId"]), 
+                    new_task["title"], new_task["description"], new_task["modeId"]), 
                     CONNECTIONSTRING
                 ):
         return False
@@ -287,7 +287,7 @@ def edit_task(edited_task: dict) -> bool:
                         ):
         if not update_todos_for_task(edited_task["todos"]):
             return False
-    
+
         if len(edited_task["deletedTodos"]) > 0:
             for todo in edited_task["deletedTodos"]:
                 if not delete_todo(todo["id"]):

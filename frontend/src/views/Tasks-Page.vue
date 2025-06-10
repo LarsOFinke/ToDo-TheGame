@@ -13,7 +13,7 @@ import { useAuthService } from "@/services/AuthService"
 import { useTasksService } from '@/services/TasksService';
 
 const router = useRouter();
-const { isAuthenticated } = useAuthService()
+const { isAuthenticated, userId } = useAuthService()
 const { getAllTasks, tasks } = useTasksService()
 const viewTaskList = ref(true)
 const taskList = ref([])
@@ -32,7 +32,7 @@ const fetchTasks = async () => {
 }
 
 const updateTasks = async () => {
-    await getAllTasks()
+    await getAllTasks('user', userId)
     taskList.value = tasks.value
 }
 
