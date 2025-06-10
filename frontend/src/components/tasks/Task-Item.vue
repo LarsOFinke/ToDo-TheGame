@@ -45,6 +45,7 @@
             <!-- Task-To-Do's -->
             <div v-if="showTodos" class="w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-1 mx-auto relative mb-2">
                 <div class="text-sm mb-4 overflow-x-auto pl-6 max-h-18">
+                    <p class="text-right">{{ doneTodos }} / {{ totalTodos }} done</p>
                     <ul v-for="todo in task.todos" :key="todo.id" class="list-disc">
                         <li :value="todo.id" :class="{ 'line-through': !todo.isOpen }"
                             class="cursor-pointer shadow-md my-3 mr-2" @click.prevent="toggleTodoStatus(todo)">
@@ -81,7 +82,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useTasksService } from '@/services/TasksService'
 
 const { task } = defineProps({
@@ -90,6 +91,18 @@ const { task } = defineProps({
 const emit = defineEmits(['hideItemEdit', 'updateTaskList', 'closeItem'])
 const { deleteTask, closeTask, closeTodo, openTodo } = useTasksService()
 const showTodos = ref(true)
+const doneTodos = computed(()=>{
+    let doneTodos = 0
+    for (let todo of task.todos) {
+        if (!todo.isOpen) {
+            doneTodos++
+        }
+    }
+    return doneTodos
+})
+const totalTodos =computed(()=>{
+    return task.todos.length
+})
 
 const toggleShowTodos = (toggleOn) => {
     if (toggleOn) {
