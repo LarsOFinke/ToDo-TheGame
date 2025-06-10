@@ -109,3 +109,7 @@ TaskIDRef INTEGER, FOREIGN KEY(TaskIDRef) REFERENCES tblTasks(TaskID)
 
 # TEAMS (api/teams/) #
 - create
+
+# TODOS (api/todos/) #
+- close
+- open

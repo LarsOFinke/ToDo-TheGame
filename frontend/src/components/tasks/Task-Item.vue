@@ -34,34 +34,32 @@
         <div class="flex flex-col">
             <!-- ScrollContainer-Control-Buttons -->
             <div class="w-full flex justify-around">
-                <button type="button" @click.prevent="toggleShowDescription(true)"
-                    :class="showDescription ? 'bg-gray-600 hover:bg-gray-600' : 'bg-gray-400 hover:bg-gray-800'"
-                    class="w-50 text-white py-1 px-4 transition">Description</button>
-                <button type="button" @click.prevent="toggleShowDescription(false)"
-                    :class="showDescription ? 'bg-gray-400 hover:bg-gray-800' : 'bg-gray-600 hover:bg-gray-600'"
+                <button type="button" @click.prevent="toggleShowTodos(true)"
+                    :class="showTodos ? 'bg-gray-600 hover:bg-gray-600' : 'bg-gray-400 hover:bg-gray-800'"
                     class="w-50 text-white py-1 px-4 transition">To-Do's</button>
-            </div>
-
-            <!-- Task-Description -->
-            <div v-if="showDescription"
-                class="w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-2 mx-auto relative mb-2">
-                <div class="text-sm mb-4 overflow-x-auto  max-h-18">
-                    <p class="overflow-y-hidden scrollbar-hide">{{ task.description }}</p>
-                </div>
+                <button type="button" @click.prevent="toggleShowTodos(false)"
+                    :class="showTodos ? 'bg-gray-400 hover:bg-gray-800' : 'bg-gray-600 hover:bg-gray-600'"
+                    class="w-50 text-white py-1 px-4 transition">Description</button>
             </div>
 
             <!-- Task-To-Do's -->
-            <div v-else class="w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-1 mx-auto relative mb-2">
+            <div v-if="showTodos" class="w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-1 mx-auto relative mb-2">
                 <div class="text-sm mb-4 overflow-x-auto pl-6 max-h-18">
                     <ul v-for="todo in task.todos" :key="todo.id" class="list-disc">
-                        <li :value="todo.id" :class="{ 'line-through': !todo.isOpen }" class="mb-2">
+                        <li :value="todo.id" :class="{ 'line-through': !todo.isOpen }"
+                            class="cursor-pointer shadow-md my-3 mr-2" @click.prevent="toggleTodoStatus(todo)">
                             <div class="flex justify-between items-center">
                                 <p>{{ todo.text }}</p>
-                                <button type="button" @click.prevent="toggleTodoStatus(todo)"
-                                    class="w-fit bg-green-600 text-white py-1 px-2 rounded-md hover:bg-green-800 transition">Done!</button>
                             </div>
                         </li>
                     </ul>
+                </div>
+            </div>
+
+            <!-- Task-Description -->
+            <div v-else class="w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-2 mx-auto relative mb-2">
+                <div class="text-sm mb-4 overflow-x-auto  max-h-18">
+                    <p class="overflow-y-hidden scrollbar-hide">{{ task.description }}</p>
                 </div>
             </div>
         </div>
@@ -91,13 +89,13 @@ const { task } = defineProps({
 })
 const emit = defineEmits(['hideItemEdit', 'updateTaskList', 'closeItem'])
 const { deleteTask, closeTask, closeTodo, openTodo } = useTasksService()
-const showDescription = ref(true)
+const showTodos = ref(true)
 
-const toggleShowDescription = (toggleOn) => {
+const toggleShowTodos = (toggleOn) => {
     if (toggleOn) {
-        showDescription.value = true
+        showTodos.value = true
     } else {
-        showDescription.value = false
+        showTodos.value = false
     }
 }
 
