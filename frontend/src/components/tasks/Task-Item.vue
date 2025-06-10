@@ -74,7 +74,9 @@
             <button type="button" @click.prevent="showItemEdit"
                 class="w-fit bg-indigo-600 text-white py-1 px-4 rounded-md hover:bg-indigo-800 transition">Edit</button>
             <button type="button" @click.prevent="closeItem"
-                class="w-fit bg-green-600 text-white py-1 px-2 rounded-md hover:bg-green-800 transition">Done!</button>
+                class="w-fit bg-green-600 text-white py-1 px-2 rounded-md hover:bg-green-800 transition"
+                :class="itemCloseable ? '' : 'cursor-not-allowed'"
+                :disabled="doneTodos < totalTodos">Done!</button>
         </div>
     </div>
 
@@ -91,7 +93,8 @@ const { task } = defineProps({
 const emit = defineEmits(['hideItemEdit', 'updateTaskList', 'closeItem'])
 const { deleteTask, closeTask, closeTodo, openTodo } = useTasksService()
 const showTodos = ref(true)
-const doneTodos = computed(()=>{
+
+const doneTodos = computed(() => {
     let doneTodos = 0
     for (let todo of task.todos) {
         if (!todo.isOpen) {
@@ -100,8 +103,11 @@ const doneTodos = computed(()=>{
     }
     return doneTodos
 })
-const totalTodos =computed(()=>{
+const totalTodos = computed(() => {
     return task.todos.length
+})
+const itemCloseable = computed(()=>{
+    return !(doneTodos.value < totalTodos.value)
 })
 
 const toggleShowTodos = (toggleOn) => {
@@ -128,19 +134,16 @@ const toggleTodoStatus = async (todo) => {
             todo.isOpen = 1
         }
     }
-
 }
 
 const deleteItem = async () => {
     await deleteTask(task.id)
     updateList()
-    emit('closeItem', 'Item successfully deleted.')
 }
 
 const closeItem = async () => {
     await closeTask(task.id)
     updateList()
-    emit('closeItem', 'Item successfully closed.')
 }
 
 </script>
