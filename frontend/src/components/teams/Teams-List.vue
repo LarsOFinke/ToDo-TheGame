@@ -25,16 +25,15 @@
             <!-- Scrollable Team List -->
             <div class="overflow-x-auto max-h-95">
                 <ul v-for="team in teamList" :key="team.id" class="mb-8">
-                    <teams-item :team="team" @hideTeamList="showTeamList"></teams-item>
+                    <teams-item :team="team" @hideTeamList="showTeamList" @hideTeamTasks="showTeamTasks"></teams-item>
                 </ul>
             </div>
         </div>
     </div>
 
-    <teams-item-edit v-else-if="!viewTeamList && !viewTeamForm" :team="selectedTeam"
-        @hideTeamList="showTeamList"></teams-item-edit>
-    <teams-form v-else @hideTeamForm="showTeamForm"></teams-form>
+    <teams-form v-else-if="!viewTeamList && viewTeamForm" @hideTeamForm="showTeamForm"></teams-form>
 
+    <task-list v-else @hideTeamTasks="showTeamTasks" :taskList="taskList"></task-list>
 </template>
 
 
@@ -43,14 +42,18 @@ import MessageBox from '@/components/shared/Message-Box.vue';
 import TeamsForm from '@/components/teams/Teams-Form.vue'
 import TeamsItem from '@/components/teams/Teams-Item.vue';
 import TeamsItemEdit from '@/components/teams/Teams-Item-Edit.vue';
+import TaskList from '@/components/tasks/Task-List.vue';
 import { ref } from 'vue'
+import { useTasksService } from '@/services/TasksService';
 
-const emit = defineEmits(['hideTeamList', 'updateTeamList'])
+const emit = defineEmits(['hideTeamList', 'updateTeamList', 'hideTeamTasks'])
 const msg = ref('')
 const errorPhrase = 'Something went wrong!'
+const { getAllTasks, tasks } = useTasksService()
 const selectedTeam = ref(Object)
 const viewTeamList = ref(true)
 const viewTeamForm = ref(false)
+const taskList = ref([])
 
 defineProps({
     teamList: Array
@@ -82,6 +85,21 @@ const showTeamList = (hideTeamList) => {
         selectedTeam.value = hideTeamList[1]
         viewTeamList.value = true
     }
+}
+
+const showTeamTasks = (hideTeamTasks) => {
+    if (hideTeamTasks[0]) {
+        viewTeamList.value = true
+    } else {
+        selectedTeamId.value = hideTeamList[1]
+        fetchTasks()
+        viewTeamList.value = false
+    }
+}
+
+const fetchTasks = async () => {
+    await getAllTasks('team', selectedTeamId.value)
+    taskList.value = tasks.value
 }
 
 const showMessage = (message) => {

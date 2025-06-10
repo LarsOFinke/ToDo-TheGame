@@ -27,7 +27,7 @@
                 class="w-fit bg-indigo-600 text-white py-1 px-4 rounded-md hover:bg-indigo-800 transition">Details</button>
         </div>
         <div class="w-full flex justify-around">
-            <button type="button"
+            <button type="button" @click.prevent="showTeamTasks"
                 class="w-fit bg-green-600 text-white py-1 px-2 rounded-md hover:bg-green-800 transition">Team-Tasks</button>
         </div>
     </div>
@@ -39,4 +39,10 @@
 defineProps({
     team: Object
 })
+
+const emit = defineEmits(['hideTeamTasks'])
+
+const showTeamTasks = () => {
+    emit('hideTeamTasks', (true, team.id))
+}
 </script>
