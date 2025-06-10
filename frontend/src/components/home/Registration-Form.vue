@@ -71,8 +71,6 @@ watch(loading, (newVal) => {
 })
 
 const signUp = async () => {
-    console.log(username.value, password.value);
-
     if (checkPasswordRequirements()) {
         if (await register(username.value, password.value)) {
             router.replace("/")

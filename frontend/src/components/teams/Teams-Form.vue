@@ -52,7 +52,6 @@ const showTaskList = () => {
 }
 
 const submitNewTeam = async () => {
-    console.log('Attempting to submit new Team...');
     const newTeam = {
         teamName: teamName.value,
     }

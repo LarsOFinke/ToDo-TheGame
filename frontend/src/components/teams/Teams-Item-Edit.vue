@@ -36,6 +36,6 @@ defineProps({
 })
 
 const editTeamName = () => {
-    console.log('Attempting to change team name...');
+
 }
 </script>

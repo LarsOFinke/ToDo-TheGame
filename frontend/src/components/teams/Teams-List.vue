@@ -61,7 +61,7 @@ const newTeam = () => {
 }
 
 const joinTeam = () => {
-    console.log('Attempting to join team...');
+
 }
 
 const showTeamForm = (hideTeamForm) => {
@@ -85,7 +85,6 @@ const showTeamList = (hideTeamList) => {
 }
 
 const showMessage = (message) => {
-    console.log(message);
     msg.value = message
 }
 </script>

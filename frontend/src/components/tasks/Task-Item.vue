@@ -59,7 +59,7 @@
 
             <!-- Task-Description -->
             <div v-else class="w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-2 mx-auto relative mb-2">
-                <div class="text-sm mb-4 overflow-x-auto  max-h-18">
+                <div class="text-sm mb-4 overflow-x-auto  max-h-22">
                     <p class="overflow-y-hidden scrollbar-hide">{{ task.description }}</p>
                 </div>
             </div>
@@ -75,8 +75,7 @@
                 class="w-fit bg-indigo-600 text-white py-1 px-4 rounded-md hover:bg-indigo-800 transition">Edit</button>
             <button type="button" @click.prevent="closeItem"
                 class="w-fit bg-green-600 text-white py-1 px-2 rounded-md hover:bg-green-800 transition"
-                :class="itemCloseable ? '' : 'cursor-not-allowed'"
-                :disabled="!itemCloseable">Done!</button>
+                :class="itemCloseable ? '' : 'cursor-not-allowed'" :disabled="!itemCloseable">Done!</button>
         </div>
     </div>
 
@@ -106,7 +105,7 @@ const doneTodos = computed(() => {
 const totalTodos = computed(() => {
     return task.todos.length
 })
-const itemCloseable = computed(()=>{
+const itemCloseable = computed(() => {
     return !(doneTodos.value < totalTodos.value)
 })
 

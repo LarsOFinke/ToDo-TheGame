@@ -184,7 +184,6 @@ const submitNewTask = () => {
         description: description.value,
         todos: todoList.value,
     }
-    console.log(newTask);
 
     if (addNewTask(newTask)) {
         resetForm()

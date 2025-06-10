@@ -63,7 +63,6 @@ const showItemEdit = (hideItemEdit) => {
 }
 
 const showMessage = (message) => {
-    console.log(message);
     msg.value = message
 }
 </script>

@@ -64,12 +64,12 @@ const cancelEditMode = () => {
 }
 
 const editUsername = () => {
-    console.log(username.value);
+
 }
 
 const changePassword = () => {
     if (newPassword1.value === newPassword2.value) {
-        console.log('Attempting to change password...');
+
     }
 }
 </script>
