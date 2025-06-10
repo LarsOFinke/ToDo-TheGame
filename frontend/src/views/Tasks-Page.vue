@@ -27,7 +27,7 @@ onMounted(async () => {
 });
 
 const fetchTasks = async () => {
-    await getAllTasks()
+    await getAllTasks('user', 1)
     taskList.value = tasks.value
 }
 

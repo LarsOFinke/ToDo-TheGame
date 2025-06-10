@@ -7,14 +7,11 @@
 
         <!-- Teams-Info -->
         <div class="flex text-xs mb-4">
-            <div class="flex flex-col w-full">
-                <h4 class="text-sm font-semibold">Information:</h4>
-                <div class="flex flex-col w-full">
-                    <label class="mb-2"><u>Founder:</u> Name</label>
-                    <label class="mb-2"><u>Info#2:</u> Infopjmdnipsanpid</label>
-                    <label class="mb-2"><u>Info#3:</u> KLloihsdulif sdagf ghrdg</label>
-                    <label class="mb-2"><u>Info#4:</u> Ohouibhg oughns ubnsgu bdgub klbgu kubgk g jkkjbb hb</label>
-                </div>
+            <div class="flex flex-col w-45">
+                <label class="mb-2"><u>Founder:</u> Name</label>
+                <label class="mb-2"><u>Info#2:</u> Infopjmdnipsanpid</label>
+                <label class="mb-2"><u>Info#3:</u> KLloihsdulif sdagf ghrdg</label>
+                <label class="mb-2"><u>Info#4:</u> Ohouibhg oughns ubnsgu bdgub klbgu kubgk g jkkjbb hb</label>
             </div>
             <div class="flex float-right">
                 <div class="w-full">
@@ -25,7 +22,7 @@
         </div>
 
         <!-- Utility-Buttons -->
-         <div class="mb-2 absolute top-2 right-2">
+        <div class="mb-2 absolute top-2 right-2">
             <button type="button"
                 class="w-fit bg-indigo-600 text-white py-1 px-4 rounded-md hover:bg-indigo-800 transition">Details</button>
         </div>

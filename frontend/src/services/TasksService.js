@@ -20,20 +20,19 @@ export function useTasksService() {
     }
   };
 
-  const getAllTasks = async () => {
-    await api
-      .get("tasks/get-all-open")
-      .then((data) => {
-        tasks.value = data.data.tasks;
-        return true;
-      })
-      .catch((err) => {
-        console.log(err);
-        return false;
-      })
-      .finally(() => {
-        loading.value = false;
-      });
+  const getAllTasks = async (type, id) => {
+    loading.value = true;
+    error.value = null;
+    try {
+      const response = await api.post(`tasks/get-all-open-${type}`, { id });
+      tasks.value = response.data.tasks
+      return true;
+    } catch (err) {
+      error.value = err.response?.data?.message || "Fetching tasks failed.";
+      return false;
+    } finally {
+      loading.value = false;
+    }
   };
 
   const editTask = async (editedTask) => {
@@ -116,6 +115,6 @@ export function useTasksService() {
     deleteTask,
     closeTask,
     closeTodo,
-    openTodo
+    openTodo,
   };
 }

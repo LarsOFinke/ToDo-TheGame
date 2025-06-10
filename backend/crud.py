@@ -84,6 +84,18 @@ def create_admins() -> bool:
         logging.error(e)
         return False   
 
+def create_teams_table():
+    try:
+        sql: str = "CREATE TABLE tblTeams(" \
+                    "TeamID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " \
+                    "TeamName TEXT NOT NULL)"
+        execute_query(sql, (), CONNECTIONSTRING)
+        return True
+    
+    except sqlite3.Error as e:
+        logging.error(e)
+        return False
+
 def create_tasks_table():
     try:
         sql: str = "CREATE TABLE tblTasks(" \
@@ -99,7 +111,9 @@ def create_tasks_table():
                     "TaskDescription TEXT NOT NULL, " \
                     "TaskIsOpen BOOLEAN NOT NULL, " \
                     "UserIDRef INTEGER, " \
-                    "FOREIGN KEY(UserIDRef) REFERENCES tblUsers(UserID))"
+                    "TeamIDRef INTEGER, " \
+                    "FOREIGN KEY(UserIDRef) REFERENCES tblUsers(UserID), " \
+                    "FOREIGN KEY(TeamIDRef) REFERENCES tblTeams(TeamID))"
                     
         execute_query(sql, (), CONNECTIONSTRING)
         return True
@@ -123,18 +137,6 @@ def create_todos_table():
         logging.error(e)
         return False
 
-def create_teams_table():
-    try:
-        sql: str = "CREATE TABLE tblTeams(" \
-                    "TeamID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " \
-                    "TeamName TEXT NOT NULL)"
-        execute_query(sql, (), CONNECTIONSTRING)
-        return True
-    
-    except sqlite3.Error as e:
-        logging.error(e)
-        return False
-
 if not os.path.exists(CONNECTIONSTRING):
     if not create_users_table():
         logging.error("Could not create User-table! Something went wrong...")
@@ -142,16 +144,16 @@ if not os.path.exists(CONNECTIONSTRING):
     if not create_admins():
         logging.error("Could not create admins! Something went wrong...")
         sys.exit()
+    if not create_teams_table():
+        logging.error("Could not create teams-table! Something went wrong...")
+        sys.exit()
     if not create_tasks_table():
         logging.error("Could not create tasks-table! Something went wrong...")
         sys.exit()
     if not create_todos_table():
         logging.error("Could not create todos-table! Something went wrong...")
         sys.exit()
-    if not create_teams_table():
-        logging.error("Could not create teams-table! Something went wrong...")
-        sys.exit()
-          
+        
  
 ### SET UP CRUD-FUNCTIONALITY ###
 
@@ -212,19 +214,19 @@ def get_user_id(username) -> int:
 
 
 #-- TASKS --#
-def add_new_task(new_task: dict) -> bool:
+def add_new_task(type: str, new_task: dict) -> bool:
     """
     Returns:
         True: if successfully added
         False: if error happened
     """
-    sql: str = "INSERT INTO tblTasks(TaskMode, TaskTopic, TaskCategory, TaskPriority, TaskDeadlineDate, TaskStartDate, TaskRemainingTime, TaskTitle, TaskDescription, TaskIsOpen)" \
-                "VALUES (?,?,?,?,?,?,?,?,?,TRUE)"
+    sql: str = f"INSERT INTO tblTasks(TaskMode, TaskTopic, TaskCategory, TaskPriority, TaskDeadlineDate, TaskStartDate, TaskRemainingTime, TaskTitle, TaskDescription, TaskIsOpen, {type.upper()}IDRef)" \
+                "VALUES (?,?,?,?,?,?,?,?,?,TRUE,?)"
     if not execute_query(
                     sql, 
                     (new_task["mode"], new_task["topic"], new_task["category"], new_task["priority"], 
                     new_task["deadlineDate"], new_task["startDate"], new_task["remainingTime"], 
-                    new_task["title"], new_task["description"]), 
+                    new_task["title"], new_task["description"], new_task["typeId"]), 
                     CONNECTIONSTRING
                 ):
         return False
@@ -239,13 +241,13 @@ def add_new_task(new_task: dict) -> bool:
         
     return True
 
-def get_all_open_tasks() -> list[dict]:
+def get_all_open_tasks_user(user_id: int) -> list[dict]:
     """Returns a list containing all tasks in the database"""
-    sql: str = "SELECT TaskID, TaskMode, TaskTopic, TaskCategory, TaskPriority, TaskDeadlineDate, TaskStartDate, TaskRemainingTime, TaskTitle, TaskDescription, TaskIsOpen FROM tblTasks"
+    sql: str = "SELECT TaskID, TaskMode, TaskTopic, TaskCategory, TaskPriority, TaskDeadlineDate, TaskStartDate, TaskRemainingTime, TaskTitle, TaskDescription, TaskIsOpen FROM tblTasks WHERE UserIDRef=?"
     
     with sqlite3.connect(CONNECTIONSTRING) as con:
         cursor = con.cursor()
-        cursor.execute(sql)
+        cursor.execute(sql, (user_id,))
         results = cursor.fetchall()
         tasks: list = [
                             {

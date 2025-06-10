@@ -183,6 +183,8 @@ const submitNewTask = () => {
         remainingTime: 'NOT IMPLEMENTED YET',
         description: description.value,
         todos: todoList.value,
+        type: 'user',
+        typeId: 1
     }
 
     if (addNewTask(newTask)) {
