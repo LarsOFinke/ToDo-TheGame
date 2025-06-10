@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full max-w-sm bg-gray-200 rounded-lg shadow-md p-6 mx-auto relative">
+    <div class="w-full max-w-sm bg-gray-200 rounded-lg shadow-md p-4 mx-auto relative">
         <br>
 
         <!-- Task-Header -->
@@ -44,7 +44,7 @@
 
             <!-- Task-To-Do's -->
             <div v-if="showTodos" class="w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-1 mx-auto relative mb-2">
-                <div class="text-sm mb-4 overflow-x-auto pl-6 max-h-18">
+                <div class="text-sm mb-4 overflow-x-auto pl-6 max-h-24">
                     <p class="text-right">{{ doneTodos }} / {{ totalTodos }} done</p>
                     <ul v-for="todo in task.todos" :key="todo.id" class="list-disc">
                         <li :value="todo.id" :class="{ 'line-through': !todo.isOpen }"
@@ -76,7 +76,7 @@
             <button type="button" @click.prevent="closeItem"
                 class="w-fit bg-green-600 text-white py-1 px-2 rounded-md hover:bg-green-800 transition"
                 :class="itemCloseable ? '' : 'cursor-not-allowed'"
-                :disabled="doneTodos < totalTodos">Done!</button>
+                :disabled="!itemCloseable">Done!</button>
         </div>
     </div>
 
