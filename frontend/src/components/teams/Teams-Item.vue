@@ -36,13 +36,13 @@
 <script setup>
 
 
-defineProps({
+const props = defineProps({
     team: Object
 })
 
 const emit = defineEmits(['hideTeamTasks'])
 
 const showTeamTasks = () => {
-    emit('hideTeamTasks', (true, team.id))
+    emit('hideTeamTasks', (false, props.team.id))
 }
 </script>

@@ -56,6 +56,7 @@ const selectedTeam = ref(Object)
 const viewTeamList = ref(true)
 const viewTeamForm = ref(false)
 const teamList = ref([])
+const selectedTeamId = ref(0)
 
 onMounted(async () => {
     await fetchTeams()
@@ -98,7 +99,7 @@ const showTeamTasks = (hideTeamTasks) => {
     if (hideTeamTasks[0]) {
         viewTeamList.value = true
     } else {
-        selectedTeamId.value = hideTeamList[1]
+        selectedTeamId.value = hideTeamTasks[1]
         viewTeamList.value = false
     }
 }
