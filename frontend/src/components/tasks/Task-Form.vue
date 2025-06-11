@@ -10,15 +10,6 @@
         <form @submit.prevent="submitNewTask">
             <!-- Mode -->
             <div class="flex mb-4 justify-between">
-                <!-- <label class="text-sm font-medium text-gray-700">Mode
-                    <select v-model.trim="mode"
-                        class="ml-1 focus:outline-none focus:ring-2 focus:ring-indigo-500 border-gray-300 rounded-md shadow-sm"
-                        required>
-                        <option value="user">User</option>
-                        <option value="team">Team</option>
-                    </select>
-                </label> -->
-
                 <!-- Priority -->
                 <label class="w-full flex justify-end text-sm font-medium text-gray-700">Priority
                     <select v-model.trim="priority"
@@ -144,7 +135,6 @@ const errorPhrase = 'Something went wrong!'
 
 const { loading, mode, modeId, addNewTask } = useTasksService()
 const emit = defineEmits(['showTaskForm'])
-// const mode = ref('')
 const priority = ref('')
 const topic = ref('')
 const category = ref('')
@@ -175,7 +165,7 @@ const submitNewTask = () => {
     const newTask = {
         title: title.value,
         mode: mode.value,
-        modeId: 1,
+        modeId: modeId.value,
         topic: topic.value,
         category: category.value,
         priority: priority.value,

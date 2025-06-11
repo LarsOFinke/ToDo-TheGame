@@ -8,7 +8,7 @@ tasks = Blueprint("tasks", __name__)
 @tasks.route("/add", methods=["POST"])
 def add():
     data = request.get_json()
-    
+
     if add_new_task(data.get("mode"), data):
         return jsonify({"success": True}), 200
     else:
