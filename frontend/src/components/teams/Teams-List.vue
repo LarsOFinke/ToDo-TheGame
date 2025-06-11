@@ -58,7 +58,7 @@ const viewTeamForm = ref(false)
 const teamList = ref([])
 
 onMounted(async () => {
-    fetchTeams()
+    await fetchTeams()
 });
 
 const fetchTeams = async () => {
@@ -74,12 +74,12 @@ const joinTeam = () => {
 
 }
 
-const showTeamForm = (hideTeamForm) => {
+const showTeamForm = async (hideTeamForm) => {
     if (hideTeamForm) {
         viewTeamForm.value = true
         viewTeamList.value = false
     } else {
-        emit('updateTeamList', true)
+        await fetchTeams()
         viewTeamForm.value = false
         viewTeamList.value = true
     }

@@ -432,7 +432,6 @@ def add_new_team(new_team: dict) -> bool:
         False: if error happened
     """
     sql: str = "INSERT INTO tblTeams(TeamName, UserIDRef) VALUES (?,?)"
-    print(new_team.get("userId"))
     return execute_query(sql, (new_team.get("teamName"), int(new_team.get("userId"))), CONNECTIONSTRING)
 
 def get_teams_by_user(team_id: int) -> list[dict]:
