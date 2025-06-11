@@ -74,8 +74,8 @@
             <button type="button" @click.prevent="showItemEdit"
                 class="w-fit bg-indigo-600 text-white py-1 px-4 rounded-md hover:bg-indigo-800 transition">Edit</button>
             <button type="button" @click.prevent="closeItem"
-                class="w-fit bg-green-600 text-white py-1 px-2 rounded-md hover:bg-green-800 transition"
-                :class="itemCloseable ? '' : 'cursor-not-allowed'" :disabled="!itemCloseable">Done!</button>
+                class="w-fit text-white py-1 px-2 rounded-md transition"
+                :class="itemCloseable ? 'bg-green-600 hover:bg-green-800' : 'bg-gray-400 hover:bg-gray-600 line-through cursor-not-allowed'" :disabled="!itemCloseable">Done!</button>
         </div>
     </div>
 
