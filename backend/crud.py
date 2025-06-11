@@ -377,20 +377,6 @@ def delete_todo(todo_id: int) -> bool:
     sql: str = "DELETE FROM tblTodos WHERE TodoID = ?"      
     return execute_query(sql, (todo_id,), CONNECTIONSTRING)
 
-
-#-- TEAMS --#
-def add_new_team(new_team: dict) -> bool:
-    """
-    Returns:
-        True: if successfully added
-        False: if error happened
-    """
-    sql: str = "INSERT INTO tblTeams(TeamName, UserIDRef) VALUES (?,?)"
-    print(new_team.get("userId"))
-    return execute_query(sql, (new_team.get("teamName"), int(new_team.get("userId"))), CONNECTIONSTRING)
-
-
-#-- TODOS --#
 def close_todo(todo_id):
     """
     Returns:
@@ -409,3 +395,14 @@ def open_todo(todo_id):
     sql: str = "UPDATE tblTodos SET TodoIsOpen=1 WHERE TodoID=?"
     return execute_query(sql, (todo_id,), CONNECTIONSTRING)
 
+
+#-- TEAMS --#
+def add_new_team(new_team: dict) -> bool:
+    """
+    Returns:
+        True: if successfully added
+        False: if error happened
+    """
+    sql: str = "INSERT INTO tblTeams(TeamName, UserIDRef) VALUES (?,?)"
+    print(new_team.get("userId"))
+    return execute_query(sql, (new_team.get("teamName"), int(new_team.get("userId"))), CONNECTIONSTRING)

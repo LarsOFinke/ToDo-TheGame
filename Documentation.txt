@@ -54,8 +54,10 @@ x- Teams-Page
 - Impressum-Page
 
 ## SERVICES ##
-x- Auth-Service
-x- Task-Service
+x- AuthService
+x- TaskService
+- TeamsService
+- ProfileService
 
 
 
@@ -63,14 +65,14 @@ x- Task-Service
 
 ## DATABASE ##
 
-# User #
+# USER #
 tblUser
 UserID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE
 UserUsername TEXT NOT NULL UNIQUE
 UserPassword TEXT NOT NULL
 UserType TEXT NOT NULL
 
-# Tasks #
+# TASKS #
 tblTasks
 TaskID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE
 TaskMode TEXT NOT NULL
@@ -83,17 +85,27 @@ TaskRemainingTime TEXT
 TaskTitle TEXT NOT NULL
 TaskDescription TEXT NOT NULL
 TaskIsOpen BOOLEAN NOT NULL
+UserIDRef INTEGER
+TeamIDRef INTEGER
 UserIDRef INTEGER, FOREIGN KEY(UserIDRef) REFERENCES tblUsers(UserID)
+FOREIGN KEY(TeamIDRef) REFERENCES tblTeams(TeamID)
 
-# ToDos #
+# TODOS #
 tblTodos
 TodoID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE
 TodoText TEXT NOT NULL
 TodoIsOpen BOOLEAN NOT NULL
 TaskIDRef INTEGER, FOREIGN KEY(TaskIDRef) REFERENCES tblTasks(TaskID)
 
-## API ##
+# TEAMS #
+tblTeams
+TeamID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE
+TeamName TEXT NOT NULL
+UserIDRef INTEGER
+FOREIGN KEY(UserIDRef) REFERENCES tblUsers(UserID)
 
+
+## API ##
 
 # AUTH (api/auth/) #
 - login
