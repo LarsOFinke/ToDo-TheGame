@@ -21,6 +21,11 @@
                     @updateTaskList="updateTasks" @closeItem="showMessage"></task-item>
             </ul>
         </div>
+
+        <div v-if="mode === 'team'" class="w-full flex justify-center">
+            <button type="button" @click.prevent="showTeamTasks"
+                class="w-fit bg-red-700 text-white py-1 px-4 rounded-md hover:bg-red-800 transition">Back</button>
+        </div>
     </div>
 
     <task-item-edit v-else-if="!viewTaskList && viewItemEdit" :task="selectedTask" @hideItemEdit="showItemEdit"
@@ -45,6 +50,11 @@ const taskList = ref([])
 const selectedTask = ref('')
 const viewTaskList = ref(true)
 const viewItemEdit = ref(false);
+const emit = defineEmits(['hideTeamTasks'])
+
+const showTeamTasks = () => {
+    emit('hideTeamTasks', [true, 0])
+}
 
 const props = defineProps({
     mode: String,

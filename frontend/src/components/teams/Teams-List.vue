@@ -33,7 +33,7 @@
 
     <teams-form v-else-if="!viewTeamList && viewTeamForm" @hideTeamForm="showTeamForm"></teams-form>
 
-    <task-list v-else :mode="'team'" :modeId="selectedTeamId"></task-list>
+    <task-list v-else :mode="'team'" :modeId="selectedTeamId" @hideTeamTasks="showTeamTasks"></task-list>
 </template>
 
 
@@ -97,6 +97,7 @@ const showTeamList = (hideTeamList) => {
 
 const showTeamTasks = (hideTeamTasks) => {
     if (hideTeamTasks[0]) {
+        selectedTeamId.value = hideTeamTasks[1]
         viewTeamList.value = true
     } else {
         selectedTeamId.value = hideTeamTasks[1]

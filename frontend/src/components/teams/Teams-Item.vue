@@ -2,7 +2,7 @@
     <div class="w-full max-w-sm bg-gray-200 rounded-lg shadow-md p-4 mx-auto relative">
         <!-- Teams-Header -->
         <div class="flex items-center justify-between w-full mb-2">
-            <h3 class="text-xl font-bold text-gray-800 mb-2">Team name</h3>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">{{ props.team.name }}</h3>
         </div>
 
         <!-- Teams-Info -->
