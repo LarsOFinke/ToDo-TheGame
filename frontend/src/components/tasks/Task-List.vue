@@ -1,31 +1,32 @@
 <template>
-    <div>
-        <div v-if="!viewItemEdit" class="w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-6 mx-auto relative">
-            <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Task-List</h2>
+    <div v-if="viewTaskList && !viewItemEdit"
+        class="w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-6 mx-auto relative">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Task-List</h2>
 
-            <!-- Message-Box -->
-            <message-box :msg="msg" :error-phrase="errorPhrase"></message-box>
+        <!-- Message-Box -->
+        <message-box :msg="msg" :error-phrase="errorPhrase"></message-box>
 
-            <!-- Utility-Buttons -->
-            <div class="flex justify-center mb-4">
-                <button type="button" @click.prevent="showTaskForm"
-                    class="text-l w-fit bg-yellow-600 text-white px-2 py-1 mb-1 rounded-md hover:bg-yellow-800 transition">
-                    New task
-                </button>
-            </div>
-
-            <!-- Scrollable Task List -->
-            <div class="overflow-x-auto max-h-95">
-                <ul v-for="task in taskList" :key="task.id" class="mb-8">
-                    <task-item :task="task" @hideItemEdit="showItemEdit" @updateTaskList="updateList"
-                        @closeItem="showMessage"></task-item>
-                </ul>
-            </div>
+        <!-- Utility-Buttons -->
+        <div class="flex justify-center mb-4">
+            <button type="button" @click.prevent="showTaskForm"
+                class="text-l w-fit bg-yellow-600 text-white px-2 py-1 mb-1 rounded-md hover:bg-yellow-800 transition">
+                New task
+            </button>
         </div>
 
-        <task-item-edit v-else :task="selectedTask" @hideItemEdit="showItemEdit"
-            @updateTaskList="updateList"></task-item-edit>
+        <!-- Scrollable Task List -->
+        <div class="overflow-x-auto max-h-95">
+            <ul v-for="task in taskList" :key="task.id" class="mb-8">
+                <task-item :task="task" @hideItemEdit="showItemEdit" @updateTaskList="updateTasks"
+                    @closeItem="showMessage"></task-item>
+            </ul>
+        </div>
     </div>
+
+    <task-item-edit v-else-if="!viewTaskList && viewItemEdit" :task="selectedTask" @hideItemEdit="showItemEdit"
+        @updateTaskList="updateTasks"></task-item-edit>
+
+    <task-form v-else></task-form>
 </template>
 
 
@@ -33,24 +34,43 @@
 import MessageBox from '@/components/shared/Message-Box.vue';
 import TaskItem from '@/components/tasks/Task-Item.vue';
 import TaskItemEdit from '@/components/tasks/Task-Item-Edit.vue';
-import { ref } from 'vue'
+import TaskForm from '@/components/tasks/Task-Form.vue';
+import { ref, onMounted } from 'vue'
+import { useTasksService } from '@/services/TasksService';
 
 const msg = ref('')
 const errorPhrase = 'Something went wrong!'
-const emit = defineEmits(['hideTaskList', 'updateTaskList'])
-const viewItemEdit = ref(false);
+const { getAllTasks, tasks } = useTasksService()
+const taskList = ref([])
 const selectedTask = ref('')
+const viewTaskList = ref(true)
+const viewItemEdit = ref(false);
 
-defineProps({
-    taskList: Array
+const props = defineProps({
+  mode: String,
+  modeId: Number
 })
 
-const showTaskForm = () => {
-    emit('hideTaskList', true)
+onMounted(async () => {
+    await fetchTasks()
+});
+
+const fetchTasks = async () => {
+    await getAllTasks(props.mode, props.modeId)
+    taskList.value = tasks.value
 }
 
-const updateList = () => {
-    emit('updateTaskList', true)
+const updateTasks = async () => {
+    await getAllTasks(mode.value, modeId.value)
+    taskList.value = tasks.value
+}
+
+const showTaskForm = (hideTaskForm) => {
+    if (hideTaskForm[0]) {
+        viewTaskList.value = true
+    } else {
+        viewTaskList.value = false
+    }
 }
 
 const showItemEdit = (hideItemEdit) => {
@@ -65,4 +85,5 @@ const showItemEdit = (hideItemEdit) => {
 const showMessage = (message) => {
     msg.value = message
 }
+
 </script>
