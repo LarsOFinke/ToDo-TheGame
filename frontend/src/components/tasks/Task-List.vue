@@ -26,7 +26,7 @@
     <task-item-edit v-else-if="!viewTaskList && viewItemEdit" :task="selectedTask" @hideItemEdit="showItemEdit"
         @updateTaskList="updateTasks"></task-item-edit>
 
-    <task-form v-else></task-form>
+    <task-form v-else @showTaskForm="showTaskForm"></task-form>
 </template>
 
 
@@ -65,11 +65,11 @@ const updateTasks = async () => {
     taskList.value = tasks.value
 }
 
-const showTaskForm = (hideTaskForm) => {
-    if (hideTaskForm[0]) {
-        viewTaskList.value = true
-    } else {
+const showTaskForm = (hideTaskList) => {
+    if (hideTaskList) {
         viewTaskList.value = false
+    } else {
+        viewTaskList.value = true
     }
 }
 

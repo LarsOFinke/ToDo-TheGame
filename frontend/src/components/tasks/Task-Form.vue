@@ -143,7 +143,7 @@ const msg = ref('')
 const errorPhrase = 'Something went wrong!'
 
 const { loading, addNewTask } = useTasksService()
-const emit = defineEmits(['hideTaskList'])
+const emit = defineEmits(['showTaskForm'])
 const mode = ref('')
 const priority = ref('')
 const topic = ref('')
@@ -210,6 +210,6 @@ const resetForm = () => {
 }
 
 const showTaskList = () => {
-    emit('hideTaskList', false)
+    emit('showTaskForm', false)
 }
 </script>
