@@ -3,6 +3,8 @@ import api from "@/environments/testing-environment";
 
 const loading = ref(false);
 const error = ref(null);
+const mode = ref('')
+const modeId = ref(0)
 const tasks = ref([]);
 
 const addNewTask = async (newTask) => {
@@ -109,6 +111,8 @@ export function useTasksService() {
   return {
     loading,
     error,
+    mode,
+    modeId,
     tasks,
     addNewTask,
     getAllTasks,

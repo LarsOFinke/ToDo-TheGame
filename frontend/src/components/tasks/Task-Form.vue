@@ -10,17 +10,17 @@
         <form @submit.prevent="submitNewTask">
             <!-- Mode -->
             <div class="flex mb-4 justify-between">
-                <label class="text-sm font-medium text-gray-700">Mode
+                <!-- <label class="text-sm font-medium text-gray-700">Mode
                     <select v-model.trim="mode"
                         class="ml-1 focus:outline-none focus:ring-2 focus:ring-indigo-500 border-gray-300 rounded-md shadow-sm"
                         required>
                         <option value="user">User</option>
                         <option value="team">Team</option>
                     </select>
-                </label>
+                </label> -->
 
                 <!-- Priority -->
-                <label class="text-sm font-medium text-gray-700">Priority
+                <label class="w-full flex justify-end text-sm font-medium text-gray-700">Priority
                     <select v-model.trim="priority"
                         :class="priority === 'high'
                             ? 'text-red-600 ml-1 focus:outline-none focus:ring-2 focus:ring-indigo-500 border-gray-300 rounded-md shadow-sm'
@@ -142,9 +142,9 @@ import { ref, watch } from 'vue';
 const msg = ref('')
 const errorPhrase = 'Something went wrong!'
 
-const { loading, addNewTask } = useTasksService()
+const { loading, mode, modeId, addNewTask } = useTasksService()
 const emit = defineEmits(['showTaskForm'])
-const mode = ref('')
+// const mode = ref('')
 const priority = ref('')
 const topic = ref('')
 const category = ref('')

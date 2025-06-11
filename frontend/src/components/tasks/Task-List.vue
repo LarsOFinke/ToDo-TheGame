@@ -16,9 +16,9 @@
 
         <!-- Scrollable Task List -->
         <div class="overflow-x-auto max-h-95">
-            <ul v-for="task in taskList" :key="task.id" class="mb-8">
-                <task-item :task="task" @hideItemEdit="showItemEdit" @updateTaskList="updateTasks"
-                    @closeItem="showMessage"></task-item>
+            <ul class="mb-8">
+                <task-item v-for="task in taskList" :key="task.id" :task="task" @hideItemEdit="showItemEdit"
+                    @updateTaskList="updateTasks" @closeItem="showMessage"></task-item>
             </ul>
         </div>
     </div>
@@ -40,23 +40,29 @@ import { useTasksService } from '@/services/TasksService';
 
 const msg = ref('')
 const errorPhrase = 'Something went wrong!'
-const { getAllTasks, tasks } = useTasksService()
+const { mode, modeId, getAllTasks, tasks } = useTasksService()
 const taskList = ref([])
 const selectedTask = ref('')
 const viewTaskList = ref(true)
 const viewItemEdit = ref(false);
 
 const props = defineProps({
-  mode: String,
-  modeId: Number
+    mode: String,
+    modeId: Number
 })
 
 onMounted(async () => {
+    assignMode()
     await fetchTasks()
 });
 
+const assignMode = () => {
+    mode.value = props.mode
+    modeId.value = props.modeId
+}
+
 const fetchTasks = async () => {
-    await getAllTasks(props.mode, props.modeId)
+    await getAllTasks(mode.value, modeId.value)
     taskList.value = tasks.value
 }
 
@@ -65,16 +71,20 @@ const updateTasks = async () => {
     taskList.value = tasks.value
 }
 
-const showTaskForm = (hideTaskList) => {
+const showTaskForm = async (hideTaskList) => {
     if (hideTaskList) {
         viewTaskList.value = false
     } else {
+        assignMode()
+        await updateTasks()
         viewTaskList.value = true
     }
 }
 
-const showItemEdit = (hideItemEdit) => {
+const showItemEdit = async (hideItemEdit) => {
     if (hideItemEdit[0]) {
+        assignMode()
+        await updateTasks()
         viewItemEdit.value = false
     } else {
         selectedTask.value = hideItemEdit[1]
