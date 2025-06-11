@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from ..crud import add_new_task, get_all_open_tasks_user, edit_task, delete_task, close_task
+from ..crud import add_new_task, get_all_open_tasks_user, get_all_open_tasks_team, edit_task, delete_task, close_task
 
 
 tasks = Blueprint("tasks", __name__)
@@ -19,6 +19,13 @@ def get_all_open_user():
     data = request.get_json()
 
     tasks: list[dict] = get_all_open_tasks_user(data.get('id'))
+    return jsonify({"success": True, "tasks": tasks}), 200
+
+@tasks.route('/get-all-open-team', methods=['POST'])
+def get_all_open_team():
+    data = request.get_json()
+
+    tasks: list[dict] = get_all_open_tasks_team(data.get('id'))
     return jsonify({"success": True, "tasks": tasks}), 200
 
 @tasks.route("/edit", methods=["POST"])

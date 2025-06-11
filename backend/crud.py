@@ -271,6 +271,34 @@ def get_all_open_tasks_user(user_id: int) -> list[dict]:
     
     return tasks
 
+def get_all_open_tasks_team(team_id: int) -> list[dict]:
+    """Returns a list containing all tasks in the database"""
+    sql: str = "SELECT TaskID, TaskMode, TaskTopic, TaskCategory, TaskPriority, TaskDeadlineDate, TaskStartDate, TaskRemainingTime, TaskTitle, TaskDescription, TaskIsOpen FROM tblTasks WHERE TeamIDRef=?"
+    
+    with sqlite3.connect(CONNECTIONSTRING) as con:
+        cursor = con.cursor()
+        cursor.execute(sql, (team_id,))
+        results = cursor.fetchall()
+        tasks: list = [
+                            {
+                                "id": task[0],
+                                "mode": task[1],
+                                "topic": task[2],
+                                "category": task[3],
+                                "priority": task[4],
+                                "deadlineDate": task[5],
+                                "startDate": task[6],
+                                "remainingTime": task[7],
+                                "title": task[8],
+                                "description": task[9],
+                                "todos": get_todos_for_task(task[0])
+                            }
+                            for task in results
+                            if task[10] == 1
+                       ]
+    
+    return tasks
+
 def edit_task(edited_task: dict) -> bool:
     """
     Returns:

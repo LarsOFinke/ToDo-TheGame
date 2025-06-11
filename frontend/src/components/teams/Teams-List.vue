@@ -33,7 +33,7 @@
 
     <teams-form v-else-if="!viewTeamList && viewTeamForm" @hideTeamForm="showTeamForm"></teams-form>
 
-    <task-list v-else @hideTeamTasks="showTeamTasks" :taskList="taskList"></task-list>
+    <task-list v-else :mode="'team'" :modeId="selectedTeam.id"></task-list>
 </template>
 
 
