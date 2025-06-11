@@ -43,21 +43,28 @@ import TeamsForm from '@/components/teams/Teams-Form.vue'
 import TeamsItem from '@/components/teams/Teams-Item.vue';
 import TeamsItemEdit from '@/components/teams/Teams-Item-Edit.vue';
 import TaskList from '@/components/tasks/Task-List.vue';
-import { ref } from 'vue'
-import { useTasksService } from '@/services/TasksService';
+import { ref, onMounted } from 'vue'
+import { useAuthService } from '@/services/AuthService';
+import { useTeamsService } from '@/services/TeamsService';
 
 const emit = defineEmits(['hideTeamList', 'updateTeamList', 'hideTeamTasks'])
 const msg = ref('')
 const errorPhrase = 'Something went wrong!'
-const { getAllTasks, tasks } = useTasksService()
+const { userId } = useAuthService()
+const { teams, getTeamsForUser } = useTeamsService()
 const selectedTeam = ref(Object)
 const viewTeamList = ref(true)
 const viewTeamForm = ref(false)
-const taskList = ref([])
+const teamList = ref([])
 
-defineProps({
-    teamList: Array
-})
+onMounted(async () => {
+    fetchTeams()
+});
+
+const fetchTeams = async () => {
+    await getTeamsForUser(userId.value)
+    teamList.value = teams.value
+}
 
 const newTeam = () => {
     showTeamForm(true)
@@ -92,14 +99,8 @@ const showTeamTasks = (hideTeamTasks) => {
         viewTeamList.value = true
     } else {
         selectedTeamId.value = hideTeamList[1]
-        fetchTasks()
         viewTeamList.value = false
     }
-}
-
-const fetchTasks = async () => {
-    await getAllTasks('team', selectedTeamId.value)
-    taskList.value = tasks.value
 }
 
 const showMessage = (message) => {

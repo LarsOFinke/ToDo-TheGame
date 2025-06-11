@@ -434,3 +434,21 @@ def add_new_team(new_team: dict) -> bool:
     sql: str = "INSERT INTO tblTeams(TeamName, UserIDRef) VALUES (?,?)"
     print(new_team.get("userId"))
     return execute_query(sql, (new_team.get("teamName"), int(new_team.get("userId"))), CONNECTIONSTRING)
+
+def get_teams_by_user(team_id: int) -> list[dict]:
+    """Returns a list containing all teams for a user in the database"""
+    sql: str = "SELECT TeamID, TeamName FROM tblTeams WHERE UserIDRef=?"
+    
+    with sqlite3.connect(CONNECTIONSTRING) as con:
+        cursor = con.cursor()
+        cursor.execute(sql, (team_id,))
+        results = cursor.fetchall()
+        teams: list = [
+                            {
+                                "id": team[0],
+                                "name": team[1]
+                            }
+                            for team in results
+                       ]
+    
+    return teams

@@ -1,5 +1,5 @@
 <template>
-    <teams-list v-if="showTeamsList" :teamList="teamList"></teams-list>
+    <teams-list></teams-list>
 </template>
 
 <script setup>
@@ -10,14 +10,10 @@ import { useAuthService } from '@/services/AuthService'
 
 const router = useRouter();
 const { isAuthenticated } = useAuthService()
-const showTeamsList = ref(true)
 
 onMounted(async () => {
     if (!isAuthenticated.value) {
         router.replace('/');
     }
 });
-
-const teamList = ref([{id: 1}, {id: 2}])
-
 </script>
