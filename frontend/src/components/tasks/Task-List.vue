@@ -1,7 +1,8 @@
 <template>
     <div v-if="viewTaskList && !viewItemEdit"
         class="w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-6 mx-auto relative">
-        <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Task-List</h2>
+        <!-- Header -->
+        <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">{{ header }}</h2>
 
         <!-- Message-Box -->
         <message-box :msg="msg" :error-phrase="errorPhrase"></message-box>
@@ -43,9 +44,10 @@ import TaskForm from '@/components/tasks/Task-Form.vue';
 import { ref, onMounted } from 'vue'
 import { useTasksService } from '@/services/TasksService';
 
+const { mode, modeId, getAllTasks, tasks } = useTasksService()
 const msg = ref('')
 const errorPhrase = 'Something went wrong!'
-const { mode, modeId, getAllTasks, tasks } = useTasksService()
+const header = ref('')
 const taskList = ref([])
 const selectedTask = ref('')
 const viewTaskList = ref(true)
@@ -69,6 +71,7 @@ onMounted(async () => {
 const assignMode = () => {
     mode.value = props.mode
     modeId.value = props.modeId
+    header.value = mode.value === 'user' ? 'My Task-List' : 'Team Task-List'
 }
 
 const fetchTasks = async () => {

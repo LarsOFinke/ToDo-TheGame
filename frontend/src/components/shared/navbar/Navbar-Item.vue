@@ -40,7 +40,7 @@ import { useRouter } from 'vue-router';
 import { useAuthService } from "@/services/AuthService"
 
 const router = useRouter();
-const { isAuthenticated, clearSession } = useAuthService()
+const { userId, isAuthenticated, clearSession } = useAuthService()
 
 const home = () => {
   router.replace("/")
@@ -59,7 +59,10 @@ const teams = () => {
 }
 
 const tasks = () => {
-  router.replace("/tasks")
+  router.replace({ 
+    name: 'tasks', 
+    query: { mode: 'user', modeId: userId.value }
+  });
 }
 
 const logout = () => {
