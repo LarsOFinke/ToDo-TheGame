@@ -37,12 +37,15 @@ def create_app():
     # Tasks-System API #
     from .api.tasks import tasks    
     app.register_blueprint(tasks, url_prefix='/api/tasks')
-    # Teams-System API #
-    from .api.teams import teams    
-    app.register_blueprint(teams, url_prefix='/api/teams')
     # ToDos-System API #
     from .api.todos import todos    
     app.register_blueprint(todos, url_prefix='/api/todos')
+    # Teams-System API #
+    from .api.teams import teams    
+    app.register_blueprint(teams, url_prefix='/api/teams')
+    # Members-System API #
+    from .api.members import members    
+    app.register_blueprint(members, url_prefix='/api/members')
     
     ## Set up Configuration ##
     load_dotenv()

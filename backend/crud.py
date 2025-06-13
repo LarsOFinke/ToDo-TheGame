@@ -139,6 +139,22 @@ def create_todos_table():
         logging.error(e)
         return False
 
+def create_members_table():
+    try:
+        sql: str = "CREATE TABLE tblMembers(" \
+                    "MemberID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " \
+                    "TeamName TEXT NOT NULL, " \
+                    "UserIDRef INTEGER, " \
+                    "TeamIDRef INTEGER, " \
+                    "FOREIGN KEY(UserIDRef) REFERENCES tblTeams(UserID), " \
+                    "FOREIGN KEY(TeamIDRef) REFERENCES tblUsers(TeamID))"
+        execute_query(sql, (), CONNECTIONSTRING)
+        return True
+    
+    except sqlite3.Error as e:
+        logging.error(e)
+        return False
+
 if not os.path.exists(CONNECTIONSTRING):
     if not create_users_table():
         logging.error("Could not create User-table! Something went wrong...")
@@ -154,6 +170,9 @@ if not os.path.exists(CONNECTIONSTRING):
         sys.exit()
     if not create_todos_table():
         logging.error("Could not create todos-table! Something went wrong...")
+        sys.exit()
+    if not create_members_table():
+        logging.error("Could not create members-table! Something went wrong...")
         sys.exit()
         
  
@@ -451,3 +470,31 @@ def get_teams_by_user(team_id: int) -> list[dict]:
                        ]
     
     return teams
+
+
+#-- MEMBERS --#
+def add_new_member(new_member: dict) -> bool:
+    """
+    Returns:
+        True: if successfully added
+        False: if error happened
+    """
+    sql: str = "INSERT INTO tblMembers(UserIDRef, TeamIDRef) VALUES (?,?)"
+    return execute_query(sql, (new_member.get("userId"), int(new_member.get("teamId"))), CONNECTIONSTRING)
+
+def get_members_by_team(team_id: int) -> list[dict]:
+    """Returns a list containing all members for a team"""
+    members: list = []
+    
+    sql: str = "SELECT UserIDRef FROM tblMembers WHERE TeamIDRef=?"
+    results = execute_query(sql, (team_id,), CONNECTIONSTRING, fetch=True)
+    
+    for user_id in results:
+        sql: str = "SELECT UserUsername FROM tblUsers WHERE UserID=?"
+        username = execute_query(sql, (user_id,), CONNECTIONSTRING, fetch=True)[0][0] 
+        members.append({
+            "id": user_id,
+            "username": username
+        })
+    
+    return members
