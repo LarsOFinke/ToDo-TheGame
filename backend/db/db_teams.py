@@ -9,18 +9,19 @@ def add_new_team(new_team: dict) -> bool:
     team_name = new_team.get("teamName")
     user_id = int(new_team.get("userId"))
     
+    # Create new Team in tblTeams #
     sql: str = "INSERT INTO tblTeams(TeamName, UserIDRef) VALUES (?,?)"
     if not execute_query(sql, (team_name, user_id), CONNECTIONSTRING):
         return False
     
-    sql: str = "SELECT TeamID FROM tblTeams WHERE TeamName=?"
-    team_id = execute_query(sql, (team_name,), CONNECTIONSTRING, fetch=True)[0][0]
-    if not team_id:
-        return False
-    
+    # Create owner-entry in tblMembers #
+    team_id = get_team_id(team_name)
     sql: str = "INSERT INTO tblMembers(TeamName, UserIDRef, TeamIDRef) VALUES (?,?,?)"
     return execute_query(sql, (team_name, user_id, team_id), CONNECTIONSTRING)
-        
+
+def get_team_id(team_name: str) -> int:
+    sql: str = "SELECT TeamID FROM tblTeams WHERE TeamName=?"
+    return execute_query(sql, (team_name,), CONNECTIONSTRING, fetch=True)[0][0]
 
 def get_teams_by_user(team_id: int) -> list[dict]:
     """Returns a list containing all teams for a user in the database"""
