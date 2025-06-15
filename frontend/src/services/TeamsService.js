@@ -22,10 +22,10 @@ const createNewTeam = async (newTeam) => {
   }
 };
 
-const getTeamsForUser = async (id) => {
+const getAllTeams = async () => {
   loading.value = true;
   try {
-    const response = await api.post("teams/get-all-team", { id });
+    const response = await api.post("teams/get-all-team");
     if (response.data.success) {
       teams.value = response.data.teams;
       return true;
@@ -33,12 +33,31 @@ const getTeamsForUser = async (id) => {
       return false;
     }
   } catch (err) {
-    error.value = err.response?.data?.message || "Creating new team failed.";
+    error.value = err.response?.data?.message || "Fetching teams failed.";
     return false;
   } finally {
     loading.value = false;
   }
 };
+
+const getTeamsForUser = async (id) => {
+  loading.value = true;
+  try {
+    const response = await api.post("teams/get-all-team-user", { id });
+    if (response.data.success) {
+      teams.value = response.data.teams;
+      return true;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    error.value = err.response?.data?.message || "Fetching teams failed.";
+    return false;
+  } finally {
+    loading.value = false;
+  }
+};
+
 
 export function useTeamsService() {
   return {
@@ -46,5 +65,6 @@ export function useTeamsService() {
     teams,
     createNewTeam,
     getTeamsForUser,
+    getAllTeams,
   };
 }
