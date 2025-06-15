@@ -10,7 +10,7 @@
             <!-- Scrollable Team List -->
             <div class="overflow-x-auto max-h-95">
                 <ul v-for="team in teamList" :key="team.id" class="mb-8">
-                    <teams-item :team="team" @hideTeamTasks="showTeamTasks"></teams-item>
+                    <teams-item :team="team" :mode="'teams-join'" @hideTeamTasks=""></teams-item>
                 </ul>
             </div>
         </div>
