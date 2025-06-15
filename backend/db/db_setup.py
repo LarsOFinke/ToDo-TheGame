@@ -156,6 +156,64 @@ def create_members_table():
         logging.error(e)
         return False
 
+def create_report_books_table():
+    try:
+        sql: str = "CREATE TABLE tblReportBooks(" \
+                    "ReportBookID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " \
+                    "UserIDRef INTEGER, " \
+                    "FOREIGN KEY(UserIDRef) REFERENCES tblUsers(UserID))"
+        execute_query(sql, (), CONNECTIONSTRING)
+        return True
+    
+    except sqlite3.Error as e:
+        logging.error(e)
+        return False
+
+def create_weeks_table():
+    try:
+        sql: str = "CREATE TABLE tblWeeks(" \
+                    "WeekID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " \
+                    "WeekFrom DATE NOT NULL, " \
+                    "WeekTo DATE NOT NULL, " \
+                    "ReportBookIDRef INTEGER, " \
+                    "FOREIGN KEY(ReportBookIDRef) REFERENCES tblReportBooks(ReportBookID))"
+        execute_query(sql, (), CONNECTIONSTRING)
+        return True
+    
+    except sqlite3.Error as e:
+        logging.error(e)
+        return False
+
+def create_days_table():
+    try:
+        sql: str = "CREATE TABLE tblDays(" \
+                    "DayID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " \
+                    "DayDate DATE NOT NULL, " \
+                    "WeekIDRef INTEGER, " \
+                    "FOREIGN KEY(WeekIDRef) REFERENCES tblWeeks(WeekID))"
+        execute_query(sql, (), CONNECTIONSTRING)
+        return True
+    
+    except sqlite3.Error as e:
+        logging.error(e)
+        return False
+
+def create_report_entries_table():
+    try:
+        sql: str = "CREATE TABLE tblReportEntries(" \
+                    "ReportEntryID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " \
+                    "ReportEntryLearningField TEXT NOT NULL, " \
+                    "ReportEntryActivity TEXT NOT NULL, " \
+                    "ReportEntryDuration REAL NOT NULL, " \
+                    "DayIDRef INTEGER, " \
+                    "FOREIGN KEY(DayIDRef) REFERENCES tblDays(DayID))"
+        execute_query(sql, (), CONNECTIONSTRING)
+        return True
+    
+    except sqlite3.Error as e:
+        logging.error(e)
+        return False
+    
 if not os.path.exists(CONNECTIONSTRING):
     if not create_users_table():
         logging.error("Could not create User-table! Something went wrong...")
@@ -174,4 +232,16 @@ if not os.path.exists(CONNECTIONSTRING):
         sys.exit()
     if not create_members_table():
         logging.error("Could not create members-table! Something went wrong...")
+        sys.exit()
+    if not create_report_books_table():
+        logging.error("Could not create report-book-table! Something went wrong...")
+        sys.exit()
+    if not create_weeks_table():
+        logging.error("Could not create weeks-table! Something went wrong...")
+        sys.exit()
+    if not create_days_table():
+        logging.error("Could not create days-table! Something went wrong...")
+        sys.exit()
+    if not create_report_entries_table():
+        logging.error("Could not create report-entries-table! Something went wrong...")
         sys.exit()
