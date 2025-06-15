@@ -59,7 +59,8 @@ if not os.path.exists(DB_DIRECTORY):
     os.mkdir(DB_DIRECTORY)
     
 ## SET UP TABLES ##
- 
+
+# USERS-SYSTEM #
 def create_users_table() -> bool:
     try:
         sql: str = "CREATE TABLE tblUsers(" \
@@ -85,6 +86,7 @@ def create_admins() -> bool:
         logging.error(e)
         return False   
 
+# TEAMS-SYSTEM #
 def create_teams_table():
     try:
         sql: str = "CREATE TABLE tblTeams(" \
@@ -99,6 +101,7 @@ def create_teams_table():
         logging.error(e)
         return False
 
+# TASKS-SYSTEM #
 def create_tasks_table():
     try:
         sql: str = "CREATE TABLE tblTasks(" \
@@ -140,6 +143,7 @@ def create_todos_table():
         logging.error(e)
         return False
 
+# MEMBERS-SYSTEM #
 def create_members_table():
     try:
         sql: str = "CREATE TABLE tblMembers(" \
@@ -156,6 +160,7 @@ def create_members_table():
         logging.error(e)
         return False
 
+# REPORT-BOOK-SYSTEM #
 def create_report_books_table():
     try:
         sql: str = "CREATE TABLE tblReportBooks(" \
@@ -213,7 +218,8 @@ def create_report_entries_table():
     except sqlite3.Error as e:
         logging.error(e)
         return False
-    
+
+## CHECK IF DATABASE ALREADY EXISTS, CREATE IF NOT ##
 if not os.path.exists(CONNECTIONSTRING):
     if not create_users_table():
         logging.error("Could not create User-table! Something went wrong...")
