@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from ..db.crud import add_new_task, get_all_open_tasks_user, get_all_open_tasks_team, edit_task, delete_task, close_task
+from ..db.db_tasks import add_new_task, get_all_open_tasks_user, get_all_open_tasks_team, edit_task, delete_task, close_task
 
 
 tasks = Blueprint("tasks", __name__)
