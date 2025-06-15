@@ -9,9 +9,10 @@
 
             <!-- Scrollable Team List -->
             <div class="overflow-x-auto max-h-95">
-                <ul v-for="team in teamList" :key="team.id" class="mb-8">
+                <ul v-if="teamList[0]" v-for="team in teamList" :key="team.id" class="mb-8">
                     <teams-item :team="team" :mode="'teams-join'" @hideTeamTasks=""></teams-item>
                 </ul>
+                <h2 v-else>No Teams joinable.</h2>
             </div>
         </div>
 
@@ -43,7 +44,7 @@ onMounted(async () => {
 });
 
 const fetchTeams = async () => {
-    await getAllTeamsNotJoined(userId)
+    await getAllTeamsNotJoined(userId.value)
     teamList.value = teams.value
 }
 
