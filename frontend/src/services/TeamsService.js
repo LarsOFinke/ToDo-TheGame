@@ -22,10 +22,12 @@ const createNewTeam = async (newTeam) => {
   }
 };
 
-const getAllTeams = async () => {
+const getAllTeamsNotJoined = async (userId) => {
   loading.value = true;
   try {
-    const response = await api.post("teams/get-all-team");
+    const response = await api.post("teams/get-all-team-not-joined", {
+      userId,
+    });
     if (response.data.success) {
       teams.value = response.data.teams;
       return true;
@@ -58,13 +60,12 @@ const getTeamsForUser = async (id) => {
   }
 };
 
-
 export function useTeamsService() {
   return {
     loading,
     teams,
     createNewTeam,
     getTeamsForUser,
-    getAllTeams,
+    getAllTeamsNotJoined,
   };
 }

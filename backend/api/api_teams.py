@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from ..db.db_teams import add_new_team, get_all_teams, get_teams_by_user
+from ..db.db_teams import add_new_team, get_all_teams_not_joined, get_teams_by_user
 
 
 teams = Blueprint("teams", __name__)
@@ -14,9 +14,11 @@ def create():
     else:
         return jsonify({"success": False}), 401
     
-@teams.route('/get-all-team', methods=['POST'])
+@teams.route('/get-all-team-not-joined', methods=['POST'])
 def get_all_team():
-    teams: list[dict] = get_all_teams()
+    data = request.get_json()
+    
+    teams: list[dict] = get_all_teams_not_joined(data.get("userId"))
     return jsonify({"success": True, "teams": teams}), 200
 
 @teams.route('/get-all-team-user', methods=['POST'])

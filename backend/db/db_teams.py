@@ -23,17 +23,23 @@ def get_team_id(team_name: str) -> int:
     sql: str = "SELECT TeamID FROM tblTeams WHERE TeamName=?"
     return execute_query(sql, (team_name,), CONNECTIONSTRING, fetch=True)[0][0]
 
-def get_all_teams() -> list[dict]:
-    """Returns a list containing all teams for a user in the database"""
-    sql: str = "SELECT TeamID, TeamName FROM tblTeams"
-    results = execute_query(sql, (), CONNECTIONSTRING, fetch=True)
-    teams: list =   [
-                        {
-                            "id": team[0],
-                            "name": team[1]
-                        }
-                        for team in results
-                    ]
+def get_all_teams_not_joined(user_id: int) -> list[dict]:
+    """
+    Returns a list containing all joinable teams for a user in the database. 
+    Return an empty list if no available.
+    """
+    sql: str = "SELECT TeamIDRef, TeamName FROM tblTeams WHERE NOT UserIDRef=?"
+    results = execute_query(sql, (user_id,), CONNECTIONSTRING, fetch=True)
+    try:
+        teams: list =   [
+                            {
+                                "id": team[0],
+                                "name": team[1]
+                            }
+                            for team in results
+                        ]
+    except:
+        return []
     
     return teams
 

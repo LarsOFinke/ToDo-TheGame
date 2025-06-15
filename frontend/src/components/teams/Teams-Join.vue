@@ -28,12 +28,14 @@
 import MessageBox from '@/components/shared/Message-Box.vue';
 import TeamsItem from '@/components/teams/Teams-Item.vue';
 import { ref, onMounted } from 'vue'
+import { useAuthService } from '@/services/AuthService';
 import { useTeamsService } from '@/services/TeamsService';
 
 const emit = defineEmits(['hideTeamJoin', 'hideTeamTasks'])
 const msg = ref('')
 const errorPhrase = 'Something went wrong!'
-const { teams, getAllTeams } = useTeamsService()
+const { teams, getAllTeamsNotJoined } = useTeamsService()
+const { userId } = useAuthService()
 const teamList = ref([])
 
 onMounted(async () => {
@@ -41,7 +43,7 @@ onMounted(async () => {
 });
 
 const fetchTeams = async () => {
-    await getAllTeams()
+    await getAllTeamsNotJoined(userId)
     teamList.value = teams.value
 }
 
