@@ -14,7 +14,7 @@
             <button type="button"
                 class="bg-yellow-600 text-white py-2 px-4 rounded-md hover:bg-yellow-800 transition h-fit mb-4"
                 @click.prevent="joinTeam">
-                Join team
+                Join a team
             </button>
         </div>
 
@@ -25,13 +25,15 @@
             <!-- Scrollable Team List -->
             <div class="overflow-x-auto max-h-95">
                 <ul v-for="team in teamList" :key="team.id" class="mb-8">
-                    <teams-item :team="team" @hideTeamList="showTeamList" @hideTeamTasks="showTeamTasks"></teams-item>
+                    <teams-item :team="team" @hideTeamTasks="showTeamTasks"></teams-item>
                 </ul>
             </div>
         </div>
     </div>
 
-    <teams-form v-else-if="!viewTeamList && viewTeamForm" @hideTeamForm="showTeamForm"></teams-form>
+    <teams-form v-else-if="viewTeamForm" @hideTeamForm="showTeamForm"></teams-form>
+
+    <teams-join v-else-if="viewTeamJoin"></teams-join>
 
     <task-list v-else :mode="'team'" :modeId="selectedTeamId" @hideTeamTasks="showTeamTasks"></task-list>
 </template>
@@ -41,7 +43,7 @@
 import MessageBox from '@/components/shared/Message-Box.vue';
 import TeamsForm from '@/components/teams/Teams-Form.vue'
 import TeamsItem from '@/components/teams/Teams-Item.vue';
-import TeamsItemEdit from '@/components/teams/Teams-Item-Edit.vue';
+import TeamsJoin from '@/components/teams/Teams-Join.vue';
 import TaskList from '@/components/tasks/Task-List.vue';
 import { ref, onMounted } from 'vue'
 import { useAuthService } from '@/services/AuthService';
@@ -52,9 +54,9 @@ const msg = ref('')
 const errorPhrase = 'Something went wrong!'
 const { userId } = useAuthService()
 const { teams, getTeamsForUser } = useTeamsService()
-const selectedTeam = ref(Object)
 const viewTeamList = ref(true)
 const viewTeamForm = ref(false)
+const viewTeamJoin = ref(false)
 const teamList = ref([])
 const selectedTeamId = ref(0)
 
@@ -72,7 +74,7 @@ const newTeam = () => {
 }
 
 const joinTeam = () => {
-
+    showTeamJoin(true)
 }
 
 const showTeamForm = async (hideTeamForm) => {
@@ -86,11 +88,12 @@ const showTeamForm = async (hideTeamForm) => {
     }
 }
 
-const showTeamList = (hideTeamList) => {
-    if (hideTeamList[0]) {
+const showTeamJoin = async (hideTeamList) => {
+    if (hideTeamList) {
+        viewTeamJoin.value = true
         viewTeamList.value = false
     } else {
-        selectedTeam.value = hideTeamList[1]
+        await fetchTeams()
         viewTeamList.value = true
     }
 }
@@ -103,9 +106,5 @@ const showTeamTasks = (hideTeamTasks) => {
         selectedTeamId.value = hideTeamTasks[1]
         viewTeamList.value = false
     }
-}
-
-const showMessage = (message) => {
-    msg.value = message
 }
 </script>
