@@ -48,25 +48,34 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useMembersService } from '@/services/MembersService'
+import { useAuthService } from '@/services/AuthService'
 
 const props = defineProps({
     team: Object,
     mode: String
 })
-const emit = defineEmits(['hideTeamTasks'])
-const { fetchMemberCountForTeam, memberCount } = useMembersService()
+const emit = defineEmits(['hideTeamTasks', 'updateTeamList'])
+const { userId } = useAuthService()
+const { fetchMemberCountForTeam, addNewMember } = useMembersService()
+const memberCount = ref(0)
 
 onMounted(async () => {
-    await fetchMemberCountForTeam(props.team.id)
+    memberCount.value = await fetchMemberCountForTeam(props.team.id)
 });
 
 const showTeamTasks = () => {
     emit('hideTeamTasks', [false, props.team.id])
 }
 
-const joinTeam = () => {
-
+const joinTeam = async () => {
+    if (await addNewMember({
+        teamName: props.team.name,
+        userId: userId.value,
+        teamId: props.team.id
+    })) {
+        emit('updateTeamList')
+    }
 }
 </script>

@@ -43,10 +43,10 @@ def get_all_teams_not_joined(user_id: int) -> list[dict]:
     
     return teams
 
-def get_teams_by_user(team_id: int) -> list[dict]:
+def get_teams_by_user(user_id: int) -> list[dict]:
     """Returns a list containing all teams for a user in the database"""
     sql: str = "SELECT TeamIDRef, TeamName FROM tblMembers WHERE UserIDRef=?"
-    results = execute_query(sql, (team_id,), CONNECTIONSTRING, fetch=True)
+    results = execute_query(sql, (user_id,), CONNECTIONSTRING, fetch=True)
     teams: list =   [
                         {
                             "id": team[0],

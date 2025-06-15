@@ -134,7 +134,7 @@ def create_todos_table():
                     "TodoID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " \
                     "TodoText TEXT NOT NULL, " \
                     "TodoIsOpen BOOLEAN NOT NULL, " \
-                    "TaskIDRef INTEGER, " \
+                    "TaskIDRef INTEGER NOT NULL, " \
                     "FOREIGN KEY(TaskIDRef) REFERENCES tblTasks(TaskID))"
         execute_query(sql, (), CONNECTIONSTRING)
         return True
@@ -149,8 +149,8 @@ def create_members_table():
         sql: str = "CREATE TABLE tblMembers(" \
                     "MemberID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " \
                     "TeamName TEXT NOT NULL, " \
-                    "UserIDRef INTEGER, " \
-                    "TeamIDRef INTEGER, " \
+                    "UserIDRef INTEGER NOT NULL, " \
+                    "TeamIDRef INTEGER NOT NULL, " \
                     "FOREIGN KEY(UserIDRef) REFERENCES tblUsers(UserID), " \
                     "FOREIGN KEY(TeamIDRef) REFERENCES tblTeams(TeamID))"
         execute_query(sql, (), CONNECTIONSTRING)
@@ -165,7 +165,7 @@ def create_report_books_table():
     try:
         sql: str = "CREATE TABLE tblReportBooks(" \
                     "ReportBookID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " \
-                    "UserIDRef INTEGER, " \
+                    "UserIDRef INTEGER NOT NULL, " \
                     "FOREIGN KEY(UserIDRef) REFERENCES tblUsers(UserID))"
         execute_query(sql, (), CONNECTIONSTRING)
         return True
@@ -180,7 +180,7 @@ def create_weeks_table():
                     "WeekID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " \
                     "WeekFrom DATE NOT NULL, " \
                     "WeekTo DATE NOT NULL, " \
-                    "ReportBookIDRef INTEGER, " \
+                    "ReportBookIDRef INTEGER NOT NULL, " \
                     "FOREIGN KEY(ReportBookIDRef) REFERENCES tblReportBooks(ReportBookID))"
         execute_query(sql, (), CONNECTIONSTRING)
         return True
@@ -194,7 +194,7 @@ def create_days_table():
         sql: str = "CREATE TABLE tblDays(" \
                     "DayID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " \
                     "DayDate DATE NOT NULL, " \
-                    "WeekIDRef INTEGER, " \
+                    "WeekIDRef INTEGER NOT NULL, " \
                     "FOREIGN KEY(WeekIDRef) REFERENCES tblWeeks(WeekID))"
         execute_query(sql, (), CONNECTIONSTRING)
         return True
@@ -210,7 +210,7 @@ def create_report_entries_table():
                     "ReportEntryLearningField TEXT NOT NULL, " \
                     "ReportEntryActivity TEXT NOT NULL, " \
                     "ReportEntryDuration REAL NOT NULL, " \
-                    "DayIDRef INTEGER, " \
+                    "DayIDRef INTEGER NOT NULL, " \
                     "FOREIGN KEY(DayIDRef) REFERENCES tblDays(DayID))"
         execute_query(sql, (), CONNECTIONSTRING)
         return True

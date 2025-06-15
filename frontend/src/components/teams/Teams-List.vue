@@ -25,7 +25,7 @@
             <!-- Scrollable Team List -->
             <div class="overflow-x-auto max-h-95">
                 <ul v-for="team in teamList" :key="team.id" class="mb-8">
-                    <teams-item :team="team" :mode="'teams-list'" @hideTeamTasks="showTeamTasks"></teams-item>
+                    <teams-item :team="team" :mode="'teams-list'" @hideTeamTasks="showTeamTasks" @updateTeamList="fetchTeams"></teams-item>
                 </ul>
             </div>
         </div>
@@ -67,6 +67,7 @@ onMounted(async () => {
 const fetchTeams = async () => {
     await getTeamsForUser(userId.value)
     teamList.value = teams.value
+    console.log(teamList.value);
 }
 
 const newTeam = () => {
