@@ -22,7 +22,7 @@
                     <div class="flex float-right mr-1">
                         <div class="w-full">
                             <label class="text-sm font-semibold">Members:</label>
-                            <p class="text-sm text-right">27</p>
+                            <p class="text-sm text-right">{{ memberCount }}</p>
                         </div>
                     </div>
                 </div>
@@ -48,12 +48,19 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
+import { useMembersService } from '@/services/MembersService'
 
 const props = defineProps({
     team: Object,
     mode: String
 })
 const emit = defineEmits(['hideTeamTasks'])
+const { fetchMemberCountForTeam, memberCount } = useMembersService()
+
+onMounted(async () => {
+    await fetchMemberCountForTeam(props.team.id)
+});
 
 const showTeamTasks = () => {
     emit('hideTeamTasks', [false, props.team.id])

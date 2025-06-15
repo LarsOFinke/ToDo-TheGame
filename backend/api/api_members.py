@@ -22,7 +22,7 @@ def get_all_members_for_team():
     return jsonify({"success": True, "members": members}), 200
 
 @members.route('/get-member-count-for-team', methods=['POST'])
-def get_all_members_for_team():
+def get_total_member_count_for_team():
     data = request.get_json()
 
     member_count: int = get_member_count_for_team(data.get('id'))

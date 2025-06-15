@@ -4,6 +4,7 @@ import api from "@/environments/testing-environment";
 const loading = ref(false);
 const error = ref(null);
 const members = ref([]);
+const memberCount = ref(0)
 
 const addNewMember = async (newMember) => {
   loading.value = true;
@@ -66,6 +67,7 @@ export function useMembersService() {
   return {
     loading,
     members,
+    memberCount,
     addNewMember,
     fetchMembersForTeam,
     fetchMemberCountForTeam,
