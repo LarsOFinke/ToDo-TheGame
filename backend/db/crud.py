@@ -1,6 +1,6 @@
 import sqlite3, os, sys # FOR DB
 from typing import Any, List, Tuple, Optional   # FOR "execute_query" FUNCTIONS
-from . import logging  # GET .ENV CONSTANTS AND LOGGING
+from .. import logging  # GET .ENV CONSTANTS AND LOGGING
 from werkzeug.security import generate_password_hash, check_password_hash # User-SYSTEM SECURITY
 
 
@@ -51,14 +51,15 @@ def execute_query(sql: str, params: Tuple[Any, ...], connectionstring: str, fetc
         return None  # Return None in case of error
 
 
-### SET UP DATABASES ###
-DB_DIRECTORY = os.path.join(os.path.dirname(__file__), "db")
+### SET UP DATABASE ###
+DB_DIRECTORY = os.path.join(os.path.dirname(__file__), "databases")
+CONNECTIONSTRING = os.path.join(os.path.dirname(DB_DIRECTORY), "databases", "ToDo-TheGame.db")
 
 if not os.path.exists(DB_DIRECTORY):
     os.mkdir(DB_DIRECTORY)
     
-CONNECTIONSTRING = os.path.join(os.path.dirname(DB_DIRECTORY), "db", "ToDo-TheGame.db")
-
+## SET UP TABLES ##
+ 
 def create_users_table() -> bool:
     try:
         sql: str = "CREATE TABLE tblUsers(" \

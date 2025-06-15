@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from ..crud import close_todo, open_todo
+from ..db.crud import close_todo, open_todo
 
 
 todos = Blueprint("todos", __name__)

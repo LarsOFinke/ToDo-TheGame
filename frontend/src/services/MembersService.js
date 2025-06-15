@@ -1,0 +1,50 @@
+import { ref } from "vue";
+import api from "@/environments/testing-environment";
+
+const loading = ref(false);
+const error = ref(null);
+const members = ref([]);
+
+const addNewMember = async (newMember) => {
+  loading.value = true;
+  try {
+    const response = await api.post("members/add", newMember);
+    if (response.data.success) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    error.value = err.response?.data?.message || "Adding new member failed.";
+    return false;
+  } finally {
+    loading.value = false;
+  }
+};
+
+const fetchMembersForTeam = async (id) => {
+  loading.value = true;
+  try {
+    const response = await api.post("members/get-all-members", { id });
+    if (response.data.success) {
+      members.value = response.data.members;
+      return true;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    error.value = err.response?.data?.message || "Fetching members for team failed.";
+    return false;
+  } finally {
+    loading.value = false;
+  }
+};
+
+export function useMembersService() {
+  return {
+    loading,
+    members,
+    addNewMember,
+    fetchMembersForTeam,
+  };
+}

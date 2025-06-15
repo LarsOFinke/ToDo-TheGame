@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from ..crud import add_new_member, get_members_by_team
+from ..db.crud import add_new_member, get_members_by_team
 
 
 members = Blueprint("members", __name__)

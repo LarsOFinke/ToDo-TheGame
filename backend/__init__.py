@@ -32,19 +32,19 @@ def create_app():
     
     ## Import Blueprints (routing) ##
     # Login-System API #
-    from .api.auth import auth    
+    from .api.api_auth import auth    
     app.register_blueprint(auth, url_prefix='/api/auth')
     # Tasks-System API #
-    from .api.tasks import tasks    
+    from .api.api_tasks import tasks    
     app.register_blueprint(tasks, url_prefix='/api/tasks')
     # ToDos-System API #
-    from .api.todos import todos    
+    from .api.api_todos import todos    
     app.register_blueprint(todos, url_prefix='/api/todos')
     # Teams-System API #
-    from .api.teams import teams    
+    from .api.api_teams import teams    
     app.register_blueprint(teams, url_prefix='/api/teams')
     # Members-System API #
-    from .api.members import members    
+    from .api.api_members import members    
     app.register_blueprint(members, url_prefix='/api/members')
     
     ## Set up Configuration ##
