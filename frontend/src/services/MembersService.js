@@ -25,7 +25,7 @@ const addNewMember = async (newMember) => {
 const fetchMembersForTeam = async (id) => {
   loading.value = true;
   try {
-    const response = await api.post("members/get-all-members", { id });
+    const response = await api.post("members/get-all-members-for-team", { id });
     if (response.data.success) {
       members.value = response.data.members;
       return true;
@@ -33,7 +33,29 @@ const fetchMembersForTeam = async (id) => {
       return false;
     }
   } catch (err) {
-    error.value = err.response?.data?.message || "Fetching members for team failed.";
+    error.value =
+      err.response?.data?.message || "Fetching members for team failed.";
+    return false;
+  } finally {
+    loading.value = false;
+  }
+};
+
+const fetchMemberCountForTeam = async (id) => {
+  loading.value = true;
+  try {
+    const response = await api.post("members/get-member-count-for-team", {
+      id,
+    });
+    if (response.data.success) {
+      memberCount.value = response.data.memberCount;
+      return true;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    error.value =
+      err.response?.data?.message || "Fetching member count for team failed.";
     return false;
   } finally {
     loading.value = false;
@@ -46,5 +68,6 @@ export function useMembersService() {
     members,
     addNewMember,
     fetchMembersForTeam,
+    fetchMemberCountForTeam,
   };
 }

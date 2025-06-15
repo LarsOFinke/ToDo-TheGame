@@ -9,7 +9,7 @@ def add_new_member(new_member: dict) -> bool:
     sql: str = "INSERT INTO tblMembers(UserIDRef, TeamIDRef) VALUES (?,?)"
     return execute_query(sql, (new_member.get("userId"), int(new_member.get("teamId"))), CONNECTIONSTRING)
 
-def get_members_by_team(team_id: int) -> list[dict]:
+def get_members_for_team(team_id: int) -> list[dict]:
     """Returns a list containing all members for a team"""
     members: list = []
     
@@ -25,3 +25,7 @@ def get_members_by_team(team_id: int) -> list[dict]:
         })
     
     return members
+
+def get_member_count_for_team(team_id: int) -> int:
+    sql: str = "SELECT COUNT(*) FROM tblMembers WHERE TeamIDRef=?"
+    return execute_query(sql, (team_id,), CONNECTIONSTRING, fetch=True)[0][0]
