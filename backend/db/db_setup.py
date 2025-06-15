@@ -151,8 +151,8 @@ def create_members_table():
                     "TeamName TEXT NOT NULL, " \
                     "UserIDRef INTEGER, " \
                     "TeamIDRef INTEGER, " \
-                    "FOREIGN KEY(UserIDRef) REFERENCES tblTeams(UserID), " \
-                    "FOREIGN KEY(TeamIDRef) REFERENCES tblUsers(TeamID))"
+                    "FOREIGN KEY(UserIDRef) REFERENCES tblUsers(UserID), " \
+                    "FOREIGN KEY(TeamIDRef) REFERENCES tblTeams(TeamID))"
         execute_query(sql, (), CONNECTIONSTRING)
         return True
     
