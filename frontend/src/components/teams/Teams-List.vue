@@ -67,7 +67,6 @@ onMounted(async () => {
 const fetchTeams = async () => {
     await getTeamsForUser(userId.value)
     teamList.value = teams.value
-    console.log(teamList.value);
 }
 
 const newTeam = () => {

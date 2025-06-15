@@ -28,7 +28,7 @@ def get_all_teams_not_joined(user_id: int) -> list[dict]:
     Returns a list containing all joinable teams for a user in the database. 
     Return an empty list if no available.
     """
-    sql: str = "SELECT TeamIDRef, TeamName FROM tblMembers WHERE NOT UserIDRef=?"
+    sql: str = "SELECT DISTINCT TeamIDRef, TeamName FROM tblMembers WHERE TeamIDRef NOT IN (SELECT TeamIDRef FROM tblMembers WHERE UserIDRef = ?)"
     results = execute_query(sql, (user_id,), CONNECTIONSTRING, fetch=True)
     try:
         teams: list =   [
