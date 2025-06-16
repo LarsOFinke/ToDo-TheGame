@@ -6,41 +6,25 @@
         </div>
 
         <!-- Teams-Info -->
-        <div class="w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-2 mx-auto relative mb-2">
-            <div class="text-sm mb-4 overflow-x-auto max-h-57">
-                <div class="flex flex-col relative text-xs mb-4">
-                    <div class="flex flex-col w-35">
-                        <label class="mb-2"><u>Founder:</u> {{ props.team.founder.name }}</label>
-                        <label class="mb-1"><u>Description:</u> </label>
-                    </div>
-                    <div class="w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-1 mx-auto relative mb-2">
-                        <div class="text-sm mb-4 overflow-x-auto pl-6 max-h-24">
-                            {{ props.team.description }}
-                        </div>
-                    </div>
-
-                    <div class="absolute -top-1 right-0">
-                        <div class="w-full">
-                            <label class="text-sm font-semibold">Members:</label>
-                            <p class="text-sm text-right">{{ memberCount }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        <teams-item-info v-if="viewTeamInfo" :team="props.team"></teams-item-info>
+        <!-- Teams-Details -->
+        <teams-item-details v-else></teams-item-details>
 
         <!-- Utility-Buttons -->
-        <div class="mb-2 absolute top-2 right-2">
-            <button type="button"
+        <div v-if="viewTeamInfo" class="mb-2 absolute top-2 right-2">
+            <button type="button" @click.prevent="showTeamDetails"
                 class="w-fit bg-indigo-600 text-white py-1 px-4 rounded-md hover:bg-indigo-800 transition">Details</button>
         </div>
+        <div v-else class="w-full flex justify-between">
+            <button type="button" @click.prevent="showTeamInfo"
+                class="w-fit bg-red-700 text-white py-1 px-4 rounded-md hover:bg-red-800 transition">Back</button>
+        </div>
 
-        <div v-if="props.mode === 'teams-list'" class="w-full flex justify-around">
+        <div v-if="props.mode === 'teams-list' && viewTeamInfo" class="w-full flex justify-around">
             <button type="button" @click.prevent="showTeamTasks"
                 class="w-fit bg-indigo-600 text-white py-1 px-2 rounded-md hover:bg-indigo-800 transition">Team-Tasks</button>
         </div>
-        <div v-else class="w-full flex justify-around">
+        <div v-else-if="props.mode != 'teams-list'" class="w-full flex justify-around">
             <button type="button" @click.prevent="joinTeam"
                 class="w-fit bg-green-600 text-white py-1 px-2 rounded-md hover:bg-green-800 transition">Join-Team</button>
         </div>
@@ -48,6 +32,8 @@
 </template>
 
 <script setup>
+import TeamsItemInfo from '@/components/teams/Teams-Item-Info.vue'
+import TeamsItemDetails from '@/components/teams/Teams-Item-Details.vue'
 import { ref, onMounted } from 'vue'
 import { useMembersService } from '@/services/MembersService'
 import { useAuthService } from '@/services/AuthService'
@@ -60,10 +46,17 @@ const emit = defineEmits(['hideTeamTasks', 'updateTeamList'])
 const { userId } = useAuthService()
 const { fetchMemberCountForTeam, addNewMember } = useMembersService()
 const memberCount = ref(0)
+const viewTeamInfo = ref(true)
 
 onMounted(async () => {
     memberCount.value = await fetchMemberCountForTeam(props.team.id)
 });
+
+const showTeamDetails = () => {
+    viewTeamInfo.value = false
+}
+
+const showTeamInfo = () => { viewTeamInfo.value = true }
 
 const showTeamTasks = () => {
     emit('hideTeamTasks', [false, props.team.id])
