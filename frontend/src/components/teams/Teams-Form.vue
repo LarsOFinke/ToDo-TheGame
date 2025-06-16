@@ -6,9 +6,19 @@
         <message-box :msg="msg" :errorPhrase="errorPhrase"></message-box>
 
         <form @submit.prevent="submitNewTeam">
+            <!-- Team-Name -->
             <div class="flex flex-col justify-between mb-4">
                 <label class="flex text-sm font-medium text-gray-700 justify-between mb-2">Team
                     <input v-model.trim="teamName" type="text" placeholder="Team name" required
+                        class="mt-1 w-50 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                </label>
+            </div>
+
+            <!-- Team-Description -->
+            <div class="flex flex-col justify-between mb-4">
+                <label class="flex text-sm font-medium text-gray-700 justify-between mb-2">Description
+                    <textarea v-model.trim="description"
+                        placeholder="Describe your teams purpose and a quick general overview." required
                         class="mt-1 w-50 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
                 </label>
             </div>
@@ -40,6 +50,7 @@ const errorPhrase = 'Something went wrong!'
 const { userId } = useAuthService()
 const { loading, createNewTeam } = useTeamsService()
 const teamName = ref('')
+const description = ref('')
 
 watch(loading, (newVal) => {
     if (newVal) {
@@ -56,7 +67,8 @@ const showTaskList = () => {
 const submitNewTeam = async () => {
     const newTeam = {
         teamName: teamName.value,
-        userId: userId.value
+        userId: userId.value,
+        teamDescription: description.value,
     }
 
     if (await createNewTeam(newTeam)) {

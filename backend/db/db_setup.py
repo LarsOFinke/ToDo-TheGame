@@ -92,6 +92,7 @@ def create_teams_table():
         sql: str = "CREATE TABLE tblTeams(" \
                     "TeamID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " \
                     "TeamName TEXT NOT NULL, " \
+                    "TeamDescription TEXT, " \
                     "UserIDRef INTEGER, " \
                     "FOREIGN KEY(UserIDRef) REFERENCES tblUsers(UserID))"
         execute_query(sql, (), CONNECTIONSTRING)

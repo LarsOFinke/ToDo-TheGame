@@ -5,11 +5,16 @@ def teams_to_json(teams: list[tuple]) -> list[dict]:
                 {
                     "id": team[0],
                     "name": team[1],
-                    "founder": get_founder_details(team[0])
+                    "description": get_team_description(team[0]),
+                    "founder": get_founder_details(team[0]),
                 }
                 
                 for team in teams
             ]
+    
+def get_team_description(team_id: int) -> str:
+    sql: str = "SELECT TeamDescription FROM tblTeams WHERE TeamID=?"
+    return execute_query(sql, (team_id,), CONNECTIONSTRING, fetch=True)[0][0]
     
 def get_founder_details(team_id: int) -> int:    
     sql: str = "SELECT UserIDRef FROM tblTeams WHERE TeamID=?"

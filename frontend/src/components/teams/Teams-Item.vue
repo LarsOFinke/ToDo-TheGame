@@ -7,19 +7,19 @@
 
         <!-- Teams-Info -->
         <div class="w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-2 mx-auto relative mb-2">
-            <div class="text-sm mb-4 overflow-x-auto  max-h-57">
-                <div class="flex text-xs mb-4">
+            <div class="text-sm mb-4 overflow-x-auto max-h-57">
+                <div class="flex flex-col relative text-xs mb-4">
                     <div class="flex flex-col w-35">
                         <label class="mb-2"><u>Founder:</u> {{ props.team.founder.name }}</label>
-                        <label class="mb-2"><u>Info#2:</u> Infopjmdnipsanpid</label>
-                        <label class="mb-2"><u>Info#3:</u> KLloihsdulif sdagf ghrdg</label>
-                        <label class="mb-2"><u>Info#2:</u> Infopjmdnipsanpid</label>
-                        <label class="mb-2"><u>Info#3:</u> KLloihsdulif sdagf ghrdg</label>
-                        <label class="mb-2"><u>Info#2:</u> Infopjmdnipsanpid</label>
-                        <label class="mb-2"><u>Info#3:</u> KLloihsdulif sdagf ghrdg</label>
-                        <label class="mb-2"><u>Info#4:</u> Ohouibhg oughns ubnsgu bdgub klbgu kubgk g jkkjbb hb</label>
+                        <label class="mb-1"><u>Description:</u> </label>
                     </div>
-                    <div class="flex float-right mr-1">
+                    <div class="w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-1 mx-auto relative mb-2">
+                        <div class="text-sm mb-4 overflow-x-auto pl-6 max-h-24">
+                            {{ props.team.description }}
+                        </div>
+                    </div>
+
+                    <div class="absolute -top-1 right-0">
                         <div class="w-full">
                             <label class="text-sm font-semibold">Members:</label>
                             <p class="text-sm text-right">{{ memberCount }}</p>

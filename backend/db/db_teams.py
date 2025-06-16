@@ -9,10 +9,11 @@ def add_new_team(new_team: dict) -> bool:
     """
     team_name = new_team.get("teamName")
     user_id = int(new_team.get("userId"))
+    team_description = new_team.get("teamDescription")
     
     # Create new Team in tblTeams #
-    sql: str = "INSERT INTO tblTeams(TeamName, UserIDRef) VALUES (?,?)"
-    if not execute_query(sql, (team_name, user_id), CONNECTIONSTRING):
+    sql: str = "INSERT INTO tblTeams(TeamName, TeamDescription, UserIDRef) VALUES (?,?,?)"
+    if not execute_query(sql, (team_name, team_description, user_id), CONNECTIONSTRING):
         return False
     
     # Create owner-entry in tblMembers #
