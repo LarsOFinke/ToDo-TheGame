@@ -1,4 +1,5 @@
 from .db_setup import execute_query, CONNECTIONSTRING
+from ..util.util_teams import teams_to_json
 
 def add_new_team(new_team: dict) -> bool:
     """
@@ -31,28 +32,12 @@ def get_all_teams_not_joined(user_id: int) -> list[dict]:
     sql: str = "SELECT DISTINCT TeamIDRef, TeamName FROM tblMembers WHERE TeamIDRef NOT IN (SELECT TeamIDRef FROM tblMembers WHERE UserIDRef = ?)"
     results = execute_query(sql, (user_id,), CONNECTIONSTRING, fetch=True)
     try:
-        teams: list =   [
-                            {
-                                "id": team[0],
-                                "name": team[1]
-                            }
-                            for team in results
-                        ]
+        return teams_to_json(results)
     except:
         return []
-    
-    return teams
 
 def get_teams_by_user(user_id: int) -> list[dict]:
     """Returns a list containing all teams for a user in the database"""
     sql: str = "SELECT TeamIDRef, TeamName FROM tblMembers WHERE UserIDRef=?"
     results = execute_query(sql, (user_id,), CONNECTIONSTRING, fetch=True)
-    teams: list =   [
-                        {
-                            "id": team[0],
-                            "name": team[1]
-                        }
-                        for team in results
-                    ]
-    
-    return teams
+    return teams_to_json(results)
