@@ -30,14 +30,15 @@ def get_all_teams_not_joined(user_id: int) -> list[dict]:
     Return an empty list if no available.
     """
     sql: str = "SELECT DISTINCT TeamIDRef, TeamName FROM tblMembers WHERE TeamIDRef NOT IN (SELECT TeamIDRef FROM tblMembers WHERE UserIDRef = ?)"
-    results = execute_query(sql, (user_id,), CONNECTIONSTRING, fetch=True)
     try:
-        return teams_to_json(results)
+        return teams_to_json(execute_query(sql, (user_id,), CONNECTIONSTRING, fetch=True))
     except:
         return []
 
 def get_teams_by_user(user_id: int) -> list[dict]:
     """Returns a list containing all teams for a user in the database"""
     sql: str = "SELECT TeamIDRef, TeamName FROM tblMembers WHERE UserIDRef=?"
-    results = execute_query(sql, (user_id,), CONNECTIONSTRING, fetch=True)
-    return teams_to_json(results)
+    try:
+        return teams_to_json(execute_query(sql, (user_id,), CONNECTIONSTRING, fetch=True))
+    except:
+        return []

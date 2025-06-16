@@ -10,7 +10,7 @@
             <div class="text-sm mb-4 overflow-x-auto  max-h-57">
                 <div class="flex text-xs mb-4">
                     <div class="flex flex-col w-35">
-                        <label class="mb-2"><u>Founder:</u>{{ props.team.founder }}</label>
+                        <label class="mb-2"><u>Founder:</u> {{ props.team.founder.name }}</label>
                         <label class="mb-2"><u>Info#2:</u> Infopjmdnipsanpid</label>
                         <label class="mb-2"><u>Info#3:</u> KLloihsdulif sdagf ghrdg</label>
                         <label class="mb-2"><u>Info#2:</u> Infopjmdnipsanpid</label>
