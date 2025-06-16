@@ -33,7 +33,7 @@
 
     <teams-form v-else-if="viewTeamForm" @hideTeamForm="showTeamForm"></teams-form>
 
-    <teams-join v-else-if="viewTeamJoin"></teams-join>
+    <teams-join v-else-if="viewTeamJoin" @hideTeamJoin="showTeamJoin"></teams-join>
 
     <task-list v-else :mode="'team'" :modeId="selectedTeamId" @hideTeamTasks="showTeamTasks"></task-list>
 </template>
@@ -95,6 +95,7 @@ const showTeamJoin = async (hideTeamList) => {
     } else {
         await fetchTeams()
         viewTeamList.value = true
+        viewTeamJoin.value = false
     }
 }
 

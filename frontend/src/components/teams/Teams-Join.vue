@@ -32,7 +32,7 @@ import { ref, onMounted } from 'vue'
 import { useAuthService } from '@/services/AuthService';
 import { useTeamsService } from '@/services/TeamsService';
 
-const emit = defineEmits(['hideTeamJoin', 'hideTeamTasks'])
+const emit = defineEmits(['hideTeamJoin',])
 const msg = ref('')
 const errorPhrase = 'Something went wrong!'
 const { teams, getAllTeamsNotJoined } = useTeamsService()
@@ -48,18 +48,7 @@ const fetchTeams = async () => {
     teamList.value = teams.value
 }
 
-const showTeamTasks = (hideTeamTasks) => {
-    // NEEDS TO GET REFACTORED TO SEND A SIGNAL TO TEAMS-LIST TO MAAGE VISIBILITY //
-    if (hideTeamTasks[0]) {
-        selectedTeamId.value = hideTeamTasks[1]
-        // viewTeamList.value = true
-    } else {
-        selectedTeamId.value = hideTeamTasks[1]
-        // viewTeamList.value = false
-    }
-}
-
 const hideTeamJoin = () => {
-
+    emit('hideTeamJoin', false)
 }
 </script>
