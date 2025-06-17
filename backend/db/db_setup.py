@@ -92,9 +92,7 @@ def create_teams_table():
         sql: str = "CREATE TABLE tblTeams(" \
                     "TeamID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " \
                     "TeamName TEXT NOT NULL, " \
-                    "TeamDescription TEXT, " \
-                    "UserIDRef INTEGER, " \
-                    "FOREIGN KEY(UserIDRef) REFERENCES tblUsers(UserID))"
+                    "TeamDescription TEXT)"
         execute_query(sql, (), CONNECTIONSTRING)
         return True
     
@@ -150,6 +148,7 @@ def create_members_table():
         sql: str = "CREATE TABLE tblMembers(" \
                     "MemberID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " \
                     "TeamName TEXT NOT NULL, " \
+                    "TeamRole TEXT NOT NULL, " \
                     "UserIDRef INTEGER NOT NULL, " \
                     "TeamIDRef INTEGER NOT NULL, " \
                     "FOREIGN KEY(UserIDRef) REFERENCES tblUsers(UserID), " \
