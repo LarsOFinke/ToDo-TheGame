@@ -9,7 +9,7 @@
         <teams-item-info v-if="viewTeamInfo" :team="team" :memberCount="memberCount"></teams-item-info>
 
         <!-- Teams-Details -->
-        <teams-item-details v-else></teams-item-details>
+        <teams-item-details v-else :memberList="team.memberList"></teams-item-details>
 
         <!-- Utility-Buttons -->
         <div v-if="viewTeamInfo" class="mb-2 absolute top-2 right-2">

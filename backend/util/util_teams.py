@@ -1,4 +1,5 @@
 from ..db.db_setup import execute_query, CONNECTIONSTRING
+from ..db.db_members import get_members_for_team
 
 def teams_to_json(teams: list[tuple]) -> list[dict]:
     return  [
@@ -7,6 +8,7 @@ def teams_to_json(teams: list[tuple]) -> list[dict]:
                     "name": team[1],
                     "description": get_team_description(team[0]),
                     "founder": get_founder_details(team[0]),
+                    "memberList": get_members_for_team(team[0]),
                 }
                 
                 for team in teams

@@ -14,11 +14,11 @@ def get_members_for_team(team_id: int) -> list[dict]:
     members: list = []
     
     sql: str = "SELECT UserIDRef FROM tblMembers WHERE TeamIDRef=?"
-    results = execute_query(sql, (team_id,), CONNECTIONSTRING, fetch=True)
+    user_ids: list = execute_query(sql, (team_id,), CONNECTIONSTRING, fetch=True)
     
-    for user_id in results:
+    for user_id in user_ids:
         sql: str = "SELECT UserUsername FROM tblUsers WHERE UserID=?"
-        username = execute_query(sql, (user_id,), CONNECTIONSTRING, fetch=True)[0][0] 
+        username = execute_query(sql, (user_id[0],), CONNECTIONSTRING, fetch=True)[0][0] 
         members.append({
             "id": user_id,
             "username": username

@@ -4,11 +4,8 @@
 
         <div class="w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-1 mx-auto relative mb-2">
             <div class="text-sm mb-4 overflow-x-auto pl-6 max-h-24">
-                <ul class="mb-2">
-                    <li class="mb-1">Member #1</li>
-                    <li class="mb-1">Member #2</li>
-                    <li class="mb-1">Member #3</li>
-                    <li class="mb-1">Member #4</li>
+                <ul v-for="member in memberList" class="mb-2">
+                    <members-item :member="member"></members-item>
                 </ul>
             </div>
         </div>
@@ -17,5 +14,9 @@
 </template>
 
 <script setup>
+import MembersItem from '@/components/members/Members-Item.vue';
 
+const props = defineProps({
+    memberList: Array,
+})
 </script>
