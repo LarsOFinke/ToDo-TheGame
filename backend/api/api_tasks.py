@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from ..db.db_tasks import add_new_task, get_all_open_tasks_user, get_all_open_tasks_team, edit_task, delete_task, close_task
+from ..db.db_tasks import add_new_task, get_all_open_tasks_user, get_all_open_tasks_team, get_done_tasks_count, edit_task, delete_task, close_task
 
 
 tasks = Blueprint("tasks", __name__)
@@ -27,6 +27,14 @@ def get_all_open_team():
 
     tasks: list[dict] = get_all_open_tasks_team(data.get('id'))
     return jsonify({"success": True, "tasks": tasks}), 200
+
+@tasks.route('/get-done-count', methods=['POST'])
+def get_done_count():
+    data = request.get_json()
+
+    done_count: list[dict] = get_done_tasks_count(data.get('userId'))
+    return jsonify({"success": True, "doneCount": done_count}), 200
+
 
 @tasks.route("/edit", methods=["POST"])
 def edit():

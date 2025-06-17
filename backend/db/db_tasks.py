@@ -76,6 +76,10 @@ def get_all_open_tasks_team(team_id: int) -> list[dict]:
     
     return tasks
 
+def get_done_tasks_count(user_id: int) -> int:
+    sql: str = "SELECT COUNT(*) FROM tblTasks WHERE UserIDRef=? AND TaskIsOpen=0"
+    return execute_query(sql, (user_id,), CONNECTIONSTRING, fetch=True)[0][0]
+
 def edit_task(edited_task: dict) -> bool:
     """
     Returns:

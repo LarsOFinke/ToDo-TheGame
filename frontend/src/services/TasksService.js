@@ -3,9 +3,10 @@ import api from "@/environments/testing-environment";
 
 const loading = ref(false);
 const error = ref(null);
-const mode = ref('')
-const modeId = ref(0)
+const mode = ref("");
+const modeId = ref(0);
 const tasks = ref([]);
+const doneCount = ref(0);
 
 const addNewTask = async (newTask) => {
   loading.value = true;
@@ -31,6 +32,26 @@ const getAllTasks = async (type, id) => {
     return true;
   } catch (err) {
     error.value = err.response?.data?.message || "Fetching tasks failed.";
+    return false;
+  } finally {
+    loading.value = false;
+  }
+};
+
+const getDoneTasksCount = async (userId) => {
+  loading.value = true;
+  error.value = null;
+  try {
+    const response = await api.post("tasks/get-done-count", { userId });
+    console.log("test");
+    if (response.data.success) {
+      doneCount.value = response.data.doneCount;
+      return true;
+    }
+    return false;
+  } catch (err) {
+    error.value =
+      err.response?.data?.message || "Fetching done tasks count failed.";
     return false;
   } finally {
     loading.value = false;
@@ -114,8 +135,10 @@ export function useTasksService() {
     mode,
     modeId,
     tasks,
+    doneCount,
     addNewTask,
     getAllTasks,
+    getDoneTasksCount,
     editTask,
     deleteTask,
     closeTask,
