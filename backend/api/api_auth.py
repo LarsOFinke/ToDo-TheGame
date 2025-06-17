@@ -31,7 +31,7 @@ def change_username():
     data = request.get_json()
     
     if update_username(data.get("userId"), data.get("newUsername")):
-        return jsonify({"success": True}), 200
+        return jsonify({"success": True, "user": data.get("newUsername")}), 200
     else:
         return jsonify({"success": False}), 401
         
