@@ -20,11 +20,11 @@ def get_members_for_team(team_id: int) -> list[dict]:
         sql: str = "SELECT UserUsername FROM tblUsers WHERE UserID=?"
         username = execute_query(sql, (user_id[0],), CONNECTIONSTRING, fetch=True)[0][0] 
         members.append({
-            "id": user_id,
+            "id": user_id[0],
             "username": username,
             "teamRole": user_id[1],
         })
-    
+        
     return members
 
 def get_member_count_for_team(team_id: int) -> int:

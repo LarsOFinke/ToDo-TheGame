@@ -24,5 +24,6 @@ import MembersItem from '@/components/members/Members-Item.vue';
 
 const props = defineProps({
     memberList: Array,
+    member: Object,
 })
 </script>
