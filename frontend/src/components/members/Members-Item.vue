@@ -1,6 +1,8 @@
 <template>
-    <td>{{ member.username }}</td>
-    <td>{{ member.teamRole }}</td>
+    <tr>
+        <td>{{ member.username }}</td>
+        <td>{{ member.teamRole }}</td>
+    </tr>
 </template>
 
 <script setup>

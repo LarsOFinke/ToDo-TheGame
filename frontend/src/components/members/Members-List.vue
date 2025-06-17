@@ -5,13 +5,15 @@
 
         <div class="text-sm mb-2 overflow-x-auto max-h-24">
             <table class="w-full border-1">
-                <tr>
-                    <th>Name</th>
-                    <th>Role</th>
-                </tr>
-                <tr v-for="member in memberList">
-                    <members-item :member="member"></members-item>
-                </tr>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <members-item v-for="member in memberList" :key="member.id" :member="member" />
+                </tbody>
             </table>
         </div>
     </div>
