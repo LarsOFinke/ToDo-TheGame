@@ -1,7 +1,7 @@
 <template>
     <div class="flex mb-4">
         <button type="button"
-            class="bg-yellow-600 text-white py-2 px-4 rounded-md hover:bg-yellow-800 transition h-fit mb-4 mx-auto"
+            class="bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-800 transition h-fit mb-4 mx-auto"
             @click.prevent="cancelEditMode">
             Exit edit mode
         </button>
