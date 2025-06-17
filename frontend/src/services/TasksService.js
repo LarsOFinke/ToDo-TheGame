@@ -43,7 +43,6 @@ const getDoneTasksCount = async (userId) => {
   error.value = null;
   try {
     const response = await api.post("tasks/get-done-count", { userId });
-    console.log("test");
     if (response.data.success) {
       doneCount.value = response.data.doneCount;
       return true;
