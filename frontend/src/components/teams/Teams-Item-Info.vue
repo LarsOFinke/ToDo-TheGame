@@ -27,5 +27,6 @@
 
 const props = defineProps({
     team: Object,
+    memberCount: Number,
 })
 </script>

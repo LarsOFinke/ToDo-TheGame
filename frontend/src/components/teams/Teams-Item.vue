@@ -6,7 +6,7 @@
         </div>
 
         <!-- Teams-Info -->
-        <teams-item-info v-if="viewTeamInfo" :team="props.team"></teams-item-info>
+        <teams-item-info v-if="viewTeamInfo" :team="props.team" :memberCount="memberCount"></teams-item-info>
         <!-- Teams-Details -->
         <teams-item-details v-else></teams-item-details>
 

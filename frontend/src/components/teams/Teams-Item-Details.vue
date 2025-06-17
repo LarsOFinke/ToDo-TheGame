@@ -18,7 +18,4 @@
 
 <script setup>
 
-const emit = defineEmits(['hideTeamDetails'])
-
-const showTeamList = () => { emit('hideTeamDetails', true) }
 </script>
