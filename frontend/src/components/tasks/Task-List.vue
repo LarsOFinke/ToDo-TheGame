@@ -29,7 +29,7 @@
         </div>
     </div>
 
-    <task-item-edit v-else-if="!viewTaskList && viewItemEdit" :task="selectedTask" @hideItemEdit="showItemEdit"
+    <task-item-edit v-else-if="viewItemEdit" :task="selectedTask" @hideItemEdit="showItemEdit"
         @updateTaskList="updateTasks"></task-item-edit>
 
     <task-form v-else @showTaskForm="showTaskForm"></task-form>
