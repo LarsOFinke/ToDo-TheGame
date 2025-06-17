@@ -2,11 +2,11 @@
     <div class="w-full max-w-sm bg-gray-200 rounded-lg shadow-md p-4 mx-auto relative">
         <!-- Teams-Header -->
         <div class="flex items-center justify-between w-full mb-2">
-            <h3 class="text-xl font-bold text-gray-800 mb-2">{{ props.team.name }}</h3>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">{{ team.name }}</h3>
         </div>
 
         <!-- Teams-Info -->
-        <teams-item-info v-if="viewTeamInfo" :team="props.team" :memberCount="memberCount"></teams-item-info>
+        <teams-item-info v-if="viewTeamInfo" :team="team" :memberCount="memberCount"></teams-item-info>
         <!-- Teams-Details -->
         <teams-item-details v-else></teams-item-details>
 
@@ -15,16 +15,16 @@
             <button type="button" @click.prevent="showTeamDetails"
                 class="w-fit bg-indigo-600 text-white py-1 px-4 rounded-md hover:bg-indigo-800 transition">Details</button>
         </div>
-        <div v-else class="w-full flex justify-between">
+        <div v-else class="mb-2 absolute top-2 right-2">
             <button type="button" @click.prevent="showTeamInfo"
-                class="w-fit bg-red-700 text-white py-1 px-4 rounded-md hover:bg-red-800 transition">Back</button>
+                class="w-fit bg-indigo-600 text-white py-1 px-4 rounded-md hover:bg-indigo-800 transition">Info</button>
         </div>
 
-        <div v-if="props.mode === 'teams-list' && viewTeamInfo" class="w-full flex justify-around">
+        <div v-if="mode === 'teams-list' && viewTeamInfo" class="w-full flex justify-around">
             <button type="button" @click.prevent="showTeamTasks"
                 class="w-fit bg-indigo-600 text-white py-1 px-2 rounded-md hover:bg-indigo-800 transition">Team-Tasks</button>
         </div>
-        <div v-else-if="props.mode != 'teams-list'" class="w-full flex justify-around">
+        <div v-else-if="mode != 'teams-list'" class="w-full flex justify-around">
             <button type="button" @click.prevent="joinTeam"
                 class="w-fit bg-green-600 text-white py-1 px-2 rounded-md hover:bg-green-800 transition">Join-Team</button>
         </div>

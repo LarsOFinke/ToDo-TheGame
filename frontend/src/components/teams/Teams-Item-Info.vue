@@ -3,7 +3,7 @@
         <div class="text-sm mb-4 overflow-x-auto max-h-57">
             <div class="flex flex-col relative text-xs mb-4">
                 <div class="flex flex-col w-35">
-                    <label class="mb-2"><u>Founder:</u> {{ props.team.founder.name }}</label>
+                    <label class="mb-2"><u>Founder:</u> {{ team.founder.name }}</label>
                     <label class="mb-1"><u>Description:</u> </label>
                 </div>
                 <div class="w-full max-w-sm bg-gray-100 rounded-lg shadow-md p-1 mx-auto relative mb-2">
