@@ -7,6 +7,9 @@
         </button>
     </div>
 
+    <!-- Message-Box -->
+    <message-box :msg="msg" :errorPhrase="errorPhrase"></message-box>
+
     <div class="flex flex-col mb-4 justify-between">
         <label class="flex text-sm font-medium text-gray-700 justify-between mb-2">User
             <input v-model.trim="username" type="text" placeholder="Username" required
@@ -14,7 +17,7 @@
         </label>
 
         <button type="button" class="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition h-fit"
-            @click.prevent="editUsername">
+            @click.prevent="newUsername">
             Edit
         </button>
     </div>
@@ -42,17 +45,20 @@
         </div>
 
         <button type="button" class="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition h-fit"
-            @click.prevent="changePassword">
+            @click.prevent="newPassword">
             Change password
         </button>
     </div>
 </template>
 
 <script setup>
+import MessageBox from '@/components/shared/Message-Box.vue'
 import { ref } from 'vue';
 import { useAuthService } from '@/services/AuthService'
 
-const { user } = useAuthService()
+const msg = ref('')
+const errorPhrase = 'Something went wrong!'
+const { user, userId, changeUsername, changePassword } = useAuthService()
 const username = ref(user)
 const newPassword1 = ref('')
 const newPassword2 = ref('')
@@ -63,13 +69,17 @@ const cancelEditMode = () => {
     emit('showEditMode', false)
 }
 
-const editUsername = () => {
-
+const newUsername = () => {
+    if (changeUsername(userId.value, username.value)) {
+        msg.value = "Username successfully changed!"
+    }
 }
 
-const changePassword = () => {
+const newPassword = () => {
     if (newPassword1.value === newPassword2.value) {
-
+        if (changePassword(userId.value, newPassword1.value)) {
+            msg.value = "Password successfully changed!"
+        }
     }
 }
 </script>

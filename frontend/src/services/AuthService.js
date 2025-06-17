@@ -46,7 +46,10 @@ const changeUsername = async (userId, newUsername) => {
   loading.value = true;
   error.value = null;
   try {
-    const response = await api.post("auth/change-username", { userId, newUsername });
+    const response = await api.post("auth/change-username", {
+      userId,
+      newUsername,
+    });
     user.value = response.data.user;
     return true;
   } catch (err) {
@@ -61,8 +64,14 @@ const changePassword = async (userId, newPassword) => {
   loading.value = true;
   error.value = null;
   try {
-    const response = await api.post("auth/change-password", { userId, newPassword });
-    return true;
+    const response = await api.post("auth/change-password", {
+      userId,
+      newPassword,
+    });
+    if (response.data.success) {
+      return true;
+    }
+    return false;
   } catch (err) {
     error.value = err.response?.data?.message || "Changing password failed.";
     return false;
