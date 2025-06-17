@@ -42,10 +42,19 @@ def get_all_usernames() -> list:
         
     return usernames
 
-def get_user_id(username) -> int:
+def get_user_id(username: str) -> int:
     """Returns the user id from the database"""
     sql: str = "SELECT UserID FROM tblUsers WHERE UserUsername = ?"
     result = execute_query(sql, (username,), CONNECTIONSTRING, fetch=True)
     user_id = result[0][0]
         
     return user_id
+
+def update_username(user_id: int, new_username: str) -> bool:
+    sql: str = "UPDATE tblUsers SET UserUsername=? WHERE UserID=?"
+    return execute_query(sql, (new_username, user_id), CONNECTIONSTRING)
+
+def update_password(user_id: int, new_password: str) -> bool:
+    hashed_password = generate_password_hash(new_password, method='pbkdf2:sha256')
+    sql: str = "UPDATE tblUsers SET UserPassword=? WHERE UserID=?"
+    return execute_query(sql, (hashed_password, user_id), CONNECTIONSTRING)
