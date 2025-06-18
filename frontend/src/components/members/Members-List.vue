@@ -12,7 +12,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <members-item v-for="member in memberList" :key="member.id" :member="member" />
+                    <members-item v-for="member in memberList" :key="member.id" :member="member"
+                        :isTeamAdmin="isTeamAdmin" />
                 </tbody>
             </table>
         </div>
@@ -21,9 +22,20 @@
 
 <script setup>
 import MembersItem from '@/components/members/Members-Item.vue';
+import { ref, onMounted } from 'vue'
 
 const props = defineProps({
+    userId: Number,
     memberList: Array,
     member: Object,
+})
+const isTeamAdmin = ref(false)
+
+onMounted(() => {
+    for (let member in props.memberList.value) {
+        if (member.id === userId.value && member.teamRole === 'leader' | 'officer') {
+            isTeamAdmin.value = true
+        }
+    }
 })
 </script>

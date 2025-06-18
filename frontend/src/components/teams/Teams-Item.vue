@@ -6,7 +6,7 @@
         </div>
 
         <!-- Teams-Info -->
-        <teams-item-info v-if="viewTeamInfo" :team="team" :memberCount="memberCount"></teams-item-info>
+        <teams-item-info v-if="viewTeamInfo" :userId="userId" :team="team" :memberCount="memberCount"></teams-item-info>
 
         <!-- Teams-Details -->
         <teams-item-details v-else :memberList="team.memberList"></teams-item-details>
@@ -36,14 +36,13 @@ import TeamsItemInfo from '@/components/teams/Teams-Item-Info.vue'
 import TeamsItemDetails from '@/components/teams/Teams-Item-Details.vue'
 import { ref, onMounted } from 'vue'
 import { useMembersService } from '@/services/MembersService'
-import { useAuthService } from '@/services/AuthService'
 
 const props = defineProps({
+    userId: Number,
     team: Object,
     mode: String
 })
 const emit = defineEmits(['hideTeamTasks', 'updateTeamList'])
-const { userId } = useAuthService()
 const { fetchMemberCountForTeam, addNewMember } = useMembersService()
 const memberCount = ref(0)
 const viewTeamInfo = ref(true)

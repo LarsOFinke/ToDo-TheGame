@@ -4,7 +4,8 @@
         <!--  -->
         <td>
             <select v-model="selectedRole">
-                <option v-for="role in availableRoles" :key="role" :value="role">
+                <option v-for="role in availableRoles" :key="role" :value="role"
+                    :disabled="props.isTeamAdmin.value ? false : true">
                     {{ role }}
                 </option>
             </select>
@@ -16,8 +17,9 @@
 import { ref } from 'vue'
 
 const props = defineProps({
+    isTeamAdmin: Boolean,
     member: Object,
 })
 const selectedRole = ref(props.member.teamRole)
-const availableRoles = ['leader', 'member', 'candidate']
+const availableRoles = ['leader', 'officer', 'member']
 </script>
