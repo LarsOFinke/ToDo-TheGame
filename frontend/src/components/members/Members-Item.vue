@@ -1,14 +1,17 @@
 <template>
     <tr>
         <td>{{ member.username }}</td>
-        <!--  -->
-        <td>
-            <select v-model="selectedRole">
-                <option v-for="role in availableRoles" :key="role" :value="role"
-                    :disabled="props.isTeamAdmin.value ? false : true">
+
+        <!-- Member-Team-Role(-Selection) -->
+        <td v-if="isTeamAdmin">
+            <select v-model="assignedRole">
+                <option v-for="role in availableRoles" :key="role" :value="role">
                     {{ role }}
                 </option>
             </select>
+        </td>
+        <td v-else>
+            {{ assignedRole }}
         </td>
     </tr>
 </template>
@@ -20,6 +23,6 @@ const props = defineProps({
     isTeamAdmin: Boolean,
     member: Object,
 })
-const selectedRole = ref(props.member.teamRole)
+const assignedRole = ref(props.member.teamRole)
 const availableRoles = ['leader', 'officer', 'member']
 </script>

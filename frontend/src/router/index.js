@@ -6,38 +6,37 @@ import ImpressumPage from "@/views/Impressum-Page.vue";
 import ProfilePage from "@/views/Profile-Page.vue";
 import TeamsPage from "@/views/Teams-Page.vue";
 
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: "/",
-      name: "home",
+      name: "Home",
       component: HomePage,
     },
     {
       path: "/registration",
-      name: "registration",
+      name: "Registration",
       component: RegistrationPage,
     },
     {
-      path: "/profile",
-      name: "profile",
-      component: ProfilePage,
-    },
-    {
-      path: "/teams",
-      name: "teams",
-      component: TeamsPage,
-    },
-    {
       path: "/tasks",
-      name: "tasks",
+      name: "Tasks",
       component: TasksPage,
     },
     {
+      path: "/teams",
+      name: "Teams",
+      component: TeamsPage,
+    },
+    {
+      path: "/profile",
+      name: "Profile",
+      component: ProfilePage,
+    },
+    {
       path: "/impressum",
-      name: "impressum",
+      name: "Impressum",
       component: ImpressumPage,
     },
   ],
